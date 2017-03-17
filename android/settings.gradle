@@ -1,0 +1,3 @@
+rootProject.name = 'HSRMMedialabTimetableApp'
+
+include ':app'
