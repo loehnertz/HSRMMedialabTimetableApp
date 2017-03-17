@@ -1,25 +1,34 @@
 {
-	"name": "HSRMMedialabTimetableApp",
-	"version": "0.0.1",
-	"author": "Jakob Löhnertz (www.jakob.codes)",
-	"license": "MIT",
-	"description": "A mobile app for checking the timetable for my study program on the go",
-	"private": true,
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
-	},
-	"dependencies": {
-		"react": "15.4.2",
-		"react-native": "0.42.2"
-	},
-	"devDependencies": {
-		"babel-jest": "19.0.0",
-		"babel-preset-react-native": "1.9.1",
-		"jest": "19.0.2",
-		"react-test-renderer": "15.4.2"
-	},
-	"jest": {
-		"preset": "react-native"
-	}
+  "name": "HSRMMedialabTimetableApp",
+  "version": "0.0.1",
+  "author": "Jakob Löhnertz (www.jakob.codes)",
+  "license": "MIT",
+  "description": "A mobile app for checking the timetable for my study program on the go",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loehnertz/HSRMMedialabTimetableApp.git"
+  },
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "15.4.2",
+    "react-native": "0.42.2",
+    "react-native-i18n": "^1.0.0",
+    "react-navigation": "^1.0.0-beta.7",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-jest": "19.0.0",
+    "babel-preset-react-native": "1.9.1",
+    "jest": "19.0.2",
+    "react-test-renderer": "15.4.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
 }
