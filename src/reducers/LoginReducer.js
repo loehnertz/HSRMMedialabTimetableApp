@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_SUCCESS:
             return { ...state, error: "", userField: "", passwordField:  "", loadingLogin: false };
         case LOGIN_USER_FAILED:
-            return { ...state, error: "Login failed!", passwordField:  "", loadingLogin: false };
+            return { ...state, error: i18n.t('login_failed'), passwordField:  "", loadingLogin: false };
         default:
             return state;
     }
