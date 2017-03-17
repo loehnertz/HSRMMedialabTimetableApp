@@ -1,22 +1,10 @@
-import React, { Component } from 'react';
-import { AppRegistry, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-
-// Create a component
-class MainScene extends Component {
-    static navigationOptions = {
-        title: 'Willkommen',
-    };
-
-    render() {
-        return (
-            <Text>STUNDENPLAN</Text>
-        );
-    }
-}
+import Startup from './components/StartupComponent';
 
 const App = StackNavigator({
-    Main: { screen: MainScene },
+    Startup: {
+        screen: Startup
+    }
 });
 
-AppRegistry.registerComponent('HSRMMedialabTimetableApp', () => App);
+export default App;
