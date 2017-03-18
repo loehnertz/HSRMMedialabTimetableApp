@@ -11,11 +11,11 @@ i18n.translations = bundledTranslations;
 const RouterComponent = () => {
     return (
         <Router sceneStyle={{ paddingTop: 60 }}>
+            <Scene key="startup" inital>
+                <Scene key="loading" component={Startup} title="Loading" />
+            </Scene>
             <Scene key="auth">
                 <Scene key="login" component={LoginForm} title={i18n.t('login')} />
-            </Scene>
-            <Scene key="startup">
-                <Scene key="loading" component={Startup} title="Loading" />
             </Scene>
         </Router>
     );
