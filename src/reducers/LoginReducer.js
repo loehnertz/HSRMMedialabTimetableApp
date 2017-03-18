@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     passwordField: '',
     error: '',
     user: '',
+    program: '',
     loadingLogin: false
 };
 
@@ -26,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOADING_END:
             return { ...state, loadingLogin: false };
         case LOGIN_USER_SUCCESS:
-            return { ...state, error: "", userField: "", passwordField:  "", user: action.payload, loadingLogin: false };
+            return { ...state, error: "", userField: "", passwordField:  "", user: action.username, program: action.program, loadingLogin: false };
         case LOGIN_USER_FAILED:
             return { ...state, error: i18n.t('login_failed'), passwordField:  "", loadingLogin: false };
         default:
