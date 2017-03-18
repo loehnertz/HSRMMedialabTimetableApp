@@ -41,7 +41,8 @@ export const isUserLoggedIn = () => {
                             if (responseJson.message === "login successful") {
                                 dispatch({
                                     type: LOGIN_USER_SUCCESS,
-                                    payload: credentials.username
+                                    username: credentials.username,
+                                    program: credentials.username.slice(0, -1)
                                 });
                                 Actions.main({ type: 'reset' });
                             } else {
@@ -93,7 +94,8 @@ export const loginUser = (user, password) => {
                                 await Keychain.setGenericPassword(user, password);
                                 dispatch({
                                     type: LOGIN_USER_SUCCESS,
-                                    payload: user
+                                    username: user,
+                                    program: user.slice(0, -1)
                                 });
                                 Actions.main({ type: 'reset' });
                             } catch (error) {
