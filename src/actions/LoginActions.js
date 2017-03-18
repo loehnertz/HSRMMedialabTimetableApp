@@ -1,3 +1,4 @@
+import { Actions } from 'react-native-router-flux';
 import { AsyncStorage } from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import {
@@ -51,6 +52,7 @@ export const loginUser = (user, password) => {
                                 await AsyncStorage.setItem('masterdata', JSON.stringify(responseJson));
                                 await Keychain.setGenericPassword(user, password);
                                 dispatch({ type: LOGIN_USER_SUCCESS });
+                                Actions.main({ type: 'reset' });
                             } catch (error) {
                                 console.log(error);
                                 dispatch({ type: LOGIN_USER_FAILED });
@@ -58,6 +60,7 @@ export const loginUser = (user, password) => {
                         })
                         .catch((error) => {
                             console.log(error);
+                            Actions.auth({ type: 'reset' });
                         });
                 } else {
                     dispatch({ type: LOGIN_USER_FAILED });
@@ -65,6 +68,7 @@ export const loginUser = (user, password) => {
             })
             .catch((error) => {
                 console.log(error);
+                Actions.auth({ type: 'reset' });
             });
     };
 };
