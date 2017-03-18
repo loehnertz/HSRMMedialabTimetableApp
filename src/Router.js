@@ -27,9 +27,9 @@ class RouterComponent extends Component {
                         component={Timetable}
                         title={i18n.t('day_view')}
                         leftTitle="Vorherige"
-                        onLeft={() => this.props.fetchWeek(this.props.user, (this.props.currentWeek - 1))}
+                        onLeft={() => this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1))}
                         rightTitle="Nächste"
-                        onRight={() => this.props.fetchWeek(this.props.user, (this.props.currentWeek + 1))}
+                        onRight={() => this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1))}
                     />
                 </Scene>
             </Router>
@@ -40,6 +40,7 @@ class RouterComponent extends Component {
 const mapStateToProps = state => {
     return {
         user: state.login.user,
+        program: state.login.program,
         currentWeek: state.timetable.currentWeek
     }
 };
