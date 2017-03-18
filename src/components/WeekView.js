@@ -4,16 +4,16 @@ import {
     View
 } from 'react-native';
 import { connect } from 'react-redux';
-import moment from 'moment';
+//import moment from 'moment';
 import { Spinner } from './common';
 import { fetchWeek } from '../actions';
 
 class WeekView extends Component {
     componentWillMount(){
-        this.props.fetchWeek(this.props.user, moment().format('W'));
+        this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
     }
 
-    renderContent(){
+    renderTimetable(){
         if (this.props.loading) {
             return (
                 <Spinner size="small" />
@@ -30,7 +30,7 @@ class WeekView extends Component {
     render() {
         return (
             <View style={{ paddingTop: 10 }}>
-                {this.renderContent()}
+                {this.renderTimetable()}
             </View>
         );
     }
