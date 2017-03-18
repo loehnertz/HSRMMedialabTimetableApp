@@ -27,14 +27,14 @@ class ListItem extends Component {
         return (
             <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
                 <View>
-                    <CardSection>
-                        <Text style={styles.titleStyle}>
+                    <CardSection style={styles.cardSection}>
+                        <Text style={styles.title}>
                             {this.props.eventName}
                         </Text>
-                        <Text style={styles.titleStyle}>
+                        <Text style={styles.title}>
                             {this.props.eventRoom}
                         </Text>
-                        <Text style={styles.titleStyle}>
+                        <Text style={styles.title}>
                             {this.renderLecturers()}
                         </Text>
                     </CardSection>
@@ -45,7 +45,10 @@ class ListItem extends Component {
 }
 
 const styles = {
-    titleStyle: {
+    cardSection: {
+        flexDirection: "column"
+    },
+    title: {
         fontSize: 18,
         paddingLeft: 15
     }
