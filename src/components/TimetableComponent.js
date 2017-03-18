@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 import { fetchWeek } from '../actions';
 import DayView from './DayViewComponent';
 
-class WeekView extends Component {
+class Timetable extends Component {
     componentWillMount(){
         this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
         AsyncStorage.getItem('masterdata')
@@ -70,4 +70,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek })(WeekView);
+export default connect(mapStateToProps, { fetchWeek })(Timetable);
