@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import * as Keychain from 'react-native-keychain';
 import {
     USER_CHANGED,
     PASSWORD_CHANGED,
@@ -49,6 +50,7 @@ export const loginUser = (user, password) => {
                         .then(async (responseJson) => {
                             try {
                                 await AsyncStorage.setItem('masterdata', JSON.stringify(responseJson));
+                                await Keychain.setGenericPassword(user, password);
                                 dispatch({ type: LOGIN_USER_SUCCESS });
                             } catch (error) {
                                 console.log(error);
