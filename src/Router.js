@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Scene, Router } from 'react-native-router-flux';
-import { fetchWeek } from './actions';
+import { fetchWeek, selectDay } from './actions';
 import i18n from 'react-native-i18n';
 import bundledTranslations from './translations';
 import Startup from './components/StartupComponent';
@@ -27,9 +27,9 @@ class RouterComponent extends Component {
                         component={Timetable}
                         title={i18n.t('day_view')}
                         leftTitle="Vorherige"
-                        onLeft={() => this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1))}
+                        onLeft={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1)); this.props.selectDay('Mon');}}
                         rightTitle="Nächste"
-                        onRight={() => this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1))}
+                        onRight={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1)); this.props.selectDay('Mon');}}
                     />
                 </Scene>
             </Router>
@@ -45,4 +45,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek })(RouterComponent);
+export default connect(mapStateToProps, { fetchWeek, selectDay })(RouterComponent);
