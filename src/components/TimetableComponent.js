@@ -17,6 +17,7 @@ import DaySwitcher from './DaySwitcherComponent';
 class Timetable extends Component {
     componentWillMount(){
         this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
+
         AsyncStorage.getItem('masterdata')
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
@@ -24,7 +25,13 @@ class Timetable extends Component {
                     masterdata: JSON.stringify(itemJson)
                 });
             });
-        this.props.selectDay('mon');  // Start every first render with Monday
+
+        let today = moment().format('ddd');
+        if (today === "Sat" || today === "Sun") {
+            this.props.selectDay('Mon');  // Start every first render with Monday
+        } else {
+            this.props.selectDay(today);
+        }
     }
 
     renderTimetable(){
