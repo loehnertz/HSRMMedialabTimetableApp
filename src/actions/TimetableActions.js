@@ -41,7 +41,7 @@ export const selectDay = (day) => {
     return (dispatch) => {
         dispatch({
             type: DAY_SELECTED,
-            payload: day
+            payload: day.toLowerCase()
         });
     };
 };
