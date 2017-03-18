@@ -9,32 +9,50 @@ import moment from 'moment';
 import { selectDay } from '../actions';
 
 class DaySwitcher extends Component {
-    selectNextDay(){
-        let nextDay = moment().day(this.props.selectedDay).week(this.props.currentWeek).add(1, 'day').format('ddd');
-        this.props.selectDay(nextDay);
-    }
-
     selectPrevDay(){
         let prevDay = moment().day(this.props.selectedDay).week(this.props.currentWeek).subtract(1, 'day').format('ddd');
         this.props.selectDay(prevDay);
     }
 
+    selectNextDay(){
+        let nextDay = moment().day(this.props.selectedDay).week(this.props.currentWeek).add(1, 'day').format('ddd');
+        this.props.selectDay(nextDay);
+    }
+
+    renderPrevButton() {
+        if (this.props.selectedDay === 'mon') {
+            return null;
+        }
+        return (
+            <Button
+                onPress={this.selectPrevDay.bind(this)}
+                title="<"
+                color="#841584"
+                accessibilityLabel="Previous Day"
+            />
+        );
+    }
+
+    renderNextButton() {
+        if (this.props.selectedDay === 'fri') {
+            return null;
+        }
+        return (
+            <Button
+                onPress={this.selectNextDay.bind(this)}
+                title=">"
+                color="#841584"
+                accessibilityLabel="Next Day"
+            />
+        );
+    }
+
     render() {
         return (
             <View style={styles.bottomBar}>
-                <Button
-                    onPress={this.selectPrevDay.bind(this)}
-                    title="<"
-                    color="#841584"
-                    accessibilityLabel="Previous Day"
-                />
+                {this.renderPrevButton()}
                 <Text>{this.props.day}</Text>
-                <Button
-                    onPress={this.selectNextDay.bind(this)}
-                    title=">"
-                    color="#841584"
-                    accessibilityLabel="Next Day"
-                />
+                {this.renderNextButton()}
             </View>
         );
     }
