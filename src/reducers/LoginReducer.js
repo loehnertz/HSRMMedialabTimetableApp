@@ -22,7 +22,7 @@ export default (state = INITIAL_STATE, action) => {
         case PASSWORD_CHANGED:
             return { ...state, passwordField: action.payload };
         case LOADING_START:
-            return { ...state, loadingLogin: true, error: "" };
+            return { ...state, error: "", loadingLogin: true};
         case LOADING_END:
             return { ...state, loadingLogin: false };
         case LOGIN_USER_SUCCESS:

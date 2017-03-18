@@ -1,8 +1,8 @@
 import { Actions } from 'react-native-router-flux';
-import { AsyncStorage } from 'react-native';
 import {
     LOADING_START,
-    LOADING_END
+    WEEK_FETCH_SUCCESS,
+    WEEK_FETCH_FAILED
 } from './types';
 
 export const fetchWeek = (user, week) => {
@@ -19,12 +19,15 @@ export const fetchWeek = (user, week) => {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
-                dispatch({ type: LOADING_END });
+                dispatch({
+                    type: WEEK_FETCH_SUCCESS,
+                    payload: JSON.stringify(responseJson)
+                });
+                dispatch({ type: WEEK_FETCH_FAILED });
             })
             .catch((error) => {
                 console.log(error);
-                dispatch({ type: LOADING_END });
+                dispatch({ type: WEEK_FETCH_FAILED });
             });
     };
 };
