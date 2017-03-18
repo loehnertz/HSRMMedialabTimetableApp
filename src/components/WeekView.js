@@ -16,7 +16,7 @@ class WeekView extends Component {
         return (
             <View>
                 <Text>
-                    WeekView
+                    {this.props.week}
                 </Text>
             </View>
         );
@@ -25,7 +25,8 @@ class WeekView extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.login.user
+        user: state.login.user,
+        week: state.timetable.fetchedWeek
     }
 };
 
