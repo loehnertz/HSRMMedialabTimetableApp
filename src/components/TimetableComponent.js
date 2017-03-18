@@ -7,14 +7,16 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-//import moment from 'moment';
-import { fetchWeek } from '../actions';
+import moment from 'moment';
+import { fetchWeek, selectDay } from '../actions';
+import i18n from 'react-native-i18n';
+import bundledTranslations from '../translations';
 import DayView from './DayViewComponent';
 import DaySwitcher from './DaySwitcherComponent';
 
 class Timetable extends Component {
     componentWillMount(){
-        this.props.fetchWeek(this.props.user, this.props.program, '16');  // Using the 16th week of the year to get results from the API
+        this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
         AsyncStorage.getItem('masterdata')
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
@@ -22,6 +24,7 @@ class Timetable extends Component {
                     masterdata: JSON.stringify(itemJson)
                 });
             });
+        this.props.selectDay('mon');  // Start every first render with Monday
     }
 
     renderTimetable(){
@@ -37,15 +40,18 @@ class Timetable extends Component {
                 let eventsList = JSON.parse(this.props.week)["events"];
 
                 for (let event in eventsList) {
-                    if (eventsList[event]["day"] === "tue") {  // Just for now to test the condition
+                    if (eventsList[event]["day"] === this.props.selectedDay) {
                         events.push(JSON.stringify(eventsList[event]));
                     }
                 }
 
+                let day = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('ddd');
+                let date = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('DD.MM.YYYY');
+
                 return (
                     <View style={styles.dayView}>
-                        <DayView day="Dienstag" week={this.props.week} masterdata={this.state.masterdata} events={events} />
-                        <DaySwitcher day={JSON.parse(this.props.week)["today"]} />
+                        <DayView day={i18n.t(day)} week={this.props.week} masterdata={this.state.masterdata} events={events} />
+                        <DaySwitcher day={i18n.t(day) + ', ' + date} />
                     </View>
                 );
             }
@@ -60,6 +66,10 @@ class Timetable extends Component {
         );
     }
 }
+
+i18n.locale = 'de';
+i18n.fallbacks = true;
+i18n.translations = bundledTranslations;
 
 const styles = {
     dayView: {
@@ -84,9 +94,10 @@ const mapStateToProps = state => {
         user: state.login.user,
         program: state.login.program,
         week: state.timetable.fetchedWeek,
+        currentWeek: state.timetable.currentWeek,
         selectedDay: state.timetable.selectedDay,
         loading: state.timetable.loadingFetch
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek })(Timetable);
+export default connect(mapStateToProps, { fetchWeek, selectDay })(Timetable);
