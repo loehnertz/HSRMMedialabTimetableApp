@@ -37,6 +37,9 @@ class ListItem extends Component {
                         <Text style={styles.title}>
                             {this.renderLecturers()}
                         </Text>
+                        <Text style={styles.title}>
+                            {this.props.eventNote}
+                        </Text>
                     </CardSection>
                 </View>
             </TouchableWithoutFeedback>

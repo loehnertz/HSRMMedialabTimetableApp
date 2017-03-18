@@ -40,8 +40,9 @@ class DayView extends Component {
             eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
         }
         eventLecturers = JSON.stringify(eventLecturers);
+        let eventNote = eventJSON["note"];
 
-        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} />;
+        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} />;
     }
 
     render() {
