@@ -33,7 +33,7 @@ class DayView extends Component {
         let masterdataJSON = JSON.parse(this.props.masterdata);
         let eventJSON = JSON.parse(event);
 
-        let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["name"];
+        let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
         let eventRoom = eventJSON["rooms"][0];
         let eventLecturers = [];
         for (let lecturer in eventJSON["lecturers"]) {
