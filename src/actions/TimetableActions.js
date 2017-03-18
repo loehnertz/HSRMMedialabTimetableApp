@@ -1,6 +1,7 @@
 import { Actions } from 'react-native-router-flux';
 import {
     LOADING_START,
+    WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED
 } from './types';
@@ -20,10 +21,13 @@ export const fetchWeek = (user, week) => {
             .then((response) => response.json())
             .then((responseJson) => {
                 dispatch({
+                    type: WEEK_SET,
+                    payload: parseInt(week)
+                });
+                dispatch({
                     type: WEEK_FETCH_SUCCESS,
                     payload: JSON.stringify(responseJson)
                 });
-                dispatch({ type: WEEK_FETCH_FAILED });
             })
             .catch((error) => {
                 console.log(error);

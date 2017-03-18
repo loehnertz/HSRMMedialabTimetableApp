@@ -1,10 +1,12 @@
 import {
     LOADING_START,
+    WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED
 } from '../actions/types';
 
 const INITIAL_STATE = {
+    currentWeek: '',
     fetchedWeek: '',
     errorFetch: '',
     loadingFetch: false
@@ -12,6 +14,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case WEEK_SET:
+            return { ...state, currentWeek: action.payload };
         case WEEK_FETCH_SUCCESS:
             return { ...state, fetchedWeek: action.payload, loadingFetch: false };
         case WEEK_FETCH_FAILED:
