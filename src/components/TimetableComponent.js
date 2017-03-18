@@ -2,16 +2,25 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    ActivityIndicator
+    ActivityIndicator,
+    AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 //import moment from 'moment';
-import { Spinner } from './common';
 import { fetchWeek } from '../actions';
+import DayView from './DayViewComponent';
 
 class WeekView extends Component {
     componentWillMount(){
         this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
+        AsyncStorage.getItem('masterdata')
+            .then((item) => JSON.parse(item))
+            .then((itemJson) => {
+                this.setState({
+                    masterdata: JSON.stringify(itemJson)
+                });
+            });
     }
 
     renderTimetable(){
@@ -22,12 +31,9 @@ class WeekView extends Component {
                 </View>
             );
         } else {
-            if (this.props.week) {
-                console.log(JSON.parse(this.props.week));
-
+            if (this.props.week && this.state.masterdata) {
                 return (
-                    <View style={styles.headerDay}>
-                    </View>
+                    <DayView week={this.props.week} masterdata={this.state.masterdata} />  // For now I built the 'DayView' first
                 );
             }
         }
