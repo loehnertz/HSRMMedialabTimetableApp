@@ -1,5 +1,5 @@
 {
-  "please_login": "Please Login",
+  "login": "Login",
   "username": "Username",
   "password": "Password",
   "login_failed": "Username or Password are wrong",

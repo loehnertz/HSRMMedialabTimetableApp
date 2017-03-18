@@ -37,7 +37,6 @@ export const loginUser = (user, password) => {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.message === "login successful") {
-
                     fetch('https://hsrm-medialab.de/osp/server/functions.php', {
                         method: 'POST',
                         body: `request=get-masterdata&timestamp=${Date.now()}&editor=${user}`,
