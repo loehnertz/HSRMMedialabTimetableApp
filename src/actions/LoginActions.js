@@ -39,7 +39,10 @@ export const isUserLoggedIn = () => {
                         .then((response) => response.json())
                         .then((responseJson) => {
                             if (responseJson.message === "login successful") {
-                                dispatch({ type: LOGIN_USER_SUCCESS });
+                                dispatch({
+                                    type: LOGIN_USER_SUCCESS,
+                                    payload: credentials.username
+                                });
                                 Actions.main({ type: 'reset' });
                             } else {
                                 dispatch({ type: LOGIN_USER_FAILED });
@@ -88,7 +91,10 @@ export const loginUser = (user, password) => {
                             try {
                                 await AsyncStorage.setItem('masterdata', JSON.stringify(responseJson));
                                 await Keychain.setGenericPassword(user, password);
-                                dispatch({ type: LOGIN_USER_SUCCESS });
+                                dispatch({
+                                    type: LOGIN_USER_SUCCESS,
+                                    payload: user
+                                });
                                 Actions.main({ type: 'reset' });
                             } catch (error) {
                                 console.log(error);
