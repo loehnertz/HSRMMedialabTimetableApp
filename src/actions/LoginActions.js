@@ -1,3 +1,4 @@
+import { AsyncStorage } from 'react-native';
 import {
     USER_CHANGED,
     PASSWORD_CHANGED,
@@ -35,7 +36,28 @@ export const loginUser = (user, password) => {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.message === "login successful") {
-                    dispatch({ type: LOGIN_USER_SUCCESS });
+
+                    fetch('https://hsrm-medialab.de/osp/server/functions.php', {
+                        method: 'POST',
+                        body: `request=get-masterdata&timestamp=${Date.now()}&editor=${user}`,
+                        headers: {
+                            'Connection': 'keep-alive',
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    })
+                        .then((response) => response.json())
+                        .then(async (responseJson) => {
+                            try {
+                                await AsyncStorage.setItem('masterdata', JSON.stringify(responseJson));
+                                dispatch({ type: LOGIN_USER_SUCCESS });
+                            } catch (error) {
+                                console.log(error);
+                                dispatch({ type: LOGIN_USER_FAILED });
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                 } else {
                     dispatch({ type: LOGIN_USER_FAILED });
                 }
