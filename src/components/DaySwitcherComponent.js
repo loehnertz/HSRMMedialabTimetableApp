@@ -21,12 +21,20 @@ class DaySwitcher extends Component {
 
     renderPrevButton() {
         if (this.props.selectedDay === 'mon') {
-            return null;
+            return (
+                <Button
+                    onPress={this.selectPrevDay.bind(this)}
+                    title="  <  "
+                    color="#841584"
+                    accessibilityLabel="Previous Day"
+                    disabled
+                />
+            );
         }
         return (
             <Button
                 onPress={this.selectPrevDay.bind(this)}
-                title="<"
+                title="  <  "
                 color="#841584"
                 accessibilityLabel="Previous Day"
             />
@@ -35,12 +43,20 @@ class DaySwitcher extends Component {
 
     renderNextButton() {
         if (this.props.selectedDay === 'fri') {
-            return null;
+            return (
+                <Button
+                    onPress={this.selectNextDay.bind(this)}
+                    title="  >  "
+                    color="#841584"
+                    accessibilityLabel="Next Day"
+                    disabled
+                />
+            );
         }
         return (
             <Button
                 onPress={this.selectNextDay.bind(this)}
-                title=">"
+                title="  >  "
                 color="#841584"
                 accessibilityLabel="Next Day"
             />
@@ -62,11 +78,14 @@ const styles = {
     bottomBar: {
         position: "absolute",
         bottom: 0,
+        left: 0,
+        right: 0,
         alignSelf: "center",
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: 20,
-        flex: 1
+        alignItems: "center",
+        backgroundColor: "#CCCCCC",
+        padding: 20
     }
 };
 
