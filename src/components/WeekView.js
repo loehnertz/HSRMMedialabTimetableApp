@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
     Text,
-    View
+    View,
+    ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 //import moment from 'moment';
@@ -16,25 +17,44 @@ class WeekView extends Component {
     renderTimetable(){
         if (this.props.loading) {
             return (
-                <Spinner size="small" />
+                <View style={styles.spinner}>
+                    <ActivityIndicator size={'large'} />
+                </View>
             );
         } else {
-            return (
-                <Text>
-                    {this.props.week}
-                </Text>
-            );
+            if (this.props.week) {
+                console.log(JSON.parse(this.props.week));
+
+                return (
+                    <View style={styles.headerDay}>
+                    </View>
+                );
+            }
         }
     }
 
     render() {
         return (
-            <View style={{ paddingTop: 10 }}>
+            <View style={{ flex: 1 }}>
                 {this.renderTimetable()}
             </View>
         );
     }
 }
+
+const styles = {
+    headerDay: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: "#CCCCCC",
+        padding: 10
+    },
+    spinner: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    }
+};
 
 const mapStateToProps = state => {
     return {

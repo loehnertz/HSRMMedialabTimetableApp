@@ -19,7 +19,6 @@ export const fetchWeek = (user, week) => {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
                 dispatch({
                     type: WEEK_FETCH_SUCCESS,
                     payload: JSON.stringify(responseJson)
