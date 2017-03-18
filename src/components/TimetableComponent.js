@@ -3,7 +3,9 @@ import {
     Text,
     View,
     ActivityIndicator,
-    AsyncStorage
+    AsyncStorage,
+    LayoutAnimation,
+    UIManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -32,6 +34,11 @@ class Timetable extends Component {
         } else {
             this.props.selectDay(today);
         }
+    }
+
+    componentWillUpdate() {
+        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+        LayoutAnimation.easeInEaseOut();
     }
 
     renderTimetable(){
