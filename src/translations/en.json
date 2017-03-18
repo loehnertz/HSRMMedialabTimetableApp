@@ -1,6 +1,9 @@
 {
+  "loading": "Loading...",
   "login": "Login",
   "username": "Username",
   "password": "Password",
   "login_failed": "Username or Password are wrong",
+  "login_notice": "",
+  "week_view": "Week View"
 }

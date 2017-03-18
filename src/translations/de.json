@@ -1,7 +1,9 @@
 {
+  "loading": "Laden...",
   "login": "Anmeldung",
   "username": "Nutzername",
   "password": "Passwort",
   "login_failed": "Nutzername oder Passwort falsch!",
   "login_notice": "Bitte beachten:\nOnline Stundenpläne für das Sommersemester 2017.\nEingeschriebene Studierende erhalten Informationen zu Ihren Zugangsdaten in StudIP.",
+  "week_view": "Wochenansicht"
 }
