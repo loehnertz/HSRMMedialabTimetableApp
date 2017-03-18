@@ -14,10 +14,6 @@ class DayView extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // nextProps are the next set of props that this component
-        // will be rendered with
-        // this.props is still the old set of props
-
         this.createDataSource(nextProps);
     }
 
@@ -47,15 +43,16 @@ class DayView extends Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.flex}>
                 <View style={styles.header}>
                     <Text style={styles.headerText}>{this.props.day}</Text>
                 </View>
-                <View>
+                <View style={styles.flex}>
                     <ListView
                         enableEmptySections
                         dataSource={this.dataSource}
                         renderRow={this.renderRow.bind(this)}
+                        style={styles.flex}
                     />
                 </View>
             </View>
@@ -72,6 +69,9 @@ const styles = {
     headerText: {
         fontSize: 20,
         fontWeight: "bold"
+    },
+    flex: {
+        flex: 1
     }
 };
 
