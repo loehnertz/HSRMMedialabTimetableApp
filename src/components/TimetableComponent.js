@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux';
 //import moment from 'moment';
 import { fetchWeek } from '../actions';
 import DayView from './DayViewComponent';
+import DaySwitcher from './DaySwitcherComponent';
 
 class WeekView extends Component {
     componentWillMount(){
@@ -32,8 +33,18 @@ class WeekView extends Component {
             );
         } else {
             if (this.props.week && this.state.masterdata) {
+                let events = [];
+                let eventsList = JSON.parse(this.props.week)["events"];
+
+                for (let event in eventsList) {
+                    events.push(eventsList[event]["course"]);
+                }
+
                 return (
-                    <DayView week={this.props.week} masterdata={this.state.masterdata} />  // For now I built the 'DayView' first
+                    <View style={styles.dayView}>
+                        <DayView day="Montag" week={this.props.week} masterdata={this.state.masterdata} events={events} />
+                        <DaySwitcher day={JSON.parse(this.props.week)["today"]} />
+                    </View>
                 );
             }
         }
@@ -49,6 +60,10 @@ class WeekView extends Component {
 }
 
 const styles = {
+    dayView: {
+        flex: 1,
+        flexDirection: "column"
+    },
     headerDay: {
         flexDirection: "row",
         justifyContent: "space-between",
