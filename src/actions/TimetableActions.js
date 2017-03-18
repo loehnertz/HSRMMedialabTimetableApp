@@ -3,7 +3,8 @@ import {
     LOADING_START,
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
-    WEEK_FETCH_FAILED
+    WEEK_FETCH_FAILED,
+    DAY_SELECTED
 } from './types';
 
 export const fetchWeek = (user, program, week) => {
@@ -33,5 +34,14 @@ export const fetchWeek = (user, program, week) => {
                 console.log(error);
                 dispatch({ type: WEEK_FETCH_FAILED });
             });
+    };
+};
+
+export const selectDay = (day) => {
+    return (dispatch) => {
+        dispatch({
+            type: DAY_SELECTED,
+            payload: day
+        });
     };
 };
