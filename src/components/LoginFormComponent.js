@@ -10,8 +10,7 @@ import {
     Card,
     CardSection,
     Button,
-    Input,
-    Spinner
+    Input
 } from './common';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
