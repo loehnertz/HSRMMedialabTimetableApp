@@ -4,6 +4,8 @@ import {
     View,
     ListView
 } from 'react-native';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 import ListItem from './ListItemComponent';
 
 class DayView extends Component {
@@ -28,7 +30,19 @@ class DayView extends Component {
     }
 
     renderRow(event) {
-        return <ListItem event={event} />;
+        let masterdataJSON = JSON.parse(this.props.masterdata);
+        let eventJSON = JSON.parse(event);
+
+        let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["name"];
+        let eventRoom = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["name"];
+        let eventLecturers = [];
+        for (let lecturer in eventJSON["lecturers"]) {
+            eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
+        }
+
+        console.log(eventName, eventRoom, eventLecturers);
+
+        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={JSON.stringify(eventLecturers)} />;
     }
 
     render() {
@@ -41,7 +55,7 @@ class DayView extends Component {
                     <ListView
                         enableEmptySections
                         dataSource={this.dataSource}
-                        renderRow={this.renderRow}
+                        renderRow={this.renderRow.bind(this)}
                     />
                 </View>
             </View>
@@ -61,4 +75,10 @@ const styles = {
     }
 };
 
-export default DayView;
+const mapStateToProps = state => {
+    return {
+        program: state.login.program
+    }
+};
+
+export default connect(mapStateToProps, {})(DayView);
