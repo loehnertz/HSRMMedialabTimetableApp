@@ -8,5 +8,9 @@
   "day_view": "Tagesansicht",
   "week_view": "Wochenansicht",
   "Mon": "Montag",
-  "Tue": "Dienstag"
+  "Tue": "Dienstag",
+  "Wed": "Mittwoch",
+  "Thu": "Donnerstag",
+  "Fri": "Freitag",
+  "Sat": "Samstag"
 }
