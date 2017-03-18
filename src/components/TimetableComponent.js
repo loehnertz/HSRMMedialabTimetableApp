@@ -12,9 +12,9 @@ import { fetchWeek } from '../actions';
 import DayView from './DayViewComponent';
 import DaySwitcher from './DaySwitcherComponent';
 
-class WeekView extends Component {
+class Timetable extends Component {
     componentWillMount(){
-        this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
+        this.props.fetchWeek(this.props.user, this.props.program, '16');  // Using the 16th week of the year to get results from the API
         AsyncStorage.getItem('masterdata')
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
@@ -37,12 +37,14 @@ class WeekView extends Component {
                 let eventsList = JSON.parse(this.props.week)["events"];
 
                 for (let event in eventsList) {
-                    events.push(eventsList[event]["course"]);
+                    if (eventsList[event]["day"] === "tue") {  // Just for now to test the condition
+                        events.push(JSON.stringify(eventsList[event]));
+                    }
                 }
 
                 return (
                     <View style={styles.dayView}>
-                        <DayView day="Montag" week={this.props.week} masterdata={this.state.masterdata} events={events} />
+                        <DayView day="Dienstag" week={this.props.week} masterdata={this.state.masterdata} events={events} />
                         <DaySwitcher day={JSON.parse(this.props.week)["today"]} />
                     </View>
                 );
@@ -80,9 +82,11 @@ const styles = {
 const mapStateToProps = state => {
     return {
         user: state.login.user,
+        program: state.login.program,
         week: state.timetable.fetchedWeek,
+        selectedDay: state.timetable.selectedDay,
         loading: state.timetable.loadingFetch
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek })(WeekView);
+export default connect(mapStateToProps, { fetchWeek })(Timetable);
