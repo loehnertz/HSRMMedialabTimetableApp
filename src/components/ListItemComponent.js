@@ -27,8 +27,8 @@ class ListItem extends Component {
         return (
             <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
                 <View style={{ flexDirection: "row" }}>
-                    <CardSection style={styles.cardSection}>
-                        <Text>{this.props.timeslot}</Text>
+                    <CardSection>
+                        <Text>{this.props.slot}</Text>
                     </CardSection>
                     <CardSection style={styles.cardSection}>
                         <Text style={styles.title}>
@@ -52,6 +52,7 @@ class ListItem extends Component {
 
 const styles = {
     cardSection: {
+        flex: 1,
         flexDirection: "column"
     },
     title: {
