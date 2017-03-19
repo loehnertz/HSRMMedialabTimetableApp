@@ -8,18 +8,26 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 //import moment from 'moment';
-import { fetchWeek } from '../actions';
+import { fetchWeek, dispatchSettings } from '../actions';
 import DayView from './DayViewComponent';
 
 class Timetable extends Component {
     componentWillMount(){
         this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
+
         AsyncStorage.getItem('masterdata')
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
                 this.setState({
                     masterdata: JSON.stringify(itemJson)
                 });
+            });
+
+        AsyncStorage.getItem('settings')
+            .then((settings) => JSON.parse(settings))
+            .then((settingsJson) => {
+                console.log(settingsJson);
+                this.props.dispatchSettings(settingsJson);
             });
     }
 
@@ -70,4 +78,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek })(Timetable);
+export default connect(mapStateToProps, { fetchWeek, dispatchSettings })(Timetable);

@@ -1,3 +1,4 @@
+import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {
     LOADING_START,
@@ -37,12 +38,16 @@ export const fetchWeek = (user, week) => {
     };
 };
 
+export const dispatchSettings = (settings) => {
+    return {
+        type: SETTINGS_SAVED,
+        payload: {special_subject: settings["special_subject"]}
+    };
+};
+
 export const saveSettings = (settings) => {
-    return (dispatch) => {
-        dispatch({
-            type: SETTINGS_SAVED,
-            payload: {special_subject: settings["special_subject"]}
-        });
+    return async () => {
+        await AsyncStorage.setItem('settings', JSON.stringify(settings));
 
         Actions.timetable({ type: 'reset' });
     };
