@@ -17,6 +17,28 @@ import bundledTranslations from '../translations';
 class Settings extends Component {
     componentWillMount() {
         this.setState({special_subject: this.props.special_subject});
+        console.log(JSON.parse(this.props.masterdata));
+    }
+
+    renderSemester() {
+        console.log(this.props.program);
+        let semesters = this.props.masterdata["programs"][this.props.program]["targetgroups"];
+        console.log(semesters);
+
+        return (
+            <CardSection style={styles.settingsSection}>
+                {this.renderSpecialSubjectText()}
+                <Picker
+                    selectedValue={this.state.special_subject}
+                    onValueChange={(subject) => this.setState({special_subject: subject})}
+                    style={styles.settingsPicker}
+                >
+                    <Picker.Item label="" value="all" />
+                    <Picker.Item label="Interaktive Medien" value="im" />
+                    <Picker.Item label="AV-Medien" value="av" />
+                </Picker>
+            </CardSection>
+        );
     }
 
     renderSpecialSubject() {
@@ -58,6 +80,7 @@ class Settings extends Component {
     render() {
         return (
             <Card style={{ flex: 1 }}>
+                {this.renderSemester()}
                 {this.renderSpecialSubject()}
                 <CardSection>
                     <Button onPress={this.onSaveButtonPress.bind(this)}>
@@ -92,6 +115,8 @@ const styles = {
 const mapStateToProps = state => {
     return {
         user: state.login.user,
+        program: state.login.program,
+        masterdata: state.timetable.masterdata,
         special_subject: state.timetable.special_subject
     }
 };
