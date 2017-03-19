@@ -16,9 +16,43 @@ import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
 class Settings extends Component {
+    state = {
+        special_subject: ""
+    };
+
+    renderSpecialSubject() {
+        switch (this.props.user) {
+            case 'bmm4':
+                return (
+                    <CardSection style={styles.settingsSection}>
+                        {this.renderSpecialSubjectText()}
+                        <Picker
+                            selectedValue={this.state.special_subject}
+                            onValueChange={(subject) => this.setState({special_subject: subject})}
+                            style={{ flex: 1 }}
+                        >
+                            <Picker.Item label="Interaktive Medien" value="im" />
+                            <Picker.Item label="AV-Medien" value="av" />
+                        </Picker>
+                    </CardSection>
+                );
+            default:
+                return null;
+        }
+    }
+
+    renderSpecialSubjectText() {
+        return (
+            <Text style={styles.settingsText}>
+                Schwerpunkt:
+            </Text>
+        );
+    }
+
     render() {
         return (
             <Card style={{ flex: 1 }}>
+                {this.renderSpecialSubject()}
                 <CardSection>
                     <Button>
                         Speichern
