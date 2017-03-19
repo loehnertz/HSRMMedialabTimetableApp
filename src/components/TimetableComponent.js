@@ -26,6 +26,7 @@ class Timetable extends Component {
                 this.setState({
                     masterdata: JSON.stringify(itemJson)
                 });
+                this.renderTimeslots(itemJson["timetable"]["timeslots"]);
             });
 
         let today = moment().format('ddd');
@@ -49,7 +50,7 @@ class Timetable extends Component {
                 </View>
             );
         } else {
-            if (this.props.week && this.state.masterdata) {
+            if (this.props.week && this.state.masterdata && this.state.timeslots) {
                 let events = [];
                 let eventsList = JSON.parse(this.props.week)["events"];
 
@@ -59,17 +60,34 @@ class Timetable extends Component {
                     }
                 }
 
+                console.log(JSON.parse(this.props.week));
+                console.log(events);
+                console.log(this.state.timeslots);
+
+
                 let day = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('ddd');
                 let date = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('DD.MM.YYYY');
 
                 return (
                     <View style={styles.dayView}>
-                        <DayView day={i18n.t(day)} week={this.props.week} masterdata={this.state.masterdata} events={events} />
+                        <DayView day={i18n.t(day)} week={this.props.week} masterdata={this.state.masterdata} events={events} timeslots={this.state.timeslots} />
                         <DaySwitcher day={i18n.t(day) + ', ' + date} />
                     </View>
                 );
             }
         }
+    }
+
+    renderTimeslots(timeslots) {
+        let slots = [];
+        for (let slot in timeslots) {
+            slots.push(timeslots[slot]["start"] + "\n" + " - " + "\n" + timeslots[slot]["end"] + "\n");
+            if (timeslots[slot]["text"]) {
+                slots.push(timeslots[slot]["text"]);
+            }
+        }
+        slots.splice(0, 1);
+        this.setState({ timeslots: slots });
     }
 
     render() {
