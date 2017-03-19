@@ -8,20 +8,14 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 //import moment from 'moment';
-import { fetchWeek, dispatchSettings } from '../actions';
+import { fetchWeek, dispatchMasterdata, dispatchSettings } from '../actions';
 import DayView from './DayViewComponent';
 
 class Timetable extends Component {
     componentWillMount(){
         this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
+        this.props.dispatchMasterdata();
         this.props.dispatchSettings();
-        AsyncStorage.getItem('masterdata')
-            .then((item) => JSON.parse(item))
-            .then((itemJson) => {
-                this.setState({
-                    masterdata: JSON.stringify(itemJson)
-                });
-            });
     }
 
     renderTimetable(){
@@ -32,9 +26,9 @@ class Timetable extends Component {
                 </View>
             );
         } else {
-            if (this.props.week && this.state.masterdata) {
+            if (this.props.week && this.props.masterdata) {
                 return (
-                    <DayView week={this.props.week} masterdata={this.state.masterdata} />  // For now I built the 'DayView' first
+                    <DayView week={this.props.week} masterdata={this.props.masterdata} />  // For now I built the 'DayView' first
                 );
             }
         }
@@ -66,9 +60,10 @@ const styles = {
 const mapStateToProps = state => {
     return {
         user: state.login.user,
+        masterdata: state.timetable.masterdata,
         week: state.timetable.fetchedWeek,
         loading: state.timetable.loadingFetch
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek, dispatchSettings })(Timetable);
+export default connect(mapStateToProps, { fetchWeek, dispatchMasterdata, dispatchSettings })(Timetable);

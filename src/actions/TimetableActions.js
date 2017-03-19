@@ -5,6 +5,7 @@ import {
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
+    MASTERDATA_SAVED,
     SETTINGS_SAVED
 } from './types';
 
@@ -34,6 +35,19 @@ export const fetchWeek = (user, week) => {
             .catch((error) => {
                 console.log(error);
                 dispatch({ type: WEEK_FETCH_FAILED });
+            });
+    };
+};
+
+export const dispatchMasterdata = () => {
+    return (dispatch) => {
+        AsyncStorage.getItem('masterdata')
+            .then((item) => JSON.parse(item))
+            .then((itemJson) => {
+                dispatch({
+                    type: MASTERDATA_SAVED,
+                    payload: JSON.stringify(itemJson)
+                });
             });
     };
 };
