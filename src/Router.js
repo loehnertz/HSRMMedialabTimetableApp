@@ -34,7 +34,7 @@ class RouterComponent extends Component {
                         key="settings"
                         component={Settings}
                         title={i18n.t('settings')}
-                        initial
+                        initial  // Added for faster development
                     />
                 </Scene>
             </Router>
