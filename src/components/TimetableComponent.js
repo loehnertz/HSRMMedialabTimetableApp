@@ -14,20 +14,13 @@ import DayView from './DayViewComponent';
 class Timetable extends Component {
     componentWillMount(){
         this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
-
+        this.props.dispatchSettings();
         AsyncStorage.getItem('masterdata')
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
                 this.setState({
                     masterdata: JSON.stringify(itemJson)
                 });
-            });
-
-        AsyncStorage.getItem('settings')
-            .then((settings) => JSON.parse(settings))
-            .then((settingsJson) => {
-                console.log(settingsJson);
-                this.props.dispatchSettings(settingsJson);
             });
     }
 

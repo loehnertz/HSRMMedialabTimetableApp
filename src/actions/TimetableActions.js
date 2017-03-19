@@ -38,10 +38,16 @@ export const fetchWeek = (user, week) => {
     };
 };
 
-export const dispatchSettings = (settings) => {
-    return {
-        type: SETTINGS_SAVED,
-        payload: {special_subject: settings["special_subject"]}
+export const dispatchSettings = () => {
+    return (dispatch) => {
+        AsyncStorage.getItem('settings')
+            .then((item) => JSON.parse(item))
+            .then((itemJson) => {
+                dispatch({
+                    type: SETTINGS_SAVED,
+                    payload: {special_subject: itemJson["special_subject"]}
+                });
+            });
     };
 };
 
