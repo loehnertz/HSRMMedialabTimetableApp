@@ -17,7 +17,7 @@ import DayView from './DayViewComponent';
 import DaySwitcher from './DaySwitcherComponent';
 
 class Timetable extends Component {
-    componentWillMount(){
+    componentWillMount() {
         this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
 
         AsyncStorage.getItem('masterdata')
@@ -42,7 +42,7 @@ class Timetable extends Component {
         LayoutAnimation.easeInEaseOut();
     }
 
-    renderTimetable(){
+    renderTimetable() {
         if (this.props.loading) {
             return (
                 <View style={styles.spinner}>
@@ -50,27 +50,22 @@ class Timetable extends Component {
                 </View>
             );
         } else {
-            if (this.props.week && this.state.masterdata && this.state.timeslots) {
+            if (this.props.week && this.state.masterdata && this.state.slots) {
                 let events = [];
                 let eventsList = JSON.parse(this.props.week)["events"];
 
                 for (let event in eventsList) {
                     if (eventsList[event]["day"] === this.props.selectedDay) {
-                        events.push(JSON.stringify(eventsList[event]));
+                        events.push(eventsList[event]);
                     }
                 }
-
-                console.log(JSON.parse(this.props.week));
-                console.log(events);
-                console.log(this.state.timeslots);
-
 
                 let day = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('ddd');
                 let date = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('DD.MM.YYYY');
 
                 return (
                     <View style={styles.dayView}>
-                        <DayView day={i18n.t(day)} week={this.props.week} masterdata={this.state.masterdata} events={events} timeslots={this.state.timeslots} />
+                        <DayView day={i18n.t(day)} week={this.props.week} masterdata={this.state.masterdata} events={events} />
                         <DaySwitcher day={i18n.t(day) + ', ' + date} />
                     </View>
                 );
@@ -81,13 +76,17 @@ class Timetable extends Component {
     renderTimeslots(timeslots) {
         let slots = [];
         for (let slot in timeslots) {
-            slots.push(timeslots[slot]["start"] + "\n" + " - " + "\n" + timeslots[slot]["end"] + "\n");
+            slots.push({
+                start: timeslots[slot]["start"],
+                end: timeslots[slot]["end"]
+            });
             if (timeslots[slot]["text"]) {
                 slots.push(timeslots[slot]["text"]);
             }
         }
         slots.splice(0, 1);
-        this.setState({ timeslots: slots });
+        slots.splice(8, 1);
+        this.setState({ slots: slots });
     }
 
     render() {

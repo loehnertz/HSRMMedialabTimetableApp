@@ -25,9 +25,8 @@ class DayView extends Component {
         this.dataSource = ds.cloneWithRows(events);
     }
 
-    renderRow(event) {
+    renderRow(eventJSON) {
         let masterdataJSON = JSON.parse(this.props.masterdata);
-        let eventJSON = event;
 
         let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
         let eventRoom = eventJSON["rooms"][0];
