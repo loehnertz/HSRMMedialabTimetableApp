@@ -27,7 +27,7 @@ class DaySwitcher extends Component {
                     title="  <  "
                     color="#841584"
                     accessibilityLabel="Previous Day"
-                    disabled
+                    disabled={true}
                 />
             );
         }
@@ -49,7 +49,7 @@ class DaySwitcher extends Component {
                     title="  >  "
                     color="#841584"
                     accessibilityLabel="Next Day"
-                    disabled
+                    disabled={true}
                 />
             );
         }
@@ -67,7 +67,7 @@ class DaySwitcher extends Component {
         return (
             <View style={styles.bottomBar}>
                 {this.renderPrevButton()}
-                <Text>{this.props.day}</Text>
+                <Text style={styles.bottomBarText}>{this.props.day}</Text>
                 {this.renderNextButton()}
             </View>
         );
@@ -80,12 +80,16 @@ const styles = {
         bottom: 0,
         left: 0,
         right: 0,
+        height: 80,
         alignSelf: "center",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#CCCCCC",
         padding: 20
+    },
+    bottomBarText: {
+        fontSize: 18
     }
 };
 
