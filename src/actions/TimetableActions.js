@@ -5,8 +5,8 @@ import {
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
-    MASTERDATA_SAVED,
-    SETTINGS_SAVED
+    MASTERDATA_DISPATCHED,
+    SETTINGS_DISPATCHED
 } from './types';
 
 export const fetchWeek = (user, week) => {
@@ -45,7 +45,7 @@ export const dispatchMasterdata = () => {
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
                 dispatch({
-                    type: MASTERDATA_SAVED,
+                    type: MASTERDATA_DISPATCHED,
                     payload: JSON.stringify(itemJson)
                 });
             });
@@ -58,7 +58,7 @@ export const dispatchSettings = () => {
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
                 dispatch({
-                    type: SETTINGS_SAVED,
+                    type: SETTINGS_DISPATCHED,
                     payload: {special_subject: itemJson["special_subject"]}
                 });
             });
