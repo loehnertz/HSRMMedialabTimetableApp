@@ -7,3 +7,4 @@ export const LOADING_END = 'loading_end';
 export const WEEK_SET = 'week_set';
 export const WEEK_FETCH_SUCCESS = 'week_fetch_success';
 export const WEEK_FETCH_FAILED = 'week_fetch_failed';
+export const SETTINGS_SAVED = 'settings_saved';

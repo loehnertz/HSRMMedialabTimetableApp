@@ -3,7 +3,8 @@ import {
     LOADING_START,
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
-    WEEK_FETCH_FAILED
+    WEEK_FETCH_FAILED,
+    SETTINGS_SAVED
 } from './types';
 
 export const fetchWeek = (user, week) => {
@@ -33,5 +34,16 @@ export const fetchWeek = (user, week) => {
                 console.log(error);
                 dispatch({ type: WEEK_FETCH_FAILED });
             });
+    };
+};
+
+export const saveSettings = (settings) => {
+    return (dispatch) => {
+        dispatch({
+            type: SETTINGS_SAVED,
+            payload: {special_subject: settings["special_subject"]}
+        });
+
+        Actions.timetable({ type: 'reset' });
     };
 };
