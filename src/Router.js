@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Scene, Router } from 'react-native-router-flux';
-import { fetchWeek } from './actions';
+import { Scene, Router, Actions } from 'react-native-router-flux';
+import { fetchWeek, selectDay } from './actions';
 import i18n from 'react-native-i18n';
 import bundledTranslations from './translations';
 import Startup from './components/StartupComponent';
 import LoginForm from './components/LoginFormComponent';
 import Timetable from './components/TimetableComponent';
+import Settings from './components/SettingsComponent';
 
 i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
@@ -26,10 +27,14 @@ class RouterComponent extends Component {
                         key="timetable"
                         component={Timetable}
                         title={i18n.t('day_view')}
-                        leftTitle="Vorherige"
-                        onLeft={() => this.props.fetchWeek(this.props.user, (this.props.currentWeek - 1))}
-                        rightTitle="Nächste"
-                        onRight={() => this.props.fetchWeek(this.props.user, (this.props.currentWeek + 1))}
+                        rightTitle="Einstellungen"
+                        onRight={() => Actions.settings()}
+                    />
+                    <Scene
+                        key="settings"
+                        component={Settings}
+                        title={i18n.t('settings')}
+                        initial
                     />
                 </Scene>
             </Router>
@@ -40,8 +45,9 @@ class RouterComponent extends Component {
 const mapStateToProps = state => {
     return {
         user: state.login.user,
+        program: state.login.program,
         currentWeek: state.timetable.currentWeek
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek })(RouterComponent);
+export default connect(mapStateToProps, { fetchWeek, selectDay })(RouterComponent);
