@@ -27,7 +27,7 @@ class DayView extends Component {
 
     renderRow(event) {
         let masterdataJSON = JSON.parse(this.props.masterdata);
-        let eventJSON = JSON.parse(event);
+        let eventJSON = event;
 
         let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
         let eventRoom = eventJSON["rooms"][0];
@@ -37,8 +37,9 @@ class DayView extends Component {
         }
         eventLecturers = JSON.stringify(eventLecturers);
         let eventNote = eventJSON["note"];
+        let slot = eventJSON["slot"];
 
-        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} />;
+        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} slot={slot} />;
     }
 
     render() {
@@ -47,7 +48,7 @@ class DayView extends Component {
                 <View style={styles.header}>
                     <Text style={styles.headerText}>{this.props.day}</Text>
                 </View>
-                <View style={styles.flex}>
+                <View style={[styles.flex, { paddingBottom: 80 }]}>
                     <ListView
                         enableEmptySections
                         dataSource={this.dataSource}
