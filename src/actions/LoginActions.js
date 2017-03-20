@@ -8,6 +8,7 @@ import {
     LOGIN_USER_FAILED,
     LOADING_START
 } from './types';
+import { DEFAULT_SETTINGS } from './defaults';
 
 export const userChanged = (text) => {
     return {
@@ -90,6 +91,7 @@ export const loginUser = (user, password) => {
                         .then(async (responseJson) => {
                             try {
                                 await AsyncStorage.setItem('masterdata', JSON.stringify(responseJson));
+                                await AsyncStorage.setItem('settings', JSON.stringify(DEFAULT_SETTINGS));
                                 await Keychain.setGenericPassword(user, password);
                                 dispatch({
                                     type: LOGIN_USER_SUCCESS,
