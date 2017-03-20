@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+import * as Keychain from 'react-native-keychain';
 import {
     userChanged,
     passwordChanged,
@@ -17,6 +19,17 @@ import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
 class LoginForm extends Component {
+    componentWillMount() {
+        if (this.props.logout) {
+            Keychain.resetGenericPassword()
+                .then(() => {
+                    AsyncStorage.removeItem('masterdata');
+                    AsyncStorage.removeItem('settings');
+                    Actions.startup();
+                });
+        }
+    }
+
     onUserChange(text) {
         this.props.userChanged(text);
     }
