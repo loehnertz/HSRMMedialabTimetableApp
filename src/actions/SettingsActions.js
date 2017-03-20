@@ -1,9 +1,8 @@
 import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { SETTINGS_DISPATCHED } from './types';
-import { DEFAULT_SETTINGS } from './defaults';
 
-export const dispatchSettings = () => {
+export const dispatchSettings = (user) => {
     return async (dispatch) => {
         let storageSettings = {};
         await AsyncStorage.getItem('settings')
@@ -19,7 +18,7 @@ export const dispatchSettings = () => {
         dispatch({
             type: SETTINGS_DISPATCHED,
             payload: {
-                semester: DEFAULT_SETTINGS["semester"],
+                semester: user.substr(3, 1) + '.',
                 special_subject: storageSettings["special_subject"]
             }
         });
@@ -28,7 +27,6 @@ export const dispatchSettings = () => {
 
 export const saveSettings = (settings) => {
     return async (dispatch) => {
-        console.log(settings);
         await AsyncStorage.setItem('settings', JSON.stringify(settings["perm"]));
 
         dispatch({

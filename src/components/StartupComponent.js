@@ -16,7 +16,7 @@ class Startup extends Component {
     async componentWillReceiveProps(nextProps) {
         if (nextProps.user) {
             await nextProps.dispatchMasterdata();
-            await nextProps.dispatchSettings();
+            await nextProps.dispatchSettings(nextProps.user);
             Actions.main();
         }
     }
