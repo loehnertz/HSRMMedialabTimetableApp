@@ -6,7 +6,8 @@ import {
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
-    LOADING_START
+    LOADING_START,
+    LOADING_END
 } from './types';
 import { DEFAULT_SETTINGS } from './defaults';
 
@@ -45,7 +46,6 @@ export const isUserLoggedIn = () => {
                                     username: credentials.username,
                                     program: credentials.username.slice(0, -1)
                                 });
-                                Actions.main({ type: 'reset' });
                             } else {
                                 dispatch({ type: LOGIN_USER_FAILED });
                                 Actions.auth({ type: 'reset' });
@@ -53,13 +53,16 @@ export const isUserLoggedIn = () => {
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch({ type: LOADING_END });
                             Actions.auth({ type: 'reset' });
                         });
                 } else {
+                    dispatch({ type: LOADING_END });
                     Actions.auth({ type: 'reset' });
                 }
             })
             .catch(() => {
+                dispatch({ type: LOADING_END });
                 Actions.auth({ type: 'reset' });
             });
     };
@@ -107,6 +110,7 @@ export const loginUser = (user, password) => {
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch({ type: LOGIN_USER_FAILED });
                             Actions.auth({ type: 'reset' });
                         });
                 } else {
@@ -115,6 +119,7 @@ export const loginUser = (user, password) => {
             })
             .catch((error) => {
                 console.log(error);
+                dispatch({ type: LOGIN_USER_FAILED });
                 Actions.auth({ type: 'reset' });
             });
     };
