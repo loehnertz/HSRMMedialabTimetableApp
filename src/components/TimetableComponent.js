@@ -24,11 +24,9 @@ class Timetable extends Component {
                 </View>
             );
         } else {
-            if (this.props.week && this.props.masterdata) {
-                return (
-                    <DayView week={this.props.week} masterdata={this.props.masterdata} />  // For now I built the 'DayView' first
-                );
-            }
+            return (
+                <DayView week={this.props.week} masterdata={this.props.masterdata} />  // For now I built the 'DayView' first
+            );
         }
     }
 
