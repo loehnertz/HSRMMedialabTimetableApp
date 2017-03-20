@@ -5,8 +5,7 @@ import {
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
-    MASTERDATA_DISPATCHED,
-    SETTINGS_DISPATCHED
+    MASTERDATA_DISPATCHED
 } from './types';
 
 export const fetchWeek = (user, program, week) => {
@@ -48,6 +47,10 @@ export const dispatchMasterdata = () => {
                     type: MASTERDATA_DISPATCHED,
                     payload: JSON.stringify(itemJson)
                 });
+            })
+            .catch((error) => {
+                console.log(error);
+                Actions.auth({ type: 'reset' });
             });
     };
 };

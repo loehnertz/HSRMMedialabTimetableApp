@@ -5,11 +5,15 @@ import { DEFAULT_SETTINGS } from './defaults';
 
 export const dispatchSettings = () => {
     return async (dispatch) => {
-        let storageSettings = '';
+        let storageSettings = {};
         await AsyncStorage.getItem('settings')
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
                 storageSettings = itemJson;
+            })
+            .catch((error) => {
+                console.log(error);
+                Actions.auth({ type: 'reset' });
             });
 
         dispatch({
