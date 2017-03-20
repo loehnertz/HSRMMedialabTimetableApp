@@ -102,10 +102,11 @@ export const loginUser = (user, password) => {
                                     username: user,
                                     program: user.slice(0, -1)
                                 });
-                                Actions.main({ type: 'reset' });
+                                Actions.startup({ type: 'reset' });
                             } catch (error) {
                                 console.log(error);
                                 dispatch({ type: LOGIN_USER_FAILED });
+                                Actions.auth({ type: 'reset' });
                             }
                         })
                         .catch((error) => {
