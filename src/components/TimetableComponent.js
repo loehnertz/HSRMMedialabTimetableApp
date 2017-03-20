@@ -8,14 +8,12 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 //import moment from 'moment';
-import { fetchWeek, dispatchMasterdata, dispatchSettings } from '../actions';
+import { fetchWeek } from '../actions';
 import DayView from './DayViewComponent';
 
 class Timetable extends Component {
     componentWillMount(){
-        this.props.fetchWeek(this.props.user, '16');  // Using the 16th week of the year to get results from the API
-        this.props.dispatchMasterdata();
-        this.props.dispatchSettings();
+        this.props.fetchWeek(this.props.user, this.props.program, '16');  // Using the 16th week of the year to get results from the API
     }
 
     renderTimetable(){
@@ -60,10 +58,11 @@ const styles = {
 const mapStateToProps = state => {
     return {
         user: state.login.user,
+        program: state.login.program,
         masterdata: state.timetable.masterdata,
         week: state.timetable.fetchedWeek,
         loading: state.timetable.loadingFetch
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek, dispatchMasterdata, dispatchSettings })(Timetable);
+export default connect(mapStateToProps, { fetchWeek })(Timetable);

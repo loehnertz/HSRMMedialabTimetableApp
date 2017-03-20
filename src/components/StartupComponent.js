@@ -5,10 +5,12 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
-import { isUserLoggedIn } from '../actions';
+import { dispatchMasterdata, dispatchSettings, isUserLoggedIn } from '../actions';
 
 class Startup extends Component {
-    componentDidMount() {
+    async componentDidMount() {
+        await this.props.dispatchMasterdata();
+        await this.props.dispatchSettings();
         this.props.isUserLoggedIn();
     }
 
@@ -29,4 +31,4 @@ const styles = {
     }
 };
 
-export default connect(null, { isUserLoggedIn })(Startup);
+export default connect(null, { dispatchMasterdata, dispatchSettings, isUserLoggedIn })(Startup);
