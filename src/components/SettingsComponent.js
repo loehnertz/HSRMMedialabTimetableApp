@@ -16,26 +16,27 @@ import bundledTranslations from '../translations';
 
 class Settings extends Component {
     componentWillMount() {
-        this.setState({special_subject: this.props.special_subject});
-        console.log(JSON.parse(this.props.masterdata));
+        this.setState({
+            semester: this.props.semester,
+            special_subject: this.props.special_subject
+        });
     }
 
     renderSemester() {
-        console.log(this.props.program);
-        let semesters = this.props.masterdata["programs"][this.props.program]["targetgroups"];
-        console.log(semesters);
+        let semesters = Object.values(JSON.parse(this.props.masterdata)["programs"][this.props.program]["targetgroups"]);
+        let semesterPicker = semesters.map((semester) =>
+            <Picker.Item label={semester} value={semester.substr(0, 2)} key={semester.substr(0, 1)} />
+        );
 
         return (
             <CardSection style={styles.settingsSection}>
-                {this.renderSpecialSubjectText()}
+                <Text style={styles.settingsText}>Semester:</Text>
                 <Picker
-                    selectedValue={this.state.special_subject}
-                    onValueChange={(subject) => this.setState({special_subject: subject})}
+                    selectedValue={this.state.semester}
+                    onValueChange={(semester) => this.setState({semester: semester})}
                     style={styles.settingsPicker}
                 >
-                    <Picker.Item label="" value="all" />
-                    <Picker.Item label="Interaktive Medien" value="im" />
-                    <Picker.Item label="AV-Medien" value="av" />
+                    {semesterPicker}
                 </Picker>
             </CardSection>
         );
@@ -73,7 +74,8 @@ class Settings extends Component {
 
     onSaveButtonPress() {
         this.props.saveSettings({
-            special_subject: this.state.special_subject
+            temp: {semester: this.state.semester},
+            perm: {special_subject: this.state.special_subject}
         });
     }
 
@@ -117,7 +119,8 @@ const mapStateToProps = state => {
         user: state.login.user,
         program: state.login.program,
         masterdata: state.timetable.masterdata,
-        special_subject: state.timetable.special_subject
+        semester: state.settings.semester,
+        special_subject: state.settings.special_subject
     }
 };
 
