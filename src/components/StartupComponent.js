@@ -5,14 +5,22 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { dispatchMasterdata, dispatchSettings, isUserLoggedIn } from '../actions';
 
 class Startup extends Component {
-    async componentDidMount() {
-        await this.props.dispatchMasterdata();
-        await this.props.dispatchSettings();
+    componentDidMount() {
         this.props.isUserLoggedIn();
     }
+
+    async componentWillReceiveProps(nextProps) {
+        if (nextProps.user) {
+            await nextProps.dispatchMasterdata();
+            await nextProps.dispatchSettings();
+            Actions.main();
+        }
+    }
+
 
     render() {
         return (
@@ -31,4 +39,10 @@ const styles = {
     }
 };
 
-export default connect(null, { dispatchMasterdata, dispatchSettings, isUserLoggedIn })(Startup);
+const mapStateToProps = state => {
+    return {
+        user: state.login.user
+    }
+};
+
+export default connect(mapStateToProps, { dispatchMasterdata, dispatchSettings, isUserLoggedIn })(Startup);
