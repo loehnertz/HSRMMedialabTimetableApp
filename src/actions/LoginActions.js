@@ -46,6 +46,7 @@ export const isUserLoggedIn = () => {
                                     username: credentials.username,
                                     program: credentials.username.slice(0, -1)
                                 });
+                                Actions.main({ type: 'reset' });
                             } else {
                                 dispatch({ type: LOGIN_USER_FAILED });
                                 Actions.auth({ type: 'reset' });

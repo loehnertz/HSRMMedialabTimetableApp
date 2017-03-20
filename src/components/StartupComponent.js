@@ -5,11 +5,10 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 import { dispatchMasterdata, dispatchSettings, isUserLoggedIn } from '../actions';
 
 class Startup extends Component {
-    componentDidMount() {
+    componentWillMount() {
         this.props.isUserLoggedIn();
     }
 
@@ -17,7 +16,6 @@ class Startup extends Component {
         if (nextProps.user) {
             await nextProps.dispatchMasterdata();
             await nextProps.dispatchSettings(nextProps.user);
-            Actions.main();
         }
     }
 
