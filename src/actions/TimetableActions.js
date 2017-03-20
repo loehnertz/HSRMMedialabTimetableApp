@@ -51,24 +51,3 @@ export const dispatchMasterdata = () => {
             });
     };
 };
-
-export const dispatchSettings = () => {
-    return (dispatch) => {
-        AsyncStorage.getItem('settings')
-            .then((item) => JSON.parse(item))
-            .then((itemJson) => {
-                dispatch({
-                    type: SETTINGS_DISPATCHED,
-                    payload: {special_subject: itemJson["special_subject"]}
-                });
-            });
-    };
-};
-
-export const saveSettings = (settings) => {
-    return async () => {
-        await AsyncStorage.setItem('settings', JSON.stringify(settings));
-
-        Actions.timetable({ type: 'reset' });
-    };
-};
