@@ -16,7 +16,7 @@ class RouterComponent extends Component {
     render() {
         return (
             <Router sceneStyle={{ paddingTop: 55 }}>
-                <Scene key="startup" inital>
+                <Scene key="startup">
                     <Scene key="loading" component={Startup} title={i18n.t('loading')} />
                 </Scene>
                 <Scene key="auth">
@@ -27,6 +27,8 @@ class RouterComponent extends Component {
                         key="timetable"
                         component={Timetable}
                         title={i18n.t('day_view')}
+                        leftTitle="Abmelden"
+                        onLeft={() => Actions.auth({ logout: true })}
                         rightTitle="Einstellungen"
                         onRight={() => Actions.settings()}
                     />
@@ -34,7 +36,6 @@ class RouterComponent extends Component {
                         key="settings"
                         component={Settings}
                         title={i18n.t('settings')}
-                        initial  // Added for faster development
                     />
                 </Scene>
             </Router>
