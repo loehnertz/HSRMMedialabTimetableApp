@@ -1,3 +1,9 @@
+import i18n from 'react-native-i18n';
+import bundledTranslations from '../translations';
+i18n.locale = 'de';
+i18n.fallbacks = true;
+i18n.translations = bundledTranslations;
+
 import {
     USER_CHANGED,
     PASSWORD_CHANGED,
