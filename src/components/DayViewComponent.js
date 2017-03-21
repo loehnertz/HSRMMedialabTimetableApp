@@ -26,21 +26,33 @@ class DayView extends Component {
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
-        this.dataSource = ds.cloneWithRows(events);
+        if (events.length === 0) {
+            this.dataSource = ds.cloneWithRows([{ noEvents: true }]);
+        } else {
+            this.dataSource = ds.cloneWithRows(events);
+        }
     }
 
     renderRow(eventJSON) {
         let masterdataJSON = JSON.parse(this.props.masterdata);
-
-        let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
-        let eventRoom = eventJSON["rooms"][0];
+        let eventName;
+        let eventRoom;
         let eventLecturers = [];
-        for (let lecturer in eventJSON["lecturers"]) {
-            eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
+        let eventNote;
+        let eventSlot;
+
+        if (eventJSON.noEvents) {
+            return <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>;
+        } else {
+            eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
+            eventRoom = eventJSON["rooms"][0];
+            for (let lecturer in eventJSON["lecturers"]) {
+                eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
+            }
+            eventLecturers = JSON.stringify(eventLecturers);
+            eventNote = eventJSON["note"];
+            eventSlot = eventJSON["slot"];
         }
-        eventLecturers = JSON.stringify(eventLecturers);
-        let eventNote = eventJSON["note"];
-        let eventSlot = eventJSON["slot"];
 
         return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
     }
@@ -91,6 +103,12 @@ const styles = {
     headerText: {
         fontSize: 20,
         fontWeight: "bold"
+    },
+    noEventsText: {
+        fontSize: 28,
+        fontWeight: "bold",
+        alignSelf: "center",
+        marginTop: 150
     },
     flex: {
         flex: 1
