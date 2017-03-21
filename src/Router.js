@@ -7,9 +7,6 @@ import LoginForm from './components/LoginFormComponent';
 import Timetable from './components/TimetableComponent';
 import Settings from './components/SettingsComponent';
 
-i18n.fallbacks = true;
-i18n.translations = bundledTranslations;
-
 const RouterComponent = () => {
     return (
         <Router sceneStyle={{ paddingTop: 55 }}>
@@ -23,7 +20,6 @@ const RouterComponent = () => {
                 <Scene
                     key="timetable"
                     component={Timetable}
-                    title={i18n.t('day_view')}
                     leftButtonImage={require('./assets/images/logout.png')}
                     leftButtonIconStyle={{ alignSelf: "center", height: 25, width: 25, transform: [{ rotateY: '180deg' }] }}
                     onLeft={() => Actions.auth({ logout: true })}
@@ -42,5 +38,8 @@ const RouterComponent = () => {
         </Router>
     );
 };
+
+i18n.fallbacks = true;
+i18n.translations = bundledTranslations;
 
 export default RouterComponent;
