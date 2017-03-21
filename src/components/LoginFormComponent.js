@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { connect } from 'react-redux';
+import {
+    View,
+    ActivityIndicator,
+    Text
+} from 'react-native';
 import {
     userChanged,
     passwordChanged,
@@ -31,7 +35,9 @@ class LoginForm extends Component {
     renderButton() {
         if (this.props.loading) {
             return (
-                <Spinner size="large" />
+                <View>
+                    <ActivityIndicator size={'large'} />
+                </View>
             );
         }
 
