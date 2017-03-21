@@ -50,16 +50,20 @@ class DayView extends Component {
             return <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>;
         } else {
             eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
-            eventRoom = eventJSON["rooms"][0];
-            for (let lecturer in eventJSON["lecturers"]) {
-                eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
-            }
-            eventLecturers = JSON.stringify(eventLecturers);
-            eventNote = eventJSON["note"];
-            eventSlot = eventJSON["slot"];
-        }
+            if (eventName.includes(this.props.special_subject === 'all' || this.props.special_subject.toUpperCase())) {
+                eventRoom = eventJSON["rooms"][0];
+                for (let lecturer in eventJSON["lecturers"]) {
+                    eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
+                }
+                eventLecturers = JSON.stringify(eventLecturers);
+                eventNote = eventJSON["note"];
+                eventSlot = eventJSON["slot"];
 
-        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
+                return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
+            } else {
+                return null;
+            }
+        }
     }
 
     render() {
@@ -133,7 +137,8 @@ const mapStateToProps = state => {
         user: state.login.user,
         program: state.login.program,
         currentWeek: state.timetable.currentWeek,
-        selectedDay: state.timetable.selectedDay
+        selectedDay: state.timetable.selectedDay,
+        special_subject: state.settings.special_subject
     }
 };
 
