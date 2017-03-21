@@ -71,6 +71,10 @@ class DayView extends Component {
         }
     }
 
+    findAnnotation() {
+        return JSON.parse(this.props.masterdata)["timetable"]["weeks"]["kw" + this.props.currentWeek]["annotation"];
+    }
+
     render() {
         return (
             <View style={styles.flex}>
@@ -81,7 +85,14 @@ class DayView extends Component {
                         color="#E10019"
                         accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
                     />
-                    <Text style={styles.headerText}>{i18n.t('week_of_the_year')} {this.props.currentWeek}</Text>
+                    <View style={styles.headerView}>
+                        <Text style={styles.headerText}>
+                            {i18n.t('week_of_the_year')} {this.props.currentWeek}
+                        </Text>
+                        <Text>
+                            {this.findAnnotation()}
+                        </Text>
+                    </View>
                     <Button
                         onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
                         title="    >    "
@@ -125,6 +136,10 @@ const styles = {
     headerText: {
         fontSize: 20,
         fontWeight: "bold"
+    },
+    headerView: {
+        flexDirection: "column",
+        alignItems: "center"
     },
     noEventsText: {
         fontSize: 28,
