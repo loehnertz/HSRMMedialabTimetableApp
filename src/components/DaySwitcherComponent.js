@@ -7,6 +7,8 @@ import {
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { selectDay } from '../actions';
+import i18n from 'react-native-i18n';
+import bundledTranslations from '../translations';
 
 class DaySwitcher extends Component {
     selectPrevDay(){
@@ -26,7 +28,7 @@ class DaySwitcher extends Component {
                     onPress={this.selectPrevDay.bind(this)}
                     title="  <  "
                     color="#E10019"
-                    accessibilityLabel="Previous Day"
+                    accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('day')}
                     disabled={true}
                 />
             );
@@ -36,7 +38,7 @@ class DaySwitcher extends Component {
                 onPress={this.selectPrevDay.bind(this)}
                 title="  <  "
                 color="#E10019"
-                accessibilityLabel="Previous Day"
+                accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
             />
         );
     }
@@ -48,7 +50,7 @@ class DaySwitcher extends Component {
                     onPress={this.selectNextDay.bind(this)}
                     title="  >  "
                     color="#E10019"
-                    accessibilityLabel="Next Day"
+                    accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
                     disabled={true}
                 />
             );
@@ -58,7 +60,7 @@ class DaySwitcher extends Component {
                 onPress={this.selectNextDay.bind(this)}
                 title="  >  "
                 color="#E10019"
-                accessibilityLabel="Next Day"
+                accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
             />
         );
     }
@@ -73,6 +75,10 @@ class DaySwitcher extends Component {
         );
     }
 }
+
+i18n.locale = 'de';
+i18n.fallbacks = true;
+i18n.translations = bundledTranslations;
 
 const styles = {
     bottomBar: {

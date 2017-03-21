@@ -8,6 +8,8 @@ import {
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { fetchWeek, selectDay } from '../actions';
+import i18n from 'react-native-i18n';
+import bundledTranslations from '../translations';
 import ListItem from './ListItemComponent';
 
 class DayView extends Component {
@@ -49,16 +51,16 @@ class DayView extends Component {
                 <View style={styles.header}>
                     <Button
                         onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1)); this.props.selectDay('Mon');}}
-                        title="Vorherige"
+                        title={i18n.t('previous')}
                         color="#E10019"
-                        accessibilityLabel="Previous Day"
+                        accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
                     />
-                    <Text style={styles.headerText}>KW {this.props.currentWeek}</Text>
+                    <Text style={styles.headerText}>{i18n.t('week_of_the_year')} {this.props.currentWeek}</Text>
                     <Button
                         onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1)); this.props.selectDay('Mon');}}
-                        title="Vorherige"
+                        title={i18n.t('next')}
                         color="#E10019"
-                        accessibilityLabel="Previous Day"
+                        accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
                     />
                 </View>
                 <View style={[styles.flex, { paddingBottom: 80 }]}>
@@ -73,6 +75,10 @@ class DayView extends Component {
         );
     }
 }
+
+i18n.locale = 'de';
+i18n.fallbacks = true;
+i18n.translations = bundledTranslations;
 
 const styles = {
     header: {
