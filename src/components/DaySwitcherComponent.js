@@ -86,13 +86,13 @@ const styles = {
         bottom: 0,
         left: 0,
         right: 0,
-        height: 80,
         alignSelf: "center",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#CCCCCC",
-        padding: 20
+        backgroundColor: "#F4F4F4",
+        height: 60,
+        padding: 10
     },
     bottomBarText: {
         fontSize: 18

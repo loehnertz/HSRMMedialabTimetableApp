@@ -117,7 +117,7 @@ class DayView extends Component {
                         accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
                     />
                 </View>
-                <View style={[styles.flex, { paddingBottom: 80 }]}>
+                <View style={[styles.flex, { paddingBottom: 60 }]}>
                     <ListView
                         enableEmptySections
                         dataSource={this.dataSource}
@@ -147,7 +147,8 @@ const styles = {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#F6F6F6",
+        backgroundColor: "#F4F4F4",
+        height: 55,
         padding: 10
     },
     headerText: {
