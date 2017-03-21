@@ -19,6 +19,7 @@ import DaySwitcher from './DaySwitcherComponent';
 class Timetable extends Component {
     componentWillMount() {
         setTimeout(() => { this.props.fetchWeek(this.props.user, this.props.program, '17', this.props.semester); }, 1000);  // Using the 17th week of the year to get results from the API
+        // TODO: Try to refactor the line above so one does not need the 'setTimeout()'
 
         let today = moment().format('ddd');
         let hour = moment().format('H');
