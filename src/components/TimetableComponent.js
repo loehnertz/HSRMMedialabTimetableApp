@@ -63,6 +63,7 @@ class Timetable extends Component {
                 for (let event in eventsList) {
                     if (eventsList[event]["day"] === this.props.selectedDay) {
                         events.push(eventsList[event]);
+                        events[event].slot = `${this.state.slots[eventsList[event]["start"]].start}\n    -\n${this.state.slots[eventsList[event]["end"]].end}`;
                     }
                 }
 
