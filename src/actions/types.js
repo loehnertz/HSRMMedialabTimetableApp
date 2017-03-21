@@ -9,3 +9,4 @@ export const WEEK_FETCH_SUCCESS = 'week_fetch_success';
 export const WEEK_FETCH_FAILED = 'week_fetch_failed';
 export const MASTERDATA_DISPATCHED = 'masterdata_DISPATCHED';
 export const SETTINGS_DISPATCHED = 'settings_DISPATCHED';
+export const DAY_SELECTED = 'day_selected';

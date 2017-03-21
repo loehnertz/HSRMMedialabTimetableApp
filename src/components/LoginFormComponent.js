@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Text, AsyncStorage } from 'react-native';
+import {
+    Text,
+    View,
+    ActivityIndicator,
+    AsyncStorage
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as Keychain from 'react-native-keychain';
@@ -12,8 +17,7 @@ import {
     Card,
     CardSection,
     Button,
-    Input,
-    Spinner
+    Input
 } from './common';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -45,7 +49,9 @@ class LoginForm extends Component {
     renderButton() {
         if (this.props.loading) {
             return (
-                <Spinner size="large" />
+                <View>
+                    <ActivityIndicator size={'large'} />
+                </View>
             );
         }
 

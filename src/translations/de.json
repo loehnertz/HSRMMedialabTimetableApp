@@ -8,4 +8,17 @@
   "day_view": "Tagesansicht",
   "week_view": "Wochenansicht",
   "settings": "Einstellungen"
+  "week_view": "Wochenansicht",
+  "no_events": "Keine Veranstaltungen",
+  "previous": "Vorherige",
+  "next": "Nächste",
+  "week": "Woche",
+  "week_of_the_year": "KW",
+  "day": "Tag",
+  "Mon": "Montag",
+  "Tue": "Dienstag",
+  "Wed": "Mittwoch",
+  "Thu": "Donnerstag",
+  "Fri": "Freitag",
+  "Sat": "Samstag"
 }

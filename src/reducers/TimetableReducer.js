@@ -3,12 +3,15 @@ import {
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
+    DAY_SELECTED
+    WEEK_FETCH_FAILED,
     MASTERDATA_DISPATCHED
 } from '../actions/types';
 
 const INITIAL_STATE = {
     currentWeek: '',
     fetchedWeek: '',
+    selectedDay: '',
     errorFetch: '',
     special_subject: '',
     loadingFetch: false
@@ -24,6 +27,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, errorFetch: "Something went wrong!", loadingFetch: false };
         case MASTERDATA_DISPATCHED:
             return { ...state, masterdata: action.payload };
+        case DAY_SELECTED:
+            return { ...state, selectedDay: action.payload };
         case LOADING_START:
             return { ...state, errorFetch: "", loadingFetch: true};
         default:
