@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    ListView
+    ListView,
+    Button
 } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { fetchWeek, selectDay } from '../actions';
 import ListItem from './ListItemComponent';
 
 class DayView extends Component {
@@ -45,7 +47,19 @@ class DayView extends Component {
         return (
             <View style={styles.flex}>
                 <View style={styles.header}>
-                    <Text style={styles.headerText}>{this.props.day}</Text>
+                    <Button
+                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1)); this.props.selectDay('Mon');}}
+                        title="Vorherige"
+                        color="#E10019"
+                        accessibilityLabel="Previous Day"
+                    />
+                    <Text style={styles.headerText}>KW {this.props.currentWeek}</Text>
+                    <Button
+                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1)); this.props.selectDay('Mon');}}
+                        title="Vorherige"
+                        color="#E10019"
+                        accessibilityLabel="Previous Day"
+                    />
                 </View>
                 <View style={[styles.flex, { paddingBottom: 80 }]}>
                     <ListView
@@ -62,6 +76,8 @@ class DayView extends Component {
 
 const styles = {
     header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#F6F6F6",
         padding: 10
@@ -77,8 +93,11 @@ const styles = {
 
 const mapStateToProps = state => {
     return {
-        program: state.login.program
+        user: state.login.user,
+        program: state.login.program,
+        currentWeek: state.timetable.currentWeek,
+        selectedDay: state.timetable.selectedDay
     }
 };
 
-export default connect(mapStateToProps, {})(DayView);
+export default connect(mapStateToProps, { fetchWeek, selectDay })(DayView);
