@@ -17,17 +17,12 @@ import DayView from './DayViewComponent';
 import DaySwitcher from './DaySwitcherComponent';
 
 class Timetable extends Component {
-    async componentWillMount() {
-        this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
+    state = {
+        timeslotsRendered: false
+    };
 
-        await AsyncStorage.getItem('masterdata')
-            .then((item) => JSON.parse(item))
-            .then((itemJson) => {
-                this.setState({
-                    masterdata: JSON.stringify(itemJson)
-                });
-                this.renderTimeslots(itemJson["timetable"]["timeslots"]);
-            });
+    componentWillMount() {
+        this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
 
         let today = moment().format('ddd');
         let hour = moment().format('H');
@@ -40,6 +35,13 @@ class Timetable extends Component {
             this.props.selectDay(today);
         } else {
             this.props.selectDay(today);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.masterdata !== undefined && this.state.timeslotsRendered === false) {
+            this.renderTimeslots(JSON.parse(nextProps.masterdata)["timetable"]["timeslots"]);
+            this.setState({timeslotsRendered: true});
         }
     }
 
@@ -74,7 +76,7 @@ class Timetable extends Component {
 
                 return (
                     <View style={styles.dayView}>
-                        <DayView currentWeek={this.props.currentWeek} week={this.props.week} masterdata={this.state.masterdata} events={events} />
+                        <DayView currentWeek={this.props.currentWeek} week={this.props.week} masterdata={this.props.masterdata} events={events} />
                         <DaySwitcher day={i18n.t(day) + ', ' + date} />
                     </View>
                 );
