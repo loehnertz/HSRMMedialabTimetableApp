@@ -30,8 +30,14 @@ class Timetable extends Component {
             });
 
         let today = moment().format('ddd');
-        if (today === "Sat" || today === "Sun") {
-            this.props.selectDay('Mon');  // Start every first render with Monday
+        let hour = moment().format('H');
+        if (today === "Sat" || today === "Sun") {  // If it's on a weekend, jump to the next Monday
+            this.props.selectDay('Mon');
+        } else if (hour >= 19 && today === "Fri") {  // If it's after 19:00 and a Friday, jump to the next Monday
+            this.props.selectDay('Mon');
+        } else if (hour >= 19 && today !== "Fri") {  // If it's after 19:00, jump to the following day of the week
+            today = moment().add(1, 'day').format('ddd');
+            this.props.selectDay(today);
         } else {
             this.props.selectDay(today);
         }
