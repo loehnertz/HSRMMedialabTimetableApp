@@ -75,7 +75,7 @@ class Timetable extends Component {
                     for (let event in eventsList) {
                         if (eventsList[event]["day"] === this.props.selectedDay) {
                             events.push(eventsList[event]);
-                            events[eventIndex]["slot"] = `${this.props.slots[eventsList[event]["start"]].start}\n    -\n${this.props.slots[eventsList[event]["end"]].end}`;
+                            events[eventIndex]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
                             eventIndex += 1;  // Increase the actual index by one every iteration the if-statement passes
                         }
                     }
