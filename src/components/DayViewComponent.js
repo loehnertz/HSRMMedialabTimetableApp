@@ -50,7 +50,7 @@ class DayView extends Component {
             return <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>;
         } else {
             eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
-            if (this.props.special_subject === 'all' || eventName.includes(this.props.special_subject.toUpperCase())) {
+            if (this.props.special_subject === 'all' || eventName.includes(this.props.special_subject.toUpperCase()) || this.props.program + this.props.semester !== this.props.user) {  // Added another condition to check if the user changed their default semester
                 eventRoom = eventJSON["rooms"][0];
                 for (let lecturer in eventJSON["lecturers"]) {
                     eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
