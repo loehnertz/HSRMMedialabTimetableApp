@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 import { fetchWeek, selectDay } from '../actions';
+import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 import ListItem from './ListItemComponent';
@@ -55,7 +56,23 @@ class DayView extends Component {
             return <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>;
         } else {
             eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
-            if (this.props.special_subject === 'all' || eventName.includes(this.props.special_subject.toUpperCase()) || this.props.program + this.props.semester !== this.props.user) {  // Added another condition to check if the user changed their default semester
+
+            let special_subjectProgram = SPECIAL_SUBJECTS[this.props.program];
+            let special_subjectRegEx = '';
+            for (let special_subject in special_subjectProgram) {
+                special_subjectRegEx += `(${special_subjectProgram[special_subject]["shortname"].toUpperCase()})`;
+                if ((parseInt(special_subject) + 1) !== special_subjectProgram.length) {  // Check if it's NOT the last iteration
+                    special_subjectRegEx += '|'
+                }
+            }
+            special_subjectRegEx = new RegExp(special_subjectRegEx);
+
+            if (
+                !special_subjectRegEx.test(eventName) ||  // If the 'event' is not a 'special_subject'
+                this.props.special_subject === 'all' ||  // If a user chose to see all 'special_subjects'
+                this.props.program + this.props.semester !== this.props.user ||  // If the user changed their default semester
+                this.props.special_subject !== 'all' && eventName.includes(this.props.special_subject.toUpperCase())  // If they chose a 'special_subject' and the 'event' is one of the kind
+            ) {
                 eventRoom = eventJSON["rooms"][0];
                 for (let lecturer in eventJSON["lecturers"]) {
                     eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
