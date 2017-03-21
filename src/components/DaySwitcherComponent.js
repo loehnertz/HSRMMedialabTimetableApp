@@ -25,7 +25,7 @@ class DaySwitcher extends Component {
                 <Button
                     onPress={this.selectPrevDay.bind(this)}
                     title="  <  "
-                    color="#841584"
+                    color="#E10019"
                     accessibilityLabel="Previous Day"
                     disabled={true}
                 />
@@ -35,7 +35,7 @@ class DaySwitcher extends Component {
             <Button
                 onPress={this.selectPrevDay.bind(this)}
                 title="  <  "
-                color="#841584"
+                color="#E10019"
                 accessibilityLabel="Previous Day"
             />
         );
@@ -47,7 +47,7 @@ class DaySwitcher extends Component {
                 <Button
                     onPress={this.selectNextDay.bind(this)}
                     title="  >  "
-                    color="#841584"
+                    color="#E10019"
                     accessibilityLabel="Next Day"
                     disabled={true}
                 />
@@ -57,7 +57,7 @@ class DaySwitcher extends Component {
             <Button
                 onPress={this.selectNextDay.bind(this)}
                 title="  >  "
-                color="#841584"
+                color="#E10019"
                 accessibilityLabel="Next Day"
             />
         );
