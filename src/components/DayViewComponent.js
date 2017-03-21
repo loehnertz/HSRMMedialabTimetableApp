@@ -86,7 +86,12 @@ class DayView extends Component {
                         dataSource={this.dataSource}
                         renderRow={this.renderRow.bind(this)}
                         refreshControl={
-                            <RefreshControl refreshing={false} onRefresh={this._onRefresh.bind(this)}/>
+                            <RefreshControl
+                                refreshing={false}
+                                onRefresh={this._onRefresh.bind(this)}
+                                colors={['#E10019']}
+                                tintColor="#E10019"
+                            />
                         }
                         style={styles.flex}
                     />
