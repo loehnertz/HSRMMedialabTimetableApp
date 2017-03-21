@@ -27,15 +27,19 @@ class RouterComponent extends Component {
                         key="timetable"
                         component={Timetable}
                         title={i18n.t('day_view')}
-                        leftTitle="Abmelden"
+                        leftButtonImage={require('./assets/images/logout.png')}
+                        leftButtonIconStyle={{ alignSelf: "center", height: 25, width: 25, transform: [{ rotateY: '180deg' }] }}
                         onLeft={() => Actions.auth({ logout: true })}
-                        rightTitle="Einstellungen"
+                        rightButtonImage={require('./assets/images/settings.png')}
+                        rightButtonIconStyle={{ alignSelf: "center", height: 25, width: 25 }}
                         onRight={() => Actions.settings()}
                     />
                     <Scene
                         key="settings"
                         component={Settings}
                         title={i18n.t('settings')}
+                        backButtonImage={require('./assets/images/back.png')}
+                        backButtonIconStyle={{ alignSelf: "center", height: 25, width: 25 }}
                     />
                 </Scene>
             </Router>
