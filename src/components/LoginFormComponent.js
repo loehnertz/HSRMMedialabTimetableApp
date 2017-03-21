@@ -49,7 +49,7 @@ class LoginForm extends Component {
     renderButton() {
         if (this.props.loading) {
             return (
-                <View>
+                <View style={styles.spinner}>
                     <ActivityIndicator size={'large'} />
                 </View>
             );
@@ -114,6 +114,11 @@ const styles = {
     },
     noticeText: {
         fontWeight: "bold"
+    },
+    spinner: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
     }
 };
 
