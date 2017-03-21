@@ -45,7 +45,7 @@ class Timetable extends Component {
 
     componentWillUpdate() {
         UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-        LayoutAnimation.easeInEaseOut();
+        LayoutAnimation.spring();
     }
 
     renderTimetable() {
