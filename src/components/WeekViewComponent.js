@@ -7,11 +7,16 @@ import {
     RefreshControl
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { fetchWeek } from '../actions';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
 class WeekView extends Component {
+    componentDidMount() {
+        Actions.refresh({key: 'timetable', title: i18n.t('week_view')});
+    }
+
     render() {
         return (
             <View style={styles.flex}>
