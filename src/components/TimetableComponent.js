@@ -56,7 +56,7 @@ class Timetable extends Component {
                 </View>
             );
         } else {
-            if (this.props.week && this.state.masterdata && this.state.slots) {
+            if (this.props.week) {
                 let events = [];
                 let eventsList = JSON.parse(this.props.week)["events"];
                 let eventIndex = 0;  // Introduced this variable because the index of 'let event' is forged due to an if-statement inside the loop
