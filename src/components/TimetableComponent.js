@@ -59,11 +59,13 @@ class Timetable extends Component {
             if (this.props.week && this.state.masterdata && this.state.slots) {
                 let events = [];
                 let eventsList = JSON.parse(this.props.week)["events"];
+                let eventIndex = 0;  // Introduced this variable because the index of 'let event' is forged due to an if-statement inside the loop
 
                 for (let event in eventsList) {
                     if (eventsList[event]["day"] === this.props.selectedDay) {
                         events.push(eventsList[event]);
-                        events[event].slot = `${this.state.slots[eventsList[event]["start"]].start}\n    -\n${this.state.slots[eventsList[event]["end"]].end}`;
+                        events[eventIndex]["slot"] = `${this.state.slots[eventsList[event]["start"]].start}\n    -\n${this.state.slots[eventsList[event]["end"]].end}`;
+                        eventIndex += 1;  // Increase the actual index by one every iteration the if-statement passes
                     }
                 }
 
