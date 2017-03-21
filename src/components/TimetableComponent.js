@@ -18,7 +18,7 @@ import DaySwitcher from './DaySwitcherComponent';
 
 class Timetable extends Component {
     componentWillMount() {
-        this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
+        setTimeout(() => { this.props.fetchWeek(this.props.user, this.props.program, '17', this.props.semester); }, 1000);  // Using the 17th week of the year to get results from the API
 
         let today = moment().format('ddd');
         let hour = moment().format('H');
@@ -113,7 +113,8 @@ const mapStateToProps = state => {
         week: state.timetable.fetchedWeek,
         currentWeek: state.timetable.currentWeek,
         selectedDay: state.timetable.selectedDay,
-        loading: state.timetable.loadingFetch
+        loading: state.timetable.loadingFetch,
+        semester: state.settings.semester
     }
 };
 

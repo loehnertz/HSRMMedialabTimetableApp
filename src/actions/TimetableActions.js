@@ -10,13 +10,13 @@ import {
     TIMESLOTS_DISPATCHED
 } from './types';
 
-export const fetchWeek = (user, program, week) => {
+export const fetchWeek = (user, program, week, target) => {
     return (dispatch) => {
         dispatch({ type: LOADING_START });
 
         fetch('https://hsrm-medialab.de/osp/server/functions.php', {
             method: 'POST',
-            body: `request=get-eventdata&timestamp=${Date.now()}&editor=${user}&kw=kw${week}&program=${program}&target=${user}`,
+            body: `request=get-eventdata&timestamp=${Date.now()}&editor=${user}&kw=kw${week}&program=${program}&target=${program + target}`,
             headers: {
                 'Connection': 'keep-alive',
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

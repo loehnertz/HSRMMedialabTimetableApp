@@ -23,7 +23,7 @@ class DayView extends Component {
     }
 
     _onRefresh() {
-        this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek);
+        this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
     }
 
     createDataSource({ events }) {
@@ -71,14 +71,14 @@ class DayView extends Component {
             <View style={styles.flex}>
                 <View style={styles.header}>
                     <Button
-                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1)); this.props.selectDay('Mon');}}
+                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
                         title={i18n.t('previous')}
                         color="#E10019"
                         accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
                     />
                     <Text style={styles.headerText}>{i18n.t('week_of_the_year')} {this.props.currentWeek}</Text>
                     <Button
-                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1)); this.props.selectDay('Mon');}}
+                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
                         title={i18n.t('next')}
                         color="#E10019"
                         accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
@@ -139,6 +139,7 @@ const mapStateToProps = state => {
         masterdata: state.timetable.masterdata,
         currentWeek: state.timetable.currentWeek,
         selectedDay: state.timetable.selectedDay,
+        semester: state.settings.semester,
         special_subject: state.settings.special_subject
     }
 };
