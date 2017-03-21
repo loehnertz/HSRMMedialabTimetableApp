@@ -17,10 +17,10 @@ import DayView from './DayViewComponent';
 import DaySwitcher from './DaySwitcherComponent';
 
 class Timetable extends Component {
-    componentWillMount() {
+    async componentWillMount() {
         this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
 
-        AsyncStorage.getItem('masterdata')
+        await AsyncStorage.getItem('masterdata')
             .then((item) => JSON.parse(item))
             .then((itemJson) => {
                 this.setState({
