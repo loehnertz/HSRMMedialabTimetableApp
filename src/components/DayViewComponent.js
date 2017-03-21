@@ -3,7 +3,8 @@ import {
     Text,
     View,
     ListView,
-    Button
+    Button,
+    RefreshControl
 } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -19,6 +20,10 @@ class DayView extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.createDataSource(nextProps);
+    }
+
+    _onRefresh() {
+        this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek);
     }
 
     createDataSource({ events }) {
@@ -80,6 +85,9 @@ class DayView extends Component {
                         enableEmptySections
                         dataSource={this.dataSource}
                         renderRow={this.renderRow.bind(this)}
+                        refreshControl={
+                            <RefreshControl refreshing={false} onRefresh={this._onRefresh.bind(this)}/>
+                        }
                         style={styles.flex}
                     />
                 </View>
