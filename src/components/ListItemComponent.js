@@ -28,7 +28,7 @@ class ListItem extends Component {
             <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
                 <View style={{ flexDirection: "row" }}>
                     <CardSection>
-                        <Text>{this.props.slot}</Text>
+                        <Text>{this.props.eventSlot}</Text>
                     </CardSection>
                     <CardSection style={styles.cardSection}>
                         <Text style={styles.title}>

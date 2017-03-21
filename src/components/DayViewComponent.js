@@ -36,9 +36,9 @@ class DayView extends Component {
         }
         eventLecturers = JSON.stringify(eventLecturers);
         let eventNote = eventJSON["note"];
-        let slot = eventJSON["slot"];
+        let eventSlot = eventJSON["slot"];
 
-        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} slot={slot} />;
+        return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
     }
 
     render() {
