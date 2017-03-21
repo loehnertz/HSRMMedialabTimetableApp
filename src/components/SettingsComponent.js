@@ -11,6 +11,7 @@ import {
 } from './common';
 import { connect } from 'react-redux';
 import { saveSettings } from '../actions';
+// import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
@@ -43,6 +44,15 @@ class Settings extends Component {
     }
 
     renderSpecialSubject() {
+        /*
+            This caused a bug in React Native which was fixed here: https://github.com/facebook/react-native/pull/8153
+            It will probably be released to some future version, until then I will use the legacy code.
+            The lines involved at the moment are: 14, 52-54, 70
+        */
+        /*let special_subjectPicker = SPECIAL_SUBJECTS[this.props.program].map((special_subject) =>
+            <Picker.Item label={special_subject["longname"]} value={special_subject["shortname"]} key={special_subject["shortname"]} />
+        );*/
+
         switch (this.props.user) {
             case 'bmm4':
                 return (
@@ -54,8 +64,10 @@ class Settings extends Component {
                             style={styles.settingsPicker}
                         >
                             <Picker.Item label="Alle Schwerpunkte" value="all" />
+                            <Picker.Item label="Alle Schwerpunkte" value="all" />
                             <Picker.Item label="Interaktive Medien" value="im" />
                             <Picker.Item label="AV-Medien" value="av" />
+                            {/*{special_subjectPicker}*/}
                         </Picker>
                     </CardSection>
                 );
