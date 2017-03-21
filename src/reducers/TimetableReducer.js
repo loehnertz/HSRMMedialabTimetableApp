@@ -3,8 +3,7 @@ import {
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
-    DAY_SELECTED
-    WEEK_FETCH_FAILED,
+    DAY_SELECTED,
     MASTERDATA_DISPATCHED
 } from '../actions/types';
 
