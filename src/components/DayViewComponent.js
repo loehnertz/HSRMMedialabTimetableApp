@@ -77,14 +77,14 @@ class DayView extends Component {
                 <View style={styles.header}>
                     <Button
                         onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
-                        title={i18n.t('previous')}
+                        title="    <    "
                         color="#E10019"
                         accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
                     />
                     <Text style={styles.headerText}>{i18n.t('week_of_the_year')} {this.props.currentWeek}</Text>
                     <Button
                         onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
-                        title={i18n.t('next')}
+                        title="    >    "
                         color="#E10019"
                         accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
                     />
