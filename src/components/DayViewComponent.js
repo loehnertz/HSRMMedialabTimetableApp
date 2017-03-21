@@ -50,7 +50,7 @@ class DayView extends Component {
             return <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>;
         } else {
             eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
-            if (eventName.includes(this.props.special_subject === 'all' || this.props.special_subject.toUpperCase())) {
+            if (this.props.special_subject === 'all' || eventName.includes(this.props.special_subject.toUpperCase())) {
                 eventRoom = eventJSON["rooms"][0];
                 for (let lecturer in eventJSON["lecturers"]) {
                     eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
@@ -61,7 +61,7 @@ class DayView extends Component {
 
                 return <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
             } else {
-                return null;
+                return null
             }
         }
     }
