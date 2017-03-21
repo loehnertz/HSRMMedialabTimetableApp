@@ -136,6 +136,7 @@ const mapStateToProps = state => {
     return {
         user: state.login.user,
         program: state.login.program,
+        masterdata: state.timetable.masterdata,
         currentWeek: state.timetable.currentWeek,
         selectedDay: state.timetable.selectedDay,
         special_subject: state.settings.special_subject

@@ -65,7 +65,7 @@ class Timetable extends Component {
 
                 return (
                     <View style={styles.dayView}>
-                        <DayView currentWeek={this.props.currentWeek} week={this.props.week} masterdata={this.props.masterdata} events={events} />
+                        <DayView events={events} />
                         <DaySwitcher day={i18n.t(day) + ', ' + date} />
                     </View>
                 );
