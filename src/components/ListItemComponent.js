@@ -16,7 +16,7 @@ class ListItem extends Component {
         let lecturersString = '';
         for (let lecturer in lecturersArray) {
             lecturersString = lecturersString + lecturersArray[lecturer];
-            if (!(lecturer + 1) == lecturersArray.length) {  // Check if it's NOT the last iteration
+            if ((parseInt(lecturer) + 1) !== lecturersArray.length) {  // Check if it's NOT the last iteration
                 lecturersString = lecturersString + ', ';
             }
         }
