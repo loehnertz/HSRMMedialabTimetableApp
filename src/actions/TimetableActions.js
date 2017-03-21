@@ -6,7 +6,8 @@ import {
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
     DAY_SELECTED,
-    MASTERDATA_DISPATCHED
+    MASTERDATA_DISPATCHED,
+    TIMESLOTS_DISPATCHED
 } from './types';
 
 export const fetchWeek = (user, program, week) => {
@@ -62,5 +63,14 @@ export const dispatchMasterdata = () => {
                 console.log(error);
                 Actions.auth({ type: 'reset' });
             });
+    };
+};
+
+export const dispatchTimeslots = (slots) => {
+    return (dispatch) => {
+        dispatch({
+            type: TIMESLOTS_DISPATCHED,
+            payload: slots
+        });
     };
 };

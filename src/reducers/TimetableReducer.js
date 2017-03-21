@@ -4,7 +4,8 @@ import {
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
     DAY_SELECTED,
-    MASTERDATA_DISPATCHED
+    MASTERDATA_DISPATCHED,
+    TIMESLOTS_DISPATCHED
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -26,6 +27,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, errorFetch: "Something went wrong!", loadingFetch: false };
         case MASTERDATA_DISPATCHED:
             return { ...state, masterdata: action.payload };
+        case TIMESLOTS_DISPATCHED:
+            return { ...state, timeslots: action.payload };
         case DAY_SELECTED:
             return { ...state, selectedDay: action.payload };
         case LOADING_START:
