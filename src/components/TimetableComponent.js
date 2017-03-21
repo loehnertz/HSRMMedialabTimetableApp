@@ -17,10 +17,6 @@ import DayView from './DayViewComponent';
 import DaySwitcher from './DaySwitcherComponent';
 
 class Timetable extends Component {
-    state = {
-        timeslotsRendered: false
-    };
-
     componentWillMount() {
         this.props.fetchWeek(this.props.user, this.props.program, '17');  // Using the 17th week of the year to get results from the API
 
@@ -38,13 +34,6 @@ class Timetable extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.masterdata !== undefined && this.state.timeslotsRendered === false) {
-            this.renderTimeslots(JSON.parse(nextProps.masterdata)["timetable"]["timeslots"]);
-            this.setState({timeslotsRendered: true});
-        }
-    }
-
     componentWillUpdate() {
         UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         LayoutAnimation.easeInEaseOut();
@@ -58,7 +47,7 @@ class Timetable extends Component {
                 </View>
             );
         } else {
-            if (this.props.week) {
+            if (this.props.week && this.props.slots) {
                 let events = [];
                 let eventsList = JSON.parse(this.props.week)["events"];
                 let eventIndex = 0;  // Introduced this variable because the index of 'let event' is forged due to an if-statement inside the loop
@@ -66,7 +55,7 @@ class Timetable extends Component {
                 for (let event in eventsList) {
                     if (eventsList[event]["day"] === this.props.selectedDay) {
                         events.push(eventsList[event]);
-                        events[eventIndex]["slot"] = `${this.state.slots[eventsList[event]["start"]].start}\n    -\n${this.state.slots[eventsList[event]["end"]].end}`;
+                        events[eventIndex]["slot"] = `${this.props.slots[eventsList[event]["start"]].start}\n    -\n${this.props.slots[eventsList[event]["end"]].end}`;
                         eventIndex += 1;  // Increase the actual index by one every iteration the if-statement passes
                     }
                 }
@@ -82,22 +71,6 @@ class Timetable extends Component {
                 );
             }
         }
-    }
-
-    renderTimeslots(timeslots) {
-        let slots = [];
-        for (let slot in timeslots) {
-            slots.push({
-                start: timeslots[slot]["start"],
-                end: timeslots[slot]["end"]
-            });
-            if (timeslots[slot]["text"]) {
-                slots.push(timeslots[slot]["text"]);
-            }
-        }
-        slots.splice(0, 1);
-        slots.splice(8, 1);
-        this.setState({ slots: slots });
     }
 
     render() {
@@ -136,6 +109,7 @@ const mapStateToProps = state => {
         user: state.login.user,
         program: state.login.program,
         masterdata: state.timetable.masterdata,
+        slots: state.timetable.timeslots,
         week: state.timetable.fetchedWeek,
         currentWeek: state.timetable.currentWeek,
         selectedDay: state.timetable.selectedDay,
