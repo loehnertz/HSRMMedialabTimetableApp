@@ -25,7 +25,7 @@ class Settings extends Component {
     renderSemester() {
         let semesters = Object.values(JSON.parse(this.props.masterdata)["programs"][this.props.program]["targetgroups"]);
         let semesterPicker = semesters.map((semester) =>
-            <Picker.Item label={semester} value={semester.substr(0, 2)} key={semester.substr(0, 1)} />
+            <Picker.Item label={semester} value={semester.substr(0, 1)} key={semester.substr(0, 1)} />
         );
 
         return (

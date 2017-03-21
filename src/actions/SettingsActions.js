@@ -18,7 +18,7 @@ export const dispatchSettings = (user) => {
         dispatch({
             type: SETTINGS_DISPATCHED,
             payload: {
-                semester: user.substr(3, 1) + '.',
+                semester: user.substr(3, 1),
                 special_subject: storageSettings["special_subject"]
             }
         });
