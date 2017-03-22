@@ -68,9 +68,9 @@ class DaySwitcher extends Component {
     render() {
         return (
             <View style={styles.bottomBar}>
-                {this.renderPrevButton()}
+                {/*{this.renderPrevButton()}*/}
                 <Text style={styles.bottomBarText}>{this.props.day}</Text>
-                {this.renderNextButton()}
+                {/*{this.renderNextButton()}*/}
             </View>
         );
     }
@@ -86,16 +86,16 @@ const styles = {
         bottom: 0,
         left: 0,
         right: 0,
-        alignSelf: "center",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#F4F4F4",
-        height: 60,
+        height: 55,
         padding: 10
     },
     bottomBarText: {
-        fontSize: 18
+        fontSize: 20,
+        fontWeight: "bold"
     }
 };
 
