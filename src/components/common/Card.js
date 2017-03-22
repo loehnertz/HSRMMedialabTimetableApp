@@ -20,8 +20,8 @@ const styles = {
         borderColor: "#DDD",
         borderBottomWidth: 0,
         elevation: 5,
-        marginLeft: 5,
-        marginRight: 5,
+        marginLeft: 10,
+        marginRight: 10,
         marginTop: 5,
         marginBottom: 5
     }
