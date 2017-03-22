@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import {
     Text,
     TouchableWithoutFeedback,
-    View
+    View,
+    Image
 } from 'react-native';
-import { CardSection } from './common';
+import { Card, CardSection } from './common';
 
 class ListItem extends Component {
     onRowPress() {
@@ -26,25 +27,38 @@ class ListItem extends Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
-                <View style={{ flexDirection: "row" }}>
+                <Card>
                     <CardSection>
-                        <Text>{this.props.eventSlot}</Text>
+                        <Image source={require('../assets/images/clock.png')} style={styles.imageTitle} />
+                        <Text style={styles.titleText}>
+                            {this.props.eventSlot}
+                        </Text>
                     </CardSection>
-                    <CardSection style={styles.cardSection}>
-                        <Text style={styles.title}>
+                    <CardSection>
+                        <Image source={require('../assets/images/subject.png')} style={styles.imageTitle} />
+                        <Text style={styles.titleText}>
                             {this.props.eventName}
                         </Text>
-                        <Text style={styles.title}>
+                    </CardSection>
+                    <CardSection>
+                        <Image source={require('../assets/images/house.png')} style={styles.imageTitle} />
+                        <Text style={styles.titleText}>
                             {this.props.eventRoom}
                         </Text>
-                        <Text style={styles.title}>
+                    </CardSection>
+                    <CardSection>
+                        <Image source={require('../assets/images/person.png')} style={styles.imageTitle} />
+                        <Text style={styles.titleText}>
                             {this.renderLecturers()}
                         </Text>
-                        <Text style={styles.title}>
+                    </CardSection>
+                    <CardSection>
+                        <Image source={require('../assets/images/note.png')} style={styles.imageTitle} />
+                        <Text style={styles.titleText}>
                             {this.props.eventNote}
                         </Text>
                     </CardSection>
-                </View>
+                </Card>
             </TouchableWithoutFeedback>
         );
     }
@@ -55,9 +69,13 @@ const styles = {
         flex: 1,
         flexDirection: "column"
     },
-    title: {
-        fontSize: 18,
-        paddingLeft: 15
+    titleText: {
+        fontSize: 19
+    },
+    imageTitle: {
+        height: 21,
+        width: 21,
+        marginRight: 11
     }
 };
 
