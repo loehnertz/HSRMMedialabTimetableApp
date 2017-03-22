@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
+import { Card, CardSection } from './common';
 import { fetchWeek, selectDay } from '../actions';
 import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
@@ -53,7 +54,13 @@ class DayView extends Component {
         let eventSlot;
 
         if (eventJSON.noEvents) {
-            return <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>;
+            return (
+                <Card>
+                    <CardSection style={styles.noEventsCardSection}>
+                        <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>
+                    </CardSection>
+                </Card>
+            );
         } else {
             eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
 
@@ -135,11 +142,15 @@ const styles = {
         flexDirection: "column",
         alignItems: "center"
     },
+    noEventsCardSection: {
+        height: 235,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center"
+    },
     noEventsText: {
         fontSize: 28,
-        fontWeight: "bold",
-        alignSelf: "center",
-        marginTop: 150
+        fontWeight: "bold"
     },
     flex: {
         flex: 1
