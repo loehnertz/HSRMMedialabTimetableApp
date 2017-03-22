@@ -238,6 +238,8 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#F4F4F4",
+        borderBottomWidth: 1,
+        borderBottomColor: "#CCCCCC",
         height: 60,
         padding: 10
     },

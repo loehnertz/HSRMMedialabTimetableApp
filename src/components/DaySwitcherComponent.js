@@ -90,6 +90,8 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#F4F4F4",
+        borderTopWidth: 1,
+        borderTopColor: "#CCCCCC",
         height: 55,
         padding: 10
     },
