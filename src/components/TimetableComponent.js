@@ -238,6 +238,7 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#F4F4F4",
+        elevation: 5,
         borderBottomWidth: 1,
         borderBottomColor: "#CCCCCC",
         height: 60,
