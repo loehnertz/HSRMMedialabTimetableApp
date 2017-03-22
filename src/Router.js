@@ -31,7 +31,7 @@ const RouterComponent = () => {
                     key="settings"
                     component={Settings}
                     title={i18n.t('settings')}
-                    backButtonImage={require('./assets/images/back.png')}
+                    backButtonImage={require('./assets/images/backwards.png')}
                     backButtonIconStyle={{ alignSelf: "center", height: 25, width: 25 }}
                 />
             </Scene>
