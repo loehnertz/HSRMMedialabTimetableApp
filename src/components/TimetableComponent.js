@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
+    Button,
     ActivityIndicator,
     AsyncStorage,
     LayoutAnimation,
-    UIManager
+    UIManager,
+    ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Orientation from 'react-native-orientation';
+import Swiper from 'react-native-swiper'
 import { fetchWeek, selectDay } from '../actions';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -58,6 +61,26 @@ class Timetable extends Component {
         }
     };
 
+    _onMomentumScrollEnd(e, state, context) {
+        switch (state.index) {
+            case 0:
+                this.props.selectDay('Mon');
+                break;
+            case 1:
+                this.props.selectDay('Tue');
+                break;
+            case 2:
+                this.props.selectDay('Wed');
+                break;
+            case 3:
+                this.props.selectDay('Thu');
+                break;
+            case 4:
+                this.props.selectDay('Fri');
+                break;
+        }
+    }
+
     renderTimetable() {
         if (this.props.loading) {
             return (
@@ -68,16 +91,66 @@ class Timetable extends Component {
         } else {
             if (this.props.week && this.props.slots) {
                 if (this.state.orientation === 'PORTRAIT') {  // Render: DayView
-                    let events = [];
                     let eventsList = JSON.parse(this.props.week)["events"];
-                    let eventIndex = 0;  // Introduced this variable because the index of 'let event' is forged due to an if-statement inside the loop
+                    let eventsMon = [];
+                    let eventIndexMon = 0;
+                    let eventsTue = [];
+                    let eventIndexTue = 0;
+                    let eventsWed = [];
+                    let eventIndexWed = 0;
+                    let eventsThu = [];
+                    let eventIndexThu = 0;
+                    let eventsFri = [];
+                    let eventIndexFri = 0;
 
                     for (let event in eventsList) {
-                        if (eventsList[event]["day"] === this.props.selectedDay) {
-                            events.push(eventsList[event]);
-                            events[eventIndex]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
-                            eventIndex += 1;  // Increase the actual index by one every iteration the if-statement passes
+                        switch (eventsList[event]["day"]) {
+                            case 'mon':
+                                eventsMon.push(eventsList[event]);
+                                eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                break;
+                            case 'tue':
+                                eventsTue.push(eventsList[event]);
+                                eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                break;
+                            case 'wed':
+                                eventsWed.push(eventsList[event]);
+                                eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                break;
+                            case 'thu':
+                                eventsThu.push(eventsList[event]);
+                                eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                break;
+                            case 'fri':
+                                eventsFri.push(eventsList[event]);
+                                eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                break;
                         }
+                    }
+
+                    let swiperIndex = -1;
+
+                    switch (this.props.selectedDay) {
+                        case 'mon':
+                            swiperIndex = 0;
+                            break;
+                        case 'tue':
+                            swiperIndex = 1;
+                            break;
+                        case 'wed':
+                            swiperIndex = 2;
+                            break;
+                        case 'thu':
+                            swiperIndex = 3;
+                            break;
+                        case 'fri':
+                            swiperIndex = 4;
+                            break;
                     }
 
                     let day = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('ddd');
@@ -85,7 +158,20 @@ class Timetable extends Component {
 
                     return (
                         <View style={styles.dayView}>
-                            <DayView events={events} />
+                            <ScrollView>
+                                <Swiper
+                                    loop={false}
+                                    showsPagination={false}
+                                    index={swiperIndex}
+                                    onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
+                                >
+                                    <DayView events={eventsMon} />
+                                    <DayView events={eventsTue} />
+                                    <DayView events={eventsWed} />
+                                    <DayView events={eventsThu} />
+                                    <DayView events={eventsFri} />
+                                </Swiper>
+                            </ScrollView>
                             <DaySwitcher day={i18n.t(day) + ', ' + date} />
                         </View>
                     );
@@ -100,9 +186,38 @@ class Timetable extends Component {
         }
     }
 
+    findAnnotation() {
+        let weeks = JSON.parse(this.props.masterdata)["timetable"]["weeks"]["kw" + this.props.currentWeek];
+        if (weeks !== undefined) {
+            return weeks["annotation"];
+        }
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <View style={styles.header}>
+                    <Button
+                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
+                        title="    <    "
+                        color="#E10019"
+                        accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
+                    />
+                    <View style={styles.headerView}>
+                        <Text style={styles.headerText}>
+                            {i18n.t('week_of_the_year')} {this.props.currentWeek}
+                        </Text>
+                        <Text>
+                            {this.findAnnotation()}
+                        </Text>
+                    </View>
+                    <Button
+                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
+                        title="    >    "
+                        color="#E10019"
+                        accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
+                    />
+                </View>
                 {this.renderTimetable()}
             </View>
         );
@@ -118,11 +233,21 @@ const styles = {
         flex: 1,
         flexDirection: "column"
     },
-    headerDay: {
+    header: {
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "#CCCCCC",
+        alignItems: "center",
+        backgroundColor: "#F4F4F4",
+        height: 60,
         padding: 10
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: "bold"
+    },
+    headerView: {
+        flexDirection: "column",
+        alignItems: "center"
     },
     spinner: {
         flex: 1,
