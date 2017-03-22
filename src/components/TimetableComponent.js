@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    Button,
+    Image,
     ActivityIndicator,
     AsyncStorage,
     LayoutAnimation,
@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import Orientation from 'react-native-orientation';
 import Swiper from 'react-native-swiper'
+import { IconButton } from './common';
 import { fetchWeek, selectDay } from '../actions';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -202,12 +203,9 @@ class Timetable extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.header}>
-                    <Button
-                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
-                        title="    <    "
-                        color="#E10019"
-                        accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
-                    />
+                    <IconButton onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}>
+                        <Image source={require('../assets/images/backwards.png')} style={styles.imageIconButton} />
+                    </IconButton>
                     <View style={styles.headerView}>
                         <Text style={styles.headerText}>
                             {i18n.t('week_of_the_year')} {this.props.currentWeek}
@@ -216,12 +214,9 @@ class Timetable extends Component {
                             {this.findAnnotation()}
                         </Text>
                     </View>
-                    <Button
-                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
-                        title="    >    "
-                        color="#E10019"
-                        accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
-                    />
+                    <IconButton onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}>
+                        <Image source={require('../assets/images/forward.png')} style={styles.imageIconButton} />
+                    </IconButton>
                 </View>
                 {this.renderTimetable()}
             </View>
@@ -258,6 +253,11 @@ const styles = {
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
+    },
+    imageIconButton: {
+        height: 20,
+        width: 20,
+        alignSelf: "flex-end"
     }
 };
 
