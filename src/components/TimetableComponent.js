@@ -49,8 +49,9 @@ class Timetable extends Component {
     }
 
     componentWillUpdate() {
-        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-        LayoutAnimation.easeInEaseOut();
+        // Had to disable the animation in virtue of it causing the 'DayView' to freeze during the rendering
+        // UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+        // LayoutAnimation.easeInEaseOut();
     }
 
     _orientationDidChange = (changedOrientation) => {
@@ -157,12 +158,16 @@ class Timetable extends Component {
                     let date = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('DD.MM.YYYY');
 
                     return (
-                        <View style={styles.dayView}>
+                        <View
+                            onLayout={(event) => { this.setState({swiperHeight: event.nativeEvent.layout.height}); }}  // Set the height of the 'View' for the 'Swiper'
+                            style={styles.dayView}
+                        >
                             <ScrollView>
                                 <Swiper
                                     loop={false}
                                     showsPagination={false}
                                     index={swiperIndex}
+                                    height={this.state.swiperHeight}
                                     onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
                                 >
                                     <DayView events={eventsMon} />
