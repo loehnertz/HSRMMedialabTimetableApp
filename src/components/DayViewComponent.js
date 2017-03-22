@@ -94,45 +94,21 @@ class DayView extends Component {
 
     render() {
         return (
-            <View style={styles.flex}>
-                <View style={styles.header}>
-                    <Button
-                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
-                        title="    <    "
-                        color="#E10019"
-                        accessibilityLabel={i18n.t('previous') + ' ' + i18n.t('week')}
-                    />
-                    <View style={styles.headerView}>
-                        <Text style={styles.headerText}>
-                            {i18n.t('week_of_the_year')} {this.props.currentWeek}
-                        </Text>
-                        <Text>
-                            {this.findAnnotation()}
-                        </Text>
-                    </View>
-                    <Button
-                        onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
-                        title="    >    "
-                        color="#E10019"
-                        accessibilityLabel={i18n.t('next') + ' ' + i18n.t('week')}
-                    />
-                </View>
-                <View style={[styles.flex, { paddingBottom: 60 }]}>
-                    <ListView
-                        enableEmptySections
-                        dataSource={this.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={false}
-                                onRefresh={this._onRefresh.bind(this)}
-                                colors={['#E10019']}
-                                tintColor="#E10019"
-                            />
-                        }
-                        style={styles.flex}
-                    />
-                </View>
+            <View style={[styles.flex, { paddingBottom: 55 }]}>
+                <ListView
+                    enableEmptySections
+                    dataSource={this.dataSource}
+                    renderRow={this.renderRow.bind(this)}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={false}
+                            onRefresh={this._onRefresh.bind(this)}
+                            colors={['#E10019']}
+                            tintColor="#E10019"
+                        />
+                    }
+                    style={styles.flex}
+                />
             </View>
         );
     }
@@ -148,7 +124,7 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#F4F4F4",
-        height: 55,
+        height: 60,
         padding: 10
     },
     headerText: {
