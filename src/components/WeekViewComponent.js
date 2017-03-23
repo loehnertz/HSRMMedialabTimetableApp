@@ -43,6 +43,23 @@ class WeekView extends Component {
         );
     }
 
+    renderCells() {
+        let cells = [];
+        let slots = this.props.slots;
+        slots.splice(0, 1);
+
+        for (let i = 0; i < slots.length; i++) {
+            cells.push(i * 100);
+        }
+
+        console.log(cells);
+
+        return cells.map((event) =>
+            <View key={event} style={[styles.cellView, { top: event }]}>
+            </View>
+        );
+    }
+
     render() {
         return (
             <View style={styles.columnContainer}>
@@ -53,6 +70,7 @@ class WeekView extends Component {
                 <View style={styles.column}>
                     <Text style={styles.columnHeader}>{i18n.t('Mon')}</Text>
                     <View style={styles.eventCell}>
+                        {this.renderCells()}
                         {this.renderDay('mon')}
                     </View>
                 </View>
@@ -107,6 +125,14 @@ const styles = {
     },
     rowView: {
         height: 100
+    },
+    cellView: {
+        position: "absolute",
+        height: 100,
+        width: 80,
+        backgroundColor: "#EEEEEE",
+        borderTopWidth: 3,
+        borderTopColor: "white"
     },
     eventCell: {
         position: "relative"
