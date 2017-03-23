@@ -182,9 +182,11 @@ class Timetable extends Component {
                         </View>
                     );
                 } else if (this.state.orientation === 'LANDSCAPE') {  // Render: WeekView
+                    let eventsWeek = JSON.parse(this.props.week)["events"];
+
                     return (
                         <ScrollView style={styles.weekView}>
-                            <WeekView />
+                            <WeekView events={eventsWeek} />
                         </ScrollView>
                     );
                 }
