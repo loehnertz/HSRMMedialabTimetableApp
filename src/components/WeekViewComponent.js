@@ -22,9 +22,11 @@ class WeekView extends Component {
         slots.splice(0, 1);
 
         return slots.map((slots) =>
-            <Text key={slots.start} style={styles.slotsText}>
-                {slots.start}{"\n    -\n"}{slots.end}
-            </Text>
+            <View key={slots.start} style={styles.rowView}>
+                <Text key={slots.start} style={styles.slotsText}>
+                    {slots.start}{"\n    -\n"}{slots.end}
+                </Text>
+            </View>
         );
     }
 
@@ -73,13 +75,17 @@ const styles = {
     columnHeader: {
         fontSize: 18,
         fontWeight: "bold",
-        marginBottom: 10
+        marginBottom: 36
+    },
+    rowView: {
+        height: 100
+    },
+    eventCell: {
+        position: "relative"
     },
     slotsText: {
         fontSize: 15,
-        fontWeight: "bold",
-        marginTop: 10,
-        marginBottom: 10
+        fontWeight: "bold"
     }
 };
 
