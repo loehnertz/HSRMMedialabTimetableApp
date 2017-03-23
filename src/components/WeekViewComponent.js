@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import _ from 'lodash';
 import { fetchWeek } from '../actions';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -30,6 +31,18 @@ class WeekView extends Component {
         );
     }
 
+    renderDay(day) {
+        let dayEvents = _.filter(this.props.events, { 'day': day });
+
+        return dayEvents.map((event) =>
+            <View key={event.timestamp} style={[styles.rowView, { position: "absolute", top: (((parseInt(event.start) - 1) * 100)) }]}>
+                <Text key={event.timestamp}>
+                    {event.editor}
+                </Text>
+            </View>
+        );
+    }
+
     render() {
         return (
             <View style={styles.columnContainer}>
@@ -39,6 +52,9 @@ class WeekView extends Component {
                 </View>
                 <View style={styles.column}>
                     <Text style={styles.columnHeader}>{i18n.t('Mon')}</Text>
+                    <View style={styles.eventCell}>
+                        {this.renderDay('mon')}
+                    </View>
                 </View>
                 <View style={styles.column}>
                     <Text style={styles.columnHeader}>{i18n.t('Tue')}</Text>
