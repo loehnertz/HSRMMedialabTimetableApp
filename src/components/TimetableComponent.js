@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
+    ScrollView,
     Image,
     ActivityIndicator,
     AsyncStorage,
     LayoutAnimation,
     UIManager,
-    ScrollView
+    AppState
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -35,6 +36,8 @@ class Timetable extends Component {
 
         Orientation.addOrientationListener(this._orientationDidChange);
 
+        AppState.addEventListener('change', this._handleAppStateChange.bind(this));
+
         let today = moment().format('ddd');
         let hour = moment().format('H');
         if (today === "Sat" || today === "Sun") {  // If it's on a weekend, jump to the next Monday
@@ -60,6 +63,17 @@ class Timetable extends Component {
             this.setState({ orientation: changedOrientation });
         } else if (changedOrientation === 'LANDSCAPE') {
             this.setState({ orientation: changedOrientation });
+        }
+    };
+
+    _handleAppStateChange = (appState) => {
+        if (appState === "background") {
+            let newOrientation = Orientation.getInitialOrientation();
+            if (newOrientation === 'PORTRAIT') {
+                this.setState({ orientation: newOrientation });
+            } else if (newOrientation === 'LANDSCAPE') {
+                this.setState({ orientation: newOrientation });
+            }
         }
     };
 
