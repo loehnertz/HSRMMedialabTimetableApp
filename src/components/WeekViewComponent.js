@@ -63,7 +63,7 @@ class WeekView extends Component {
     render() {
         return (
             <View style={styles.columnContainer}>
-                <View style={styles.column}>
+                <View style={styles.slotsColumn}>
                     <Text style={styles.columnHeader}>{i18n.t('timeslots')}</Text>
                     {this.renderTimeslots()}
                 </View>
@@ -112,16 +112,21 @@ const styles = {
         flex: 1,
         flexDirection: "row"
     },
+    columnHeader: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 36
+    },
     column: {
         flex: 1,
         flexDirection: "column",
         marginLeft: 5,
         marginRight: 5
     },
-    columnHeader: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 36
+    slotsColumn: {
+        flexDirection: "column",
+        marginLeft: 10,
+        marginRight: 10
     },
     rowView: {
         height: 100
