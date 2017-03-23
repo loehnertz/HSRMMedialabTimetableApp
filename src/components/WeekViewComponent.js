@@ -45,10 +45,10 @@ class WeekView extends Component {
                     style={[
                         styles.dayView,
                         {
-                            top: (((parseInt(event.start) - 1) * 100)),
-                            height: ((parseInt(event.end) - parseInt(event.start)) * 100),
-                            width: ((this.state.columnWidth / parseInt(event.multiple))),
-                            left: ((parseInt(event.candidate) - 1) * (this.state.columnWidth / parseInt(event.multiple))),
+                            top: (((parseInt(event.start) - 1) * 100)),  // How far from the top of the day column should be located
+                            height: ((parseInt(event.end) - parseInt(event.start)) * 100),  // Calculate the height of the event if it spans multiple timeslots
+                            width: ((this.state.columnWidth / parseInt(event.multiple))),  // Take the calculated total width of a day column and divide it by how many concurrent events there are
+                            left: ((parseInt(event.candidate) - 1) * (this.state.columnWidth / parseInt(event.multiple))),  // If there are multiple events in one timeslot move them next to each other based on the 'candidate' value from the API
                             right: ((parseInt(event.candidate) - parseInt(event.multiple)) * (this.state.columnWidth / parseInt(event.multiple)))
                         }
                     ]}
