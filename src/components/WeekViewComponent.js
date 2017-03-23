@@ -112,7 +112,9 @@ i18n.translations = bundledTranslations;
 const styles = {
     columnContainer: {
         flex: 1,
-        flexDirection: "row"
+        flexDirection: "row",
+        paddingTop: 10,
+        paddingBottom: 10
     },
     columnHeader: {
         fontSize: 18,
