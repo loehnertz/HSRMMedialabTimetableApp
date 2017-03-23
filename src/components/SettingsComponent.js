@@ -64,7 +64,6 @@ class Settings extends Component {
                             style={styles.settingsPicker}
                         >
                             <Picker.Item label="Alle Schwerpunkte" value="all" />
-                            <Picker.Item label="Alle Schwerpunkte" value="all" />
                             <Picker.Item label="Interaktive Medien" value="im" />
                             <Picker.Item label="AV-Medien" value="av" />
                             {/*{special_subjectPicker}*/}
