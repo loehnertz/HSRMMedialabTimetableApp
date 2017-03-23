@@ -183,9 +183,9 @@ class Timetable extends Component {
                     );
                 } else if (this.state.orientation === 'LANDSCAPE') {  // Render: WeekView
                     return (
-                        <View>
+                        <ScrollView style={styles.weekView}>
                             <WeekView />
-                        </View>
+                        </ScrollView>
                     );
                 }
             }
@@ -232,6 +232,9 @@ const styles = {
     dayView: {
         flex: 1,
         flexDirection: "column"
+    },
+    weekView: {
+        flex: 1
     },
     header: {
         flexDirection: "row",

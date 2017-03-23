@@ -17,10 +17,23 @@ class WeekView extends Component {
         Actions.refresh({key: 'timetable', title: i18n.t('week_view')});
     }
 
+    renderTimeslots() {
+        let slots = this.props.slots;
+        slots.splice(0, 1);
+
+        return slots.map((slots) =>
+            <Text key={slots.start}>
+                {slots.start} - {slots.end}
+            </Text>
+        );
+    }
+
     render() {
         return (
             <View style={styles.flex}>
-                <Text>WeekView</Text>
+                <View>
+                    {this.renderTimeslots()}
+                </View>
             </View>
         );
     }
@@ -41,6 +54,7 @@ const mapStateToProps = state => {
         user: state.login.user,
         program: state.login.program,
         masterdata: state.timetable.masterdata,
+        slots: state.timetable.timeslots,
         currentWeek: state.timetable.currentWeek,
         semester: state.settings.semester,
         special_subject: state.settings.special_subject
