@@ -58,15 +58,27 @@ class WeekView extends Component {
                 </View>
                 <View style={styles.column}>
                     <Text style={styles.columnHeader}>{i18n.t('Tue')}</Text>
+                    <View style={styles.eventCell}>
+                        {this.renderDay('tue')}
+                    </View>
                 </View>
                 <View style={styles.column}>
                     <Text style={styles.columnHeader}>{i18n.t('Wed')}</Text>
+                    <View style={styles.eventCell}>
+                        {this.renderDay('wed')}
+                    </View>
                 </View>
                 <View style={styles.column}>
                     <Text style={styles.columnHeader}>{i18n.t('Thu')}</Text>
+                    <View style={styles.eventCell}>
+                        {this.renderDay('thu')}
+                    </View>
                 </View>
                 <View style={styles.column}>
                     <Text style={styles.columnHeader}>{i18n.t('Fri')}</Text>
+                    <View style={styles.eventCell}>
+                        {this.renderDay('fri')}
+                    </View>
                 </View>
             </View>
         );
