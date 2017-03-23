@@ -119,6 +119,7 @@ const styles = {
     columnHeader: {
         fontSize: 18,
         fontWeight: "bold",
+        alignSelf: "center",
         marginBottom: 28
     },
     column: {
