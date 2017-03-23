@@ -14,6 +14,10 @@ import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
 class WeekView extends Component {
+    state = {
+        columnWidth: -1
+    };
+
     componentDidMount() {
         Actions.refresh({key: 'timetable', title: i18n.t('week_view')});
     }
@@ -32,15 +36,27 @@ class WeekView extends Component {
     }
 
     renderDay(day) {
-        let dayEvents = _.filter(this.props.events, { 'day': day });
+        if (this.state.columnWidth !== -1) {  // Only trigger after the width of a day column was read
+            let dayEvents = _.filter(this.props.events, { 'day': day });
 
-        return dayEvents.map((event) =>
-            <View key={event.timestamp} style={[styles.dayView, { top: (((parseInt(event.start) - 1) * 100)) }]}>
-                <Text>
-                    {event.editor}
-                </Text>
-            </View>
-        );
+            return dayEvents.map((event) =>
+                <View
+                    key={event.timestamp}
+                    style={[
+                        styles.dayView,
+                        {
+                            top: (((parseInt(event.start) - 1) * 100)),
+                            height: ((parseInt(event.end) - parseInt(event.start)) * 100),
+                            width: (this.state.columnWidth / parseInt(event.multiple))
+                        }
+                    ]}
+                >
+                    <Text>
+                        {event.editor}
+                    </Text>
+                </View>
+            );
+        }
     }
 
     renderCells() {
@@ -93,7 +109,10 @@ class WeekView extends Component {
                         {this.renderDay('thu')}
                     </View>
                 </View>
-                <View style={styles.column}>
+                <View
+                    style={styles.column}
+                    onLayout={(event) => { this.setState({columnWidth: event.nativeEvent.layout.width}); }}  // Saves the width of a day column used for calculating the width of a slot with multiple events
+                >
                     <Text style={styles.columnHeader}>{i18n.t('Fri')}</Text>
                     <View style={styles.eventCell}>
                         {this.renderCells()}
@@ -143,7 +162,9 @@ const styles = {
         alignSelf: "center",
         position: "absolute",
         height: 100,
-        padding: 10
+        backgroundColor: "white",
+        padding: 10,
+        elevation: 2.5
     },
     cellView: {
         position: "absolute",
