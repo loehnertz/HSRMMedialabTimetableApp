@@ -138,8 +138,9 @@ const styles = {
     },
     cellView: {
         position: "absolute",
+        left: 0,
+        right: 0,
         height: 100,
-        width: 80,
         backgroundColor: "#EEEEEE",
         borderTopWidth: 3,
         borderTopColor: "white"
