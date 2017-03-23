@@ -35,6 +35,21 @@ class WeekView extends Component {
                     <Text style={styles.columnHeader}>{i18n.t('timeslots')}</Text>
                     {this.renderTimeslots()}
                 </View>
+                <View style={styles.column}>
+                    <Text style={styles.columnHeader}>{i18n.t('Mon')}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.columnHeader}>{i18n.t('Tue')}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.columnHeader}>{i18n.t('Wed')}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.columnHeader}>{i18n.t('Thu')}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.columnHeader}>{i18n.t('Fri')}</Text>
+                </View>
             </View>
         );
     }
@@ -52,11 +67,11 @@ const styles = {
     column: {
         flex: 1,
         flexDirection: "column",
-        marginLeft: 10,
-        marginRight: 10
+        marginLeft: 5,
+        marginRight: 5
     },
     columnHeader: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: "bold",
         marginBottom: 10
     },
