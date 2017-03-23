@@ -22,16 +22,17 @@ class WeekView extends Component {
         slots.splice(0, 1);
 
         return slots.map((slots) =>
-            <Text key={slots.start}>
-                {slots.start} - {slots.end}
+            <Text key={slots.start} style={styles.slotsText}>
+                {slots.start}{"\n    -\n"}{slots.end}
             </Text>
         );
     }
 
     render() {
         return (
-            <View style={styles.flex}>
-                <View>
+            <View style={styles.columnContainer}>
+                <View style={styles.column}>
+                    <Text style={styles.columnHeader}>{i18n.t('timeslots')}</Text>
                     {this.renderTimeslots()}
                 </View>
             </View>
@@ -44,8 +45,26 @@ i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
 const styles = {
-    flex: {
-        flex: 1
+    columnContainer: {
+        flex: 1,
+        flexDirection: "row"
+    },
+    column: {
+        flex: 1,
+        flexDirection: "column",
+        marginLeft: 10,
+        marginRight: 10
+    },
+    columnHeader: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 10
+    },
+    slotsText: {
+        fontSize: 15,
+        fontWeight: "bold",
+        marginTop: 10,
+        marginBottom: 10
     }
 };
 
