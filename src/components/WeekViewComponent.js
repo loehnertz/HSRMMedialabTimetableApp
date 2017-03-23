@@ -47,7 +47,9 @@ class WeekView extends Component {
                         {
                             top: (((parseInt(event.start) - 1) * 100)),
                             height: ((parseInt(event.end) - parseInt(event.start)) * 100),
-                            width: (this.state.columnWidth / parseInt(event.multiple))
+                            width: ((this.state.columnWidth / parseInt(event.multiple))),
+                            left: ((parseInt(event.candidate) - 1) * (this.state.columnWidth / parseInt(event.multiple))),
+                            right: ((parseInt(event.candidate) - parseInt(event.multiple)) * (this.state.columnWidth / parseInt(event.multiple)))
                         }
                     ]}
                 >
@@ -163,6 +165,8 @@ const styles = {
         position: "absolute",
         height: 100,
         backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "black",
         padding: 10,
         elevation: 2.5
     },
