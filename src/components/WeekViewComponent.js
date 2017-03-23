@@ -20,9 +20,9 @@ class WeekView extends Component {
 
     renderTimeslots() {
         let slots = this.props.slots;
-        slots.splice(0, 1);
+        const realSlots = slots.slice(1);  // Used a constant here to avoid the slicing on every call of the method
 
-        return slots.map((slots) =>
+        return realSlots.map((slots) =>
             <View key={slots.start} style={styles.rowView}>
                 <Text key={slots.start} style={styles.slotsText}>
                     {slots.start}{"\n    -\n"}{slots.end}
@@ -46,13 +46,11 @@ class WeekView extends Component {
     renderCells() {
         let cells = [];
         let slots = this.props.slots;
-        slots.splice(0, 1);
+        const realSlots = slots.slice(1);  // Used a constant here to avoid the slicing on every call of the method
 
-        for (let i = 0; i < slots.length; i++) {
+        for (let i = 0; i < realSlots.length; i++) {
             cells.push(i * 100);
         }
-
-        console.log(cells);
 
         return cells.map((event) =>
             <View key={event} style={[styles.cellView, { top: event }]}>
