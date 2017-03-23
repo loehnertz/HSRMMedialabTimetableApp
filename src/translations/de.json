@@ -19,5 +19,6 @@
   "Wed": "Mittwoch",
   "Thu": "Donnerstag",
   "Fri": "Freitag",
-  "Sat": "Samstag"
+  "Sat": "Samstag",
+  "timeslots": "Zeiten"
 }
