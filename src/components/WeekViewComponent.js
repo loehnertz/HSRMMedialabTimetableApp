@@ -115,7 +115,7 @@ const styles = {
     columnHeader: {
         fontSize: 18,
         fontWeight: "bold",
-        marginBottom: 36
+        marginBottom: 28
     },
     column: {
         flex: 1,
