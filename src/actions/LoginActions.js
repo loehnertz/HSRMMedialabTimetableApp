@@ -125,3 +125,7 @@ export const loginUser = (user, password) => {
             });
     };
 };
+
+export const endLoading = () => {
+    return { type: LOADING_END };
+};

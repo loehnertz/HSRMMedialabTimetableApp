@@ -11,7 +11,8 @@ import * as Keychain from 'react-native-keychain';
 import {
     userChanged,
     passwordChanged,
-    loginUser
+    loginUser,
+    endLoading
 } from '../actions'
 import {
     Card,
@@ -29,7 +30,8 @@ class LoginForm extends Component {
                 .then(() => {
                     AsyncStorage.removeItem('masterdata');
                     AsyncStorage.removeItem('settings');
-                    Actions.startup();
+                    Actions.auth({ type: 'reset' });
+                    this.props.endLoading();
                 });
         }
     }
@@ -134,5 +136,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
     userChanged,
     passwordChanged,
-    loginUser
+    loginUser,
+    endLoading
 })(LoginForm);

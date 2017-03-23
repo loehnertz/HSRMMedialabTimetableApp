@@ -17,22 +17,25 @@ class Startup extends Component {
     componentWillMount() {
         this.props.isUserLoggedIn();
     }
+    
+    componentDidMount() {  // Using a 'setInterval()' so the 'LoginForm' component can use this as well
+        const dispatchInterval = setInterval(() => {
+            if (this.props.user && this.state.masterdataAndSettingsDispatched === false) {
+                this.props.dispatchMasterdata();
+                this.props.dispatchSettings(this.props.user);
+                this.setState({masterdataAndSettingsDispatched: true});
+            }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.user && this.state.masterdataAndSettingsDispatched === false) {
-            nextProps.dispatchMasterdata();
-            nextProps.dispatchSettings(nextProps.user);
-            this.setState({masterdataAndSettingsDispatched: true});
-        }
+            if (this.props.masterdata !== undefined && this.state.timeslotsDispatched === false) {
+                this.renderTimeslots(JSON.parse(this.props.masterdata)["timetable"]["timeslots"]);
+                this.setState({timeslotsDispatched: true});
+            }
 
-        if (nextProps.masterdata !== undefined && this.state.timeslotsDispatched === false) {
-            this.renderTimeslots(JSON.parse(nextProps.masterdata)["timetable"]["timeslots"]);
-            this.setState({timeslotsDispatched: true});
-        }
-
-        if (nextProps.user && nextProps.masterdata && nextProps.timeslots) {
-            Actions.main({ type: 'reset' });
-        }
+            if (this.props.user && this.props.masterdata && this.props.timeslots) {
+                Actions.main({ type: 'reset' });
+                clearInterval(dispatchInterval);
+            }
+        }, 123);
     }
 
     renderTimeslots(timeslots) {
