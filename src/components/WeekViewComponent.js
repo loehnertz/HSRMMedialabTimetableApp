@@ -23,10 +23,10 @@ class WeekView extends Component {
         const realSlots = slots.slice(1);  // Used a constant here to avoid the slicing on every call of the method
 
         return realSlots.map((slots) =>
-            <View key={slots.start} style={styles.rowView}>
-                <Text key={slots.start} style={styles.slotsText}>
-                    {slots.start}{"\n    -\n"}{slots.end}
-                </Text>
+            <View key={slots.start} style={styles.slotView}>
+                <Text style={styles.slotsText}>{slots.start}</Text>
+                <Text style={styles.slotsText}>—</Text>
+                <Text style={styles.slotsText}>{slots.end}</Text>
             </View>
         );
     }
@@ -35,8 +35,8 @@ class WeekView extends Component {
         let dayEvents = _.filter(this.props.events, { 'day': day });
 
         return dayEvents.map((event) =>
-            <View key={event.timestamp} style={[styles.rowView, { position: "absolute", top: (((parseInt(event.start) - 1) * 100)) }]}>
-                <Text key={event.timestamp}>
+            <View key={event.timestamp} style={[styles.dayView, { top: (((parseInt(event.start) - 1) * 100)) }]}>
+                <Text>
                     {event.editor}
                 </Text>
             </View>
@@ -114,27 +114,36 @@ const styles = {
         flex: 1,
         flexDirection: "row",
         paddingTop: 10,
-        paddingBottom: 10
+        paddingBottom: 10,
+        paddingLeft: 10,
+        paddingRight: 10
     },
     columnHeader: {
         fontSize: 18,
         fontWeight: "bold",
         alignSelf: "center",
-        marginBottom: 28
+        marginBottom: 18
     },
     column: {
         flex: 1,
         flexDirection: "column",
-        marginLeft: 5,
-        marginRight: 5
+        marginLeft: 2.5,
+        marginRight: 2.5
     },
     slotsColumn: {
         flexDirection: "column",
-        marginLeft: 10,
-        marginRight: 10
+        marginRight: 15
     },
-    rowView: {
+    slotView: {
+        justifyContent: "center",
+        alignItems: "center",
         height: 100
+    },
+    dayView: {
+        alignSelf: "center",
+        position: "absolute",
+        height: 100,
+        padding: 10
     },
     cellView: {
         position: "absolute",
