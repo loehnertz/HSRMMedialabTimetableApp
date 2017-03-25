@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    Picker
+    Picker,
+    Switch
 } from 'react-native';
 import {
     Card,
@@ -19,7 +20,8 @@ class Settings extends Component {
     componentWillMount() {
         this.setState({
             semester: this.props.semester,
-            special_subject: this.props.special_subject
+            special_subject: this.props.special_subject,
+            hidePastEvents: false
         });
     }
 
@@ -83,10 +85,25 @@ class Settings extends Component {
         );
     }
 
+    renderHidePastEvents() {
+        return (
+            <CardSection style={styles.settingsSection}>
+                <Text style={styles.settingsText}>
+                    {i18n.t('hide_past_events')}:
+                </Text>
+                <Switch
+                    onValueChange={(value) => this.setState({hidePastEvents: value})}
+                    value={this.state.hidePastEvents}
+                    style={styles.settingsSwitch}
+                />
+            </CardSection>
+        );
+    }
+
     onSaveButtonPress() {
         this.props.saveSettings({
             temp: {semester: this.state.semester},
-            perm: {special_subject: this.state.special_subject}
+            perm: {special_subject: this.state.special_subject, hidePastEvents: this.state.hidePastEvents}
         });
     }
 
@@ -95,6 +112,7 @@ class Settings extends Component {
             <Card style={{ flex: 1 }}>
                 {this.renderSemester()}
                 {this.renderSpecialSubject()}
+                {this.renderHidePastEvents()}
                 <CardSection>
                     <Button onPress={this.onSaveButtonPress.bind(this)}>
                         Speichern
@@ -122,6 +140,10 @@ const styles = {
     },
     settingsPicker: {
         flex: 2
+    },
+    settingsSwitch: {
+        marginLeft: 10,
+        marginRight: 15
     }
 };
 
