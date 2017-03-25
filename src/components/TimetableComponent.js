@@ -5,6 +5,7 @@ import {
     Image,
     ActivityIndicator,
     AsyncStorage,
+    Animated,
     LayoutAnimation,
     UIManager,
     ScrollView
@@ -22,6 +23,12 @@ import DaySwitcher from './DaySwitcherComponent';
 import WeekView from './WeekViewComponent';
 
 class Timetable extends Component {
+    state = {
+        headerHeight: new Animated.Value(60),
+        iconButtonSize: new Animated.Value(20),
+        iconButtonPadding: new Animated.Value(10)
+    };
+
     componentWillMount() {
         setTimeout(() => { this.props.fetchWeek(this.props.user, this.props.program, '17', this.props.semester); }, 1000);  // Using the 17th week of the year to get results from the API
         // TODO: Try to refactor the line above so one does not need the 'setTimeout()'
@@ -55,6 +62,60 @@ class Timetable extends Component {
         // LayoutAnimation.easeInEaseOut();
     }
 
+    componentDidUpdate() {
+        if (this.state.oldScrollOffsetY > 90) {
+            Animated.spring(
+                this.state.headerHeight,
+                {
+                    toValue: 35,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonSize,
+                {
+                    toValue: 10,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonPadding,
+                {
+                    toValue: 5,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+        } else if (this.state.oldScrollOffsetY < 60) {
+            Animated.spring(
+                this.state.headerHeight,
+                {
+                    toValue: 60,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonSize,
+                {
+                    toValue: 20,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonPadding,
+                {
+                    toValue: 10,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+        }
+    }
+
     _orientationDidChange = (changedOrientation) => {
         if (changedOrientation === 'PORTRAIT') {
             this.setState({ orientation: changedOrientation });
@@ -81,6 +142,12 @@ class Timetable extends Component {
                 this.props.selectDay('Fri');
                 break;
         }
+    }
+
+    handleScrollDirection(scroll) {
+        let currentOffsetY = scroll.nativeEvent.contentOffset.y;
+        let scrollDirectionDown = currentOffsetY > this.state.oldScrollOffsetY;
+        this.setState({ oldScrollOffsetY: currentOffsetY, scrollDirectionDown: scrollDirectionDown });
     }
 
     renderTimetable() {
@@ -185,13 +252,46 @@ class Timetable extends Component {
                     let eventsWeek = JSON.parse(this.props.week)["events"];
 
                     return (
-                        <ScrollView style={styles.weekView}>
+                        <ScrollView onScroll={this.handleScrollDirection.bind(this)} style={styles.weekView}>
                             <WeekView events={eventsWeek} />
                         </ScrollView>
                     );
                 }
             }
         }
+    }
+
+    renderHeader() {
+        return (
+            <Animated.View style={[styles.header, { height: this.state.headerHeight["_value"] }]}>
+                <IconButton
+                    onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
+                    style={{ paddingTop: this.state.iconButtonPadding["_value"], paddingBottom: this.state.iconButtonPadding["_value"] }}
+                >
+                    <Image
+                        source={require('../assets/images/backwards.png')}
+                        style={{ height: this.state.iconButtonSize["_value"], width: this.state.iconButtonSize["_value"] }}
+                    />
+                </IconButton>
+                <View style={styles.headerView}>
+                    <Text style={styles.headerText}>
+                        {i18n.t('week_of_the_year')} {this.props.currentWeek}
+                    </Text>
+                    <Text>
+                        {this.findAnnotation()}
+                    </Text>
+                </View>
+                <IconButton
+                    onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
+                    style={{ paddingTop: this.state.iconButtonPadding["_value"], paddingBottom: this.state.iconButtonPadding["_value"] }}
+                >
+                    <Image
+                        source={require('../assets/images/forward.png')}
+                        style={{ height: this.state.iconButtonSize["_value"], width: this.state.iconButtonSize["_value"] }}
+                    />
+                </IconButton>
+            </Animated.View>
+        );
     }
 
     findAnnotation() {
@@ -202,24 +302,11 @@ class Timetable extends Component {
     }
 
     render() {
+        console.log(this.state.iconButtonSize, this.state.headerHeight);
+
         return (
             <View style={{ flex: 1 }}>
-                <View style={styles.header}>
-                    <IconButton onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}>
-                        <Image source={require('../assets/images/backwards.png')} style={styles.imageIconButton} />
-                    </IconButton>
-                    <View style={styles.headerView}>
-                        <Text style={styles.headerText}>
-                            {i18n.t('week_of_the_year')} {this.props.currentWeek}
-                        </Text>
-                        <Text>
-                            {this.findAnnotation()}
-                        </Text>
-                    </View>
-                    <IconButton onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}>
-                        <Image source={require('../assets/images/forward.png')} style={styles.imageIconButton} />
-                    </IconButton>
-                </View>
+                {this.renderHeader()}
                 {this.renderTimetable()}
             </View>
         );
@@ -246,7 +333,6 @@ const styles = {
         elevation: 5,
         borderBottomWidth: 1,
         borderBottomColor: "#CCCCCC",
-        height: 60,
         padding: 10
     },
     headerText: {
@@ -261,11 +347,6 @@ const styles = {
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
-    },
-    imageIconButton: {
-        height: 20,
-        width: 20,
-        alignSelf: "flex-end"
     }
 };
 
