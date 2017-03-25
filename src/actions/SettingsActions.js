@@ -33,7 +33,8 @@ export const saveSettings = (settings) => {
             type: SETTINGS_DISPATCHED,
             payload: {
                 semester: settings["temp"]["semester"],
-                special_subject: settings["perm"]["special_subject"]
+                special_subject: settings["perm"]["special_subject"],
+                hidePastEvents: settings["perm"]["hidePastEvents"]
             }
         });
 

@@ -21,7 +21,7 @@ class Settings extends Component {
         this.setState({
             semester: this.props.semester,
             special_subject: this.props.special_subject,
-            hidePastEvents: false
+            hidePastEvents: this.props.hidePastEvents
         });
     }
 
@@ -153,7 +153,8 @@ const mapStateToProps = state => {
         program: state.login.program,
         masterdata: state.timetable.masterdata,
         semester: state.settings.semester,
-        special_subject: state.settings.special_subject
+        special_subject: state.settings.special_subject,
+        hidePastEvents: state.settings.hidePastEvents
     }
 };
 
