@@ -5,9 +5,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-const IconButton = ({ onPress, children }) => {
+const IconButton = ({ onPress, children, style }) => {
     return (
-        <TouchableOpacity onPress={onPress} style={styles.transparentBackgroundButton}>
+        <TouchableOpacity onPress={onPress} style={[styles.transparentBackgroundButton, style]}>
             { children }
         </TouchableOpacity>
     );
