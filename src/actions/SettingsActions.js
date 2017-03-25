@@ -19,7 +19,8 @@ export const dispatchSettings = (user) => {
             type: SETTINGS_DISPATCHED,
             payload: {
                 semester: user.substr(3, 1),
-                special_subject: storageSettings["special_subject"]
+                special_subject: storageSettings["special_subject"],
+                hidePastEvents: storageSettings["hidePastEvents"]
             }
         });
     };
