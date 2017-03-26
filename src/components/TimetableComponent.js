@@ -173,8 +173,6 @@ class Timetable extends Component {
         if (this.props.scrollToTimeslot && this.state.doneInitialScrollWeekView === false && currentTime >= 815 && currentTime <= 1915) {
             let scrollOffsetY;
 
-            this.setState({ oldScrollOffsetY: 91 });
-
             if (currentTime > 815 && currentTime < 900) {
                 scrollOffsetY = 50;
             } else if (currentTime > 900 && currentTime < 945) {
@@ -202,6 +200,8 @@ class Timetable extends Component {
             } else if (currentTime > 1830 && currentTime < 1915) {
                 scrollOffsetY = 1250;
             }
+
+            this.setState({ oldScrollOffsetY: scrollOffsetY });
 
             setTimeout(() => {
                 this.scrollWeekView.scrollTo({ y: scrollOffsetY });
