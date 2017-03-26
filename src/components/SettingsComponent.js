@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     View,
+    ScrollView,
     Text,
     Picker,
     Switch
@@ -129,17 +130,19 @@ class Settings extends Component {
 
     render() {
         return (
-            <Card style={{ flex: 1 }}>
-                {this.renderSemester()}
-                {this.renderSpecialSubject()}
-                {this.renderScrollToTimeslot()}
-                {this.renderHidePastEvents()}
-                <CardSection>
-                    <Button onPress={this.onSaveButtonPress.bind(this)}>
-                        Speichern
-                    </Button>
-                </CardSection>
-            </Card>
+            <ScrollView>
+                <Card style={{ flex: 1 }}>
+                    {this.renderSemester()}
+                    {this.renderSpecialSubject()}
+                    {this.renderScrollToTimeslot()}
+                    {this.renderHidePastEvents()}
+                    <CardSection>
+                        <Button onPress={this.onSaveButtonPress.bind(this)}>
+                            Speichern
+                        </Button>
+                    </CardSection>
+                </Card>
+            </ScrollView>
         );
     }
 }
