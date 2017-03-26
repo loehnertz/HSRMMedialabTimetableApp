@@ -21,6 +21,7 @@ class Settings extends Component {
         this.setState({
             semester: this.props.semester,
             special_subject: this.props.special_subject,
+            scrollToTimeslot: this.props.scrollToTimeslot,
             hidePastEvents: this.props.hidePastEvents
         });
     }
@@ -100,10 +101,29 @@ class Settings extends Component {
         );
     }
 
+    renderScrollToTimeslot() {
+        return (
+            <CardSection style={styles.settingsSection}>
+                <Text style={styles.settingsText}>
+                    {i18n.t('scroll_to_time_slot')}:
+                </Text>
+                <Switch
+                    onValueChange={(value) => this.setState({scrollToTimeslot: value})}
+                    value={this.state.scrollToTimeslot}
+                    style={styles.settingsSwitch}
+                />
+            </CardSection>
+        );
+    }
+
     onSaveButtonPress() {
         this.props.saveSettings({
             temp: {semester: this.state.semester},
-            perm: {special_subject: this.state.special_subject, hidePastEvents: this.state.hidePastEvents}
+            perm: {
+                special_subject: this.state.special_subject,
+                scrollToTimeslot: this.state.scrollToTimeslot,
+                hidePastEvents: this.state.hidePastEvents
+            }
         });
     }
 
@@ -112,6 +132,7 @@ class Settings extends Component {
             <Card style={{ flex: 1 }}>
                 {this.renderSemester()}
                 {this.renderSpecialSubject()}
+                {this.renderScrollToTimeslot()}
                 {this.renderHidePastEvents()}
                 <CardSection>
                     <Button onPress={this.onSaveButtonPress.bind(this)}>
@@ -154,6 +175,7 @@ const mapStateToProps = state => {
         masterdata: state.timetable.masterdata,
         semester: state.settings.semester,
         special_subject: state.settings.special_subject,
+        scrollToTimeslot: state.settings.scrollToTimeslot,
         hidePastEvents: state.settings.hidePastEvents
     }
 };
