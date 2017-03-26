@@ -64,7 +64,9 @@ class Timetable extends Component {
         // Had to disable the animation in virtue of it causing the 'DayView' to freeze during the rendering
         // UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         // LayoutAnimation.easeInEaseOut();
+    }
 
+    componentDidUpdate() {
         if (this.state.oldScrollOffsetY > 90) {
             Animated.spring(
                 this.state.headerHeight,
@@ -116,10 +118,6 @@ class Timetable extends Component {
                 }
             ).start();
         }
-    }
-
-    componentDidUpdate() {
-
     }
 
     _orientationDidChange = (changedOrientation) => {
