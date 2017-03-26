@@ -19,5 +19,6 @@
   "Wed": "Mittwoch",
   "Thu": "Donnerstag",
   "Fri": "Freitag",
-  "Sat": "Samstag"
+  "Sat": "Samstag",
+  "hide_past_events": "Veranstaltungen, die in der Vergangenheit ausblenden"
 }

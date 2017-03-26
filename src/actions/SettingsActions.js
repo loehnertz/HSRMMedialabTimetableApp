@@ -19,7 +19,8 @@ export const dispatchSettings = (user) => {
             type: SETTINGS_DISPATCHED,
             payload: {
                 semester: user.substr(3, 1),
-                special_subject: storageSettings["special_subject"]
+                special_subject: storageSettings["special_subject"],
+                hidePastEvents: storageSettings["hidePastEvents"]
             }
         });
     };
@@ -33,7 +34,8 @@ export const saveSettings = (settings) => {
             type: SETTINGS_DISPATCHED,
             payload: {
                 semester: settings["temp"]["semester"],
-                special_subject: settings["perm"]["special_subject"]
+                special_subject: settings["perm"]["special_subject"],
+                hidePastEvents: settings["perm"]["hidePastEvents"]
             }
         });
 
