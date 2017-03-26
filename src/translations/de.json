@@ -20,5 +20,6 @@
   "Thu": "Donnerstag",
   "Fri": "Freitag",
   "Sat": "Samstag",
+  "scroll_to_time_slot": "Automatisch zur aktuellen Zeit scrollen",
   "hide_past_events": "Veranstaltungen, die in der Vergangenheit ausblenden"
 }
