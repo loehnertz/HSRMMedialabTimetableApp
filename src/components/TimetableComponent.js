@@ -27,7 +27,8 @@ class Timetable extends Component {
     state = {
         headerHeight: new Animated.Value(60),
         iconButtonSize: new Animated.Value(20),
-        iconButtonPadding: new Animated.Value(10)
+        iconButtonPadding: new Animated.Value(10),
+        doneInitialScrollWeekView: false
     };
 
     componentWillMount() {
@@ -63,9 +64,7 @@ class Timetable extends Component {
         // Had to disable the animation in virtue of it causing the 'DayView' to freeze during the rendering
         // UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         // LayoutAnimation.easeInEaseOut();
-    }
 
-    componentDidUpdate() {
         if (this.state.oldScrollOffsetY > 90) {
             Animated.spring(
                 this.state.headerHeight,
@@ -119,6 +118,10 @@ class Timetable extends Component {
         }
     }
 
+    componentDidUpdate() {
+
+    }
+
     _orientationDidChange = (changedOrientation) => {
         if (changedOrientation === 'PORTRAIT') {
             this.setState({ orientation: changedOrientation });
@@ -162,6 +165,51 @@ class Timetable extends Component {
         let currentOffsetY = scroll.nativeEvent.contentOffset.y;
         let scrollDirectionDown = currentOffsetY > this.state.oldScrollOffsetY;
         this.setState({ oldScrollOffsetY: currentOffsetY, scrollDirectionDown: scrollDirectionDown });
+    }
+
+    handleScrollToWeekViewTimeslot() {
+        let currentTime = parseInt(moment().format('HMM'));
+
+        if (this.props.scrollToTimeslot && this.state.doneInitialScrollWeekView === false && currentTime >= 815 && currentTime <= 1915) {
+            let scrollOffsetY;
+
+            this.setState({ oldScrollOffsetY: 91 });
+
+            if (currentTime > 815 && currentTime < 900) {
+                scrollOffsetY = 50;
+            } else if (currentTime > 900 && currentTime < 945) {
+                scrollOffsetY = 150;
+            } else if (currentTime > 945 && currentTime < 1045) {
+                scrollOffsetY = 250;
+            } else if (currentTime > 1045 && currentTime < 1130) {
+                scrollOffsetY = 350;
+            } else if (currentTime > 1130 && currentTime < 1230) {
+                scrollOffsetY = 450;
+            } else if (currentTime > 1230 && currentTime < 1315) {
+                scrollOffsetY = 550;
+            } else if (currentTime > 1315 && currentTime < 1415) {
+                scrollOffsetY = 650;
+            } else if (currentTime > 1415 && currentTime < 1500) {
+                scrollOffsetY = 750;
+            } else if (currentTime > 1500 && currentTime < 1545) {
+                scrollOffsetY = 850;
+            } else if (currentTime > 1545 && currentTime < 1645) {
+                scrollOffsetY = 950;
+            } else if (currentTime > 1645 && currentTime < 1730) {
+                scrollOffsetY = 1050;
+            } else if (currentTime > 1730 && currentTime < 1830) {
+                scrollOffsetY = 1150;
+            } else if (currentTime > 1830 && currentTime < 1915) {
+                scrollOffsetY = 1250;
+            }
+
+            setTimeout(() => {
+                this.scrollWeekView.scrollTo({ y: scrollOffsetY });
+            }, 500);
+            // Using 500 milliseconds delay here because otherwise it looks really confusing to the user why the whole 'View' just jumped downwards
+        }
+
+        this.setState({ doneInitialScrollWeekView: true });
     }
 
     renderTimetable() {
@@ -244,7 +292,7 @@ class Timetable extends Component {
                             onLayout={(event) => { this.setState({swiperHeight: event.nativeEvent.layout.height}); }}  // Set the height of the 'View' for the 'Swiper'
                             style={styles.dayView}
                         >
-                            <ScrollView>
+                            <ScrollView ref={(scrollView) => this.scrollDayView = scrollView }>
                                 <Swiper
                                     loop={false}
                                     showsPagination={false}
@@ -266,7 +314,11 @@ class Timetable extends Component {
                     let eventsWeek = JSON.parse(this.props.week)["events"];
 
                     return (
-                        <ScrollView onScroll={this.handleScrollDirection.bind(this)} style={styles.weekView}>
+                        <ScrollView
+                            onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
+                            onScroll={this.handleScrollDirection.bind(this)}
+                            ref={(scrollView) => this.scrollWeekView = scrollView }
+                            style={styles.weekView}>
                             <WeekView events={eventsWeek} />
                         </ScrollView>
                     );
@@ -316,8 +368,6 @@ class Timetable extends Component {
     }
 
     render() {
-        console.log(this.state.iconButtonSize, this.state.headerHeight);
-
         return (
             <View style={{ flex: 1 }}>
                 {this.renderHeader()}
@@ -374,7 +424,8 @@ const mapStateToProps = state => {
         currentWeek: state.timetable.currentWeek,
         selectedDay: state.timetable.selectedDay,
         loading: state.timetable.loadingFetch,
-        semester: state.settings.semester
+        semester: state.settings.semester,
+        scrollToTimeslot: state.settings.scrollToTimeslot
     }
 };
 
