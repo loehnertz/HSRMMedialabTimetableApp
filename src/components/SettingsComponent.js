@@ -130,28 +130,30 @@ class Settings extends Component {
 
     render() {
         return (
-            <Card style={{ flex: 1 }}>
-                <CardSection style={styles.settingsSection}>
-                    <Text style={styles.settingsHeaderText}>{i18n.t('general')}</Text>
-                </CardSection>
-                {this.renderSemester()}
-                {this.renderSpecialSubject()}
+            <ScrollView>
+                <Card style={{ flex: 1 }}>
+                    <CardSection style={styles.settingsSection}>
+                        <Text style={styles.settingsHeaderText}>{i18n.t('general')}</Text>
+                    </CardSection>
+                    {this.renderSemester()}
+                    {this.renderSpecialSubject()}
 
-                <CardSection style={styles.settingsSection}>
-                    <Text style={styles.settingsHeaderText}>{i18n.t('day_view')}</Text>
-                </CardSection>
-                {this.renderHidePastEvents()}
+                    <CardSection style={styles.settingsSection}>
+                        <Text style={styles.settingsHeaderText}>{i18n.t('day_view')}</Text>
+                    </CardSection>
+                    {this.renderHidePastEvents()}
 
-                <CardSection style={styles.settingsSection}>
-                    <Text style={styles.settingsHeaderText}>{i18n.t('week_view')}</Text>
-                </CardSection>
-                {this.renderScrollToTimeslot()}
-                <CardSection>
-                    <Button onPress={this.onSaveButtonPress.bind(this)}>
-                        Speichern
-                    </Button>
-                </CardSection>
-            </Card>
+                    <CardSection style={styles.settingsSection}>
+                        <Text style={styles.settingsHeaderText}>{i18n.t('week_view')}</Text>
+                    </CardSection>
+                    {this.renderScrollToTimeslot()}
+                    <CardSection>
+                        <Button onPress={this.onSaveButtonPress.bind(this)}>
+                            Speichern
+                        </Button>
+                    </CardSection>
+                </Card>
+            </ScrollView>
         );
     }
 }
