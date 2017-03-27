@@ -132,8 +132,8 @@ class Settings extends Component {
             <Card style={{ flex: 1 }}>
                 {this.renderSemester()}
                 {this.renderSpecialSubject()}
-                {this.renderScrollToTimeslot()}
                 {this.renderHidePastEvents()}
+                {this.renderScrollToTimeslot()}
                 <CardSection>
                     <Button onPress={this.onSaveButtonPress.bind(this)}>
                         Speichern
