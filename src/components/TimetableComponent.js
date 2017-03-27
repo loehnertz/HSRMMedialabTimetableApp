@@ -370,10 +370,6 @@ class Timetable extends Component {
         }
     }
 
-    hidePastEventsToday(today, currentTime, eventEndTime) {
-
-    }
-
     findAnnotation() {
         let weeks = JSON.parse(this.props.masterdata)["timetable"]["weeks"]["kw" + this.props.currentWeek];
         if (weeks !== undefined) {
