@@ -6,6 +6,7 @@ import {
     Image,
     ActivityIndicator,
     AsyncStorage,
+    Animated,
     LayoutAnimation,
     UIManager,
     AppState
@@ -23,6 +24,13 @@ import DaySwitcher from './DaySwitcherComponent';
 import WeekView from './WeekViewComponent';
 
 class Timetable extends Component {
+    state = {
+        headerHeight: new Animated.Value(60),
+        iconButtonSize: new Animated.Value(20),
+        iconButtonPadding: new Animated.Value(10),
+        doneInitialScrollWeekView: false
+    };
+
     componentWillMount() {
         setTimeout(() => { this.props.fetchWeek(this.props.user, this.props.program, '17', this.props.semester); }, 1000);  // Using the 17th week of the year to get results from the API
         // TODO: Try to refactor the line above so one does not need the 'setTimeout()'
@@ -56,6 +64,60 @@ class Timetable extends Component {
         // Had to disable the animation in virtue of it causing the 'DayView' to freeze during the rendering
         // UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
         // LayoutAnimation.easeInEaseOut();
+    }
+
+    componentDidUpdate() {
+        if (this.state.oldScrollOffsetY > 90) {
+            Animated.spring(
+                this.state.headerHeight,
+                {
+                    toValue: 35,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonSize,
+                {
+                    toValue: 10,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonPadding,
+                {
+                    toValue: 5,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+        } else if (this.state.oldScrollOffsetY < 60) {
+            Animated.spring(
+                this.state.headerHeight,
+                {
+                    toValue: 60,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonSize,
+                {
+                    toValue: 20,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonPadding,
+                {
+                    toValue: 10,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+        }
     }
 
     _orientationDidChange = (changedOrientation) => {
@@ -95,6 +157,57 @@ class Timetable extends Component {
                 this.props.selectDay('Fri');
                 break;
         }
+    }
+
+    handleScrollDirection(scroll) {
+        let currentOffsetY = scroll.nativeEvent.contentOffset.y;
+        let scrollDirectionDown = currentOffsetY > this.state.oldScrollOffsetY;
+        this.setState({ oldScrollOffsetY: currentOffsetY, scrollDirectionDown: scrollDirectionDown });
+    }
+
+    handleScrollToWeekViewTimeslot() {
+        let currentTime = parseInt(moment().format('HMM'));
+
+        if (this.props.scrollToTimeslot && this.state.doneInitialScrollWeekView === false && currentTime >= 815 && currentTime <= 1915) {
+            let scrollOffsetY;
+
+            if (currentTime > 815 && currentTime < 900) {
+                scrollOffsetY = 50;
+            } else if (currentTime > 900 && currentTime < 945) {
+                scrollOffsetY = 150;
+            } else if (currentTime > 945 && currentTime < 1045) {
+                scrollOffsetY = 250;
+            } else if (currentTime > 1045 && currentTime < 1130) {
+                scrollOffsetY = 350;
+            } else if (currentTime > 1130 && currentTime < 1230) {
+                scrollOffsetY = 450;
+            } else if (currentTime > 1230 && currentTime < 1315) {
+                scrollOffsetY = 550;
+            } else if (currentTime > 1315 && currentTime < 1415) {
+                scrollOffsetY = 650;
+            } else if (currentTime > 1415 && currentTime < 1500) {
+                scrollOffsetY = 750;
+            } else if (currentTime > 1500 && currentTime < 1545) {
+                scrollOffsetY = 850;
+            } else if (currentTime > 1545 && currentTime < 1645) {
+                scrollOffsetY = 950;
+            } else if (currentTime > 1645 && currentTime < 1730) {
+                scrollOffsetY = 1050;
+            } else if (currentTime > 1730 && currentTime < 1830) {
+                scrollOffsetY = 1150;
+            } else if (currentTime > 1830 && currentTime < 1915) {
+                scrollOffsetY = 1250;
+            }
+
+            this.setState({ oldScrollOffsetY: scrollOffsetY });
+
+            setTimeout(() => {
+                this.scrollWeekView.scrollTo({ y: scrollOffsetY });
+            }, 500);
+            // Using 500 milliseconds delay here because otherwise it looks really confusing to the user why the whole 'View' just jumped downwards
+        }
+
+        this.setState({ doneInitialScrollWeekView: true });
     }
 
     renderTimetable() {
@@ -341,7 +454,7 @@ class Timetable extends Component {
                             onLayout={(event) => { this.setState({swiperHeight: event.nativeEvent.layout.height}); }}  // Set the height of the 'View' for the 'Swiper'
                             style={styles.dayView}
                         >
-                            <ScrollView>
+                            <ScrollView ref={(scrollView) => this.scrollDayView = scrollView }>
                                 <Swiper
                                     loop={false}
                                     showsPagination={false}
@@ -360,14 +473,53 @@ class Timetable extends Component {
                         </View>
                     );
                 } else if (this.state.orientation === 'LANDSCAPE') {  // Render: WeekView
+                    let eventsWeek = JSON.parse(this.props.week)["events"];
+
                     return (
-                        <View>
-                            <WeekView />
-                        </View>
+                        <ScrollView
+                            onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
+                            onScroll={this.handleScrollDirection.bind(this)}
+                            ref={(scrollView) => this.scrollWeekView = scrollView }
+                            style={styles.weekView}>
+                            <WeekView events={eventsWeek} />
+                        </ScrollView>
                     );
                 }
             }
         }
+    }
+
+    renderHeader() {
+        return (
+            <Animated.View style={[styles.header, { height: this.state.headerHeight["_value"] }]}>
+                <IconButton
+                    onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
+                    style={{ paddingTop: this.state.iconButtonPadding["_value"], paddingBottom: this.state.iconButtonPadding["_value"] }}
+                >
+                    <Image
+                        source={require('../assets/images/backwards.png')}
+                        style={{ height: this.state.iconButtonSize["_value"], width: this.state.iconButtonSize["_value"] }}
+                    />
+                </IconButton>
+                <View style={styles.headerView}>
+                    <Text style={styles.headerText}>
+                        {i18n.t('week_of_the_year')} {this.props.currentWeek}
+                    </Text>
+                    <Text>
+                        {this.findAnnotation()}
+                    </Text>
+                </View>
+                <IconButton
+                    onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
+                    style={{ paddingTop: this.state.iconButtonPadding["_value"], paddingBottom: this.state.iconButtonPadding["_value"] }}
+                >
+                    <Image
+                        source={require('../assets/images/forward.png')}
+                        style={{ height: this.state.iconButtonSize["_value"], width: this.state.iconButtonSize["_value"] }}
+                    />
+                </IconButton>
+            </Animated.View>
+        );
     }
 
     findAnnotation() {
@@ -380,22 +532,7 @@ class Timetable extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <View style={styles.header}>
-                    <IconButton onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}>
-                        <Image source={require('../assets/images/backwards.png')} style={styles.imageIconButton} />
-                    </IconButton>
-                    <View style={styles.headerView}>
-                        <Text style={styles.headerText}>
-                            {i18n.t('week_of_the_year')} {this.props.currentWeek}
-                        </Text>
-                        <Text>
-                            {this.findAnnotation()}
-                        </Text>
-                    </View>
-                    <IconButton onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}>
-                        <Image source={require('../assets/images/forward.png')} style={styles.imageIconButton} />
-                    </IconButton>
-                </View>
+                {this.renderHeader()}
                 {this.renderTimetable()}
             </View>
         );
@@ -411,6 +548,9 @@ const styles = {
         flex: 1,
         flexDirection: "column"
     },
+    weekView: {
+        flex: 1
+    },
     header: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -419,7 +559,6 @@ const styles = {
         elevation: 5,
         borderBottomWidth: 1,
         borderBottomColor: "#CCCCCC",
-        height: 60,
         padding: 10
     },
     headerText: {
@@ -434,11 +573,6 @@ const styles = {
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
-    },
-    imageIconButton: {
-        height: 20,
-        width: 20,
-        alignSelf: "flex-end"
     }
 };
 
@@ -453,6 +587,7 @@ const mapStateToProps = state => {
         selectedDay: state.timetable.selectedDay,
         loading: state.timetable.loadingFetch,
         semester: state.settings.semester,
+        scrollToTimeslot: state.settings.scrollToTimeslot,
         hidePastEvents: state.settings.hidePastEvents
     }
 };
