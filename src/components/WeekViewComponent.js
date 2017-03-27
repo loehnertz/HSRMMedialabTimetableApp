@@ -67,11 +67,10 @@ class WeekView extends Component {
                 <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot}/>
             );
 
-            this.setState({
-                contentEventModal: contentEventModal,
-                showEventModal: true
-            });
+            this.setState({ contentEventModal: contentEventModal });
         }
+
+        this.setState({ showEventModal: true });
     }
 
     closeEventModal() {
