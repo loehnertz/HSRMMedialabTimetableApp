@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
+    TouchableOpacity,
     ActivityIndicator,
+    Linking,
     AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -66,41 +68,70 @@ class LoginForm extends Component {
 
     render () {
         return (
-            <Card>
-                <CardSection>
-                    <Text style={styles.noticeText}>
-                        {i18n.t('login_notice')}
-                    </Text>
-                </CardSection>
-                <CardSection>
-                    <Input
-                        label={i18n.t('username')}
-                        placeholder=""
-                        onChangeText={this.onUserChange.bind(this)}
-                        value={this.props.user}
-                    />
-                </CardSection>
+            <View style={{ flex: 1 }}>
+                <Card>
+                    <CardSection>
+                        <Text style={styles.noticeText}>
+                            {i18n.t('login_notice')}
+                        </Text>
+                    </CardSection>
+                    <CardSection>
+                        <Input
+                            label={i18n.t('username')}
+                            placeholder=""
+                            onChangeText={this.onUserChange.bind(this)}
+                            value={this.props.user}
+                        />
+                    </CardSection>
 
-                <CardSection>
-                    <Input
-                        secureTextEntry
-                        label={i18n.t('password')}
-                        placeholder=""
-                        onChangeText={this.onPasswordChange.bind(this)}
-                        value={this.props.password}
-                    />
-                </CardSection>
+                    <CardSection>
+                        <Input
+                            secureTextEntry
+                            label={i18n.t('password')}
+                            placeholder=""
+                            onChangeText={this.onPasswordChange.bind(this)}
+                            value={this.props.password}
+                        />
+                    </CardSection>
 
-                <CardSection>
-                    <Text style={styles.errorText}>
-                        {this.props.error}
-                    </Text>
-                </CardSection>
+                    <CardSection>
+                        <Text style={styles.errorText}>
+                            {this.props.error}
+                        </Text>
+                    </CardSection>
 
-                <CardSection>
-                    {this.renderButton()}
-                </CardSection>
-            </Card>
+                    <CardSection>
+                        {this.renderButton()}
+                    </CardSection>
+                </Card>
+
+                <View style={styles.noticeFooter}>
+                    <View style={styles.noticeFooterContainer}>
+                        <Text style={styles.noticeFooterText}>
+                            &copy; Hochschule RheinMain
+                        </Text>
+                    </View>
+                    <View style={styles.noticeFooterContainer}>
+                        <Text style={styles.noticeFooterText}>
+                            {i18n.t('developed_by')} Jakob Löhnertz (
+                        </Text>
+                        <TouchableOpacity onPress={() => Linking.openURL('https://www.jakob.codes/')}>
+                            <Text style={[styles.noticeFooterText, styles.hyperlinkText]}>www.jakob.codes</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.noticeFooterText}>
+                            )
+                        </Text>
+                    </View>
+                    <View style={styles.noticeFooterContainer}>
+                        <Text style={styles.noticeFooterText}>
+                            {i18n.t('code_licensed_under')}
+                        </Text>
+                        <TouchableOpacity onPress={() => Linking.openURL('https://github.com/loehnertz/HSRMMedialabTimetableApp/blob/master/LICENSE')}>
+                            <Text style={[styles.noticeFooterText, styles.hyperlinkText]}> MIT License</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
         );
     }
 }
@@ -116,6 +147,22 @@ const styles = {
     },
     noticeText: {
         fontWeight: "bold"
+    },
+    noticeFooter: {
+        alignSelf: "center",
+        position: "absolute",
+        bottom: 10,
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    noticeFooterContainer: {
+        flexDirection: "row"
+    },
+    noticeFooterText: {
+        fontWeight: "bold"
+    },
+    hyperlinkText: {
+        color: "#E10019"
     },
     spinner: {
         flex: 1,
