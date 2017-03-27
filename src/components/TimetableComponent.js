@@ -69,7 +69,7 @@ class Timetable extends Component {
 
     componentDidUpdate() {
         if (this.state.orientation === 'LANDSCAPE') {
-            if (this.state.oldScrollOffsetY > 90) {
+            if (this.state.scrollOffsetY > 90) {
                 Animated.spring(
                     this.state.headerHeight,
                     {
@@ -94,7 +94,7 @@ class Timetable extends Component {
                         tension: 100
                     }
                 ).start();
-            } else if (this.state.oldScrollOffsetY < 60) {
+            } else if (this.state.scrollOffsetY < 60) {
                 Animated.spring(
                     this.state.headerHeight,
                     {
@@ -191,12 +191,6 @@ class Timetable extends Component {
         this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
     }
 
-    handleScrollDirection(scroll) {
-        let currentOffsetY = scroll.nativeEvent.contentOffset.y;
-        let scrollDirectionDown = currentOffsetY > this.state.oldScrollOffsetY;
-        this.setState({ oldScrollOffsetY: currentOffsetY, scrollDirectionDown: scrollDirectionDown });
-    }
-
     handleScrollToWeekViewTimeslot() {
         let currentTime = parseInt(moment().format('HMM'));
 
@@ -231,7 +225,7 @@ class Timetable extends Component {
                 scrollOffsetY = 1250;
             }
 
-            this.setState({ oldScrollOffsetY: scrollOffsetY });
+            this.setState({ scrollOffsetY: scrollOffsetY });
 
             setTimeout(() => {
                 this.scrollWeekView.scrollTo({ y: scrollOffsetY });
@@ -516,7 +510,7 @@ class Timetable extends Component {
                     return (
                         <ScrollView
                             onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
-                            onScroll={this.handleScrollDirection.bind(this)}
+                            onScroll={(scroll) => this.setState({ scrollOffsetY: scroll.nativeEvent.contentOffset.y })}
                             ref={(scrollView) => this.scrollWeekView = scrollView}
                             refreshControl={
                                 <RefreshControl
