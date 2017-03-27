@@ -14,7 +14,7 @@ import { fetchWeek, selectDay } from '../actions';
 import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
-import ListItem from './ListItemComponent';
+import ListItem from './DayViewListItemComponent';
 
 class DayView extends Component {
     componentWillMount() {
@@ -48,6 +48,7 @@ class DayView extends Component {
     renderRow(eventJSON) {
         let masterdataJSON = JSON.parse(this.props.masterdata);
         let eventName;
+        let eventShortname;
         let eventRoom;
         let eventLecturers = [];
         let eventNote;
@@ -62,7 +63,8 @@ class DayView extends Component {
                 </Card>
             );
         } else {
-            eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
+            eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["name"];
+            eventShortname = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
 
             let special_subjectProgram = SPECIAL_SUBJECTS[this.props.program];
             let special_subjectRegEx = '';
@@ -75,10 +77,10 @@ class DayView extends Component {
             special_subjectRegEx = new RegExp(special_subjectRegEx);
 
             if (
-                !special_subjectRegEx.test(eventName) ||  // If the 'event' is not a 'special_subject'
+                !special_subjectRegEx.test(eventShortname) ||  // If the 'event' is not a 'special_subject'
                 this.props.special_subject === 'all' ||  // If a user chose to see all 'special_subjects'
                 this.props.program + this.props.semester !== this.props.user ||  // If the user changed their default semester
-                this.props.special_subject !== 'all' && eventName.includes(this.props.special_subject.toUpperCase())  // If they chose a 'special_subject' and the 'event' is one of the kind
+                this.props.special_subject !== 'all' && eventShortname.includes(this.props.special_subject.toUpperCase())  // If they chose a 'special_subject' and the 'event' is one of the kind
             ) {
                 eventRoom = eventJSON["rooms"][0];
                 for (let lecturer in eventJSON["lecturers"]) {
