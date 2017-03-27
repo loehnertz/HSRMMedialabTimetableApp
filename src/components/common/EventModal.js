@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import {
     Modal,
     View,
-    Text,
     TouchableOpacity,
     Dimensions
 } from 'react-native';
-import { Card } from './Card';
-import { CardSection } from './CardSection';
-import { Button } from './Button';
-import i18n from 'react-native-i18n';
-import bundledTranslations from '../../translations';
 
 class EventModal extends Component {
     handleContainerPress(event) {
@@ -35,28 +29,12 @@ class EventModal extends Component {
                     activeOpacity={1.0}
                     style={styles.modalContainer}
                 >
-                    <Card style={styles.modalCard}>
-                        <CardSection style={styles.modalCardSection}>
-                            <Text style={styles.modalText}>
-                                {this.props.children}
-                            </Text>
-                        </CardSection>
-
-                        <CardSection>
-                            <Button onPress={this.props.onClose}>
-                                {i18n.t('close')}
-                            </Button>
-                        </CardSection>
-                    </Card>
+                    {this.props.children}
                 </TouchableOpacity>
             </Modal>
         );
     }
 }
-
-i18n.locale = 'de';
-i18n.fallbacks = true;
-i18n.translations = bundledTranslations;
 
 const styles = {
     modalContainer: {
@@ -64,19 +42,6 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "rgba(0, 0, 0, 0.55)"
-    },
-    modalCard: {
-        width: (Dimensions.get('window')["width"] / 2),
-        height: (Dimensions.get('window')["height"] / 2)
-    },
-    modalCardSection: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    modalText: {
-        fontSize: 18,
-        textAlign: "center"
     }
 };
 
