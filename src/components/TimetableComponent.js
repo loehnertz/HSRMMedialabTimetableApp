@@ -4,6 +4,7 @@ import {
     View,
     ScrollView,
     Image,
+    RefreshControl,
     ActivityIndicator,
     AsyncStorage,
     Animated,
@@ -157,6 +158,10 @@ class Timetable extends Component {
                 this.props.selectDay('Fri');
                 break;
         }
+    }
+
+    _onRefresh() {
+        this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
     }
 
     handleScrollDirection(scroll) {
@@ -454,7 +459,7 @@ class Timetable extends Component {
                             onLayout={(event) => { this.setState({swiperHeight: event.nativeEvent.layout.height}); }}  // Set the height of the 'View' for the 'Swiper'
                             style={styles.dayView}
                         >
-                            <ScrollView ref={(scrollView) => this.scrollDayView = scrollView }>
+                            <ScrollView>
                                 <Swiper
                                     loop={false}
                                     showsPagination={false}
@@ -486,6 +491,14 @@ class Timetable extends Component {
                             onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
                             onScroll={this.handleScrollDirection.bind(this)}
                             ref={(scrollView) => this.scrollWeekView = scrollView}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={false}
+                                    onRefresh={this._onRefresh.bind(this)}
+                                    colors={['#E10019']}
+                                    tintColor="#E10019"
+                                />
+                            }
                             style={styles.weekView}
                         >
                             <WeekView events={eventsWeek} />
