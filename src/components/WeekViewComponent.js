@@ -4,8 +4,11 @@ import {
     View,
     ListView,
     Button,
+    TouchableOpacity,
+    Modal,
     RefreshControl
 } from 'react-native';
+import { EventModal } from './common';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
@@ -15,11 +18,20 @@ import bundledTranslations from '../translations';
 
 class WeekView extends Component {
     state = {
-        columnWidth: -1
+        columnWidth: -1,
+        showEventModal: false
     };
 
     componentDidMount() {
         Actions.refresh({key: 'timetable', title: i18n.t('week_view')});
+    }
+
+    openEventModal() {
+        this.setState({ showEventModal: true });
+    }
+
+    closeEventModal() {
+        this.setState({ showEventModal: false });
     }
 
     renderTimeslots() {
@@ -40,8 +52,10 @@ class WeekView extends Component {
             let dayEvents = _.filter(this.props.events, { 'day': day });
 
             return dayEvents.map((event) =>
-                <View
+                <TouchableOpacity
                     key={event.timestamp}
+                    onPress={this.openEventModal.bind(this)}
+                    activeOpacity={0.8}
                     style={[
                         styles.dayView,
                         {
@@ -56,7 +70,7 @@ class WeekView extends Component {
                     <Text>
                         {event.editor}
                     </Text>
-                </View>
+                </TouchableOpacity>
             );
         }
     }
@@ -121,6 +135,12 @@ class WeekView extends Component {
                         {this.renderDay('fri')}
                     </View>
                 </View>
+                <EventModal
+                    visible={this.state.showEventModal}
+                    onClose={this.closeEventModal.bind(this)}
+                >
+                    EVENT
+                </EventModal>
             </View>
         );
     }
