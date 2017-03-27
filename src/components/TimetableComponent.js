@@ -68,32 +68,59 @@ class Timetable extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.oldScrollOffsetY > 90) {
-            Animated.spring(
-                this.state.headerHeight,
-                {
-                    toValue: 35,
-                    friction: 10,
-                    tension: 100
-                }
-            ).start();
-            Animated.spring(
-                this.state.iconButtonSize,
-                {
-                    toValue: 10,
-                    friction: 10,
-                    tension: 100
-                }
-            ).start();
-            Animated.spring(
-                this.state.iconButtonPadding,
-                {
-                    toValue: 5,
-                    friction: 10,
-                    tension: 100
-                }
-            ).start();
-        } else if (this.state.oldScrollOffsetY < 60) {
+        if (this.state.orientation === 'LANDSCAPE') {
+            if (this.state.oldScrollOffsetY > 90) {
+                Animated.spring(
+                    this.state.headerHeight,
+                    {
+                        toValue: 35,
+                        friction: 10,
+                        tension: 100
+                    }
+                ).start();
+                Animated.spring(
+                    this.state.iconButtonSize,
+                    {
+                        toValue: 10,
+                        friction: 10,
+                        tension: 100
+                    }
+                ).start();
+                Animated.spring(
+                    this.state.iconButtonPadding,
+                    {
+                        toValue: 5,
+                        friction: 10,
+                        tension: 100
+                    }
+                ).start();
+            } else if (this.state.oldScrollOffsetY < 60) {
+                Animated.spring(
+                    this.state.headerHeight,
+                    {
+                        toValue: 60,
+                        friction: 10,
+                        tension: 100
+                    }
+                ).start();
+                Animated.spring(
+                    this.state.iconButtonSize,
+                    {
+                        toValue: 20,
+                        friction: 10,
+                        tension: 100
+                    }
+                ).start();
+                Animated.spring(
+                    this.state.iconButtonPadding,
+                    {
+                        toValue: 10,
+                        friction: 10,
+                        tension: 100
+                    }
+                ).start();
+            }
+        } else {
             Animated.spring(
                 this.state.headerHeight,
                 {
