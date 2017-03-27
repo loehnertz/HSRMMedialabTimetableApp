@@ -98,6 +98,20 @@ class WeekView extends Component {
         if (this.state.columnWidth !== -1) {  // Only trigger after the width of a day column was read
             let dayEvents = _.filter(this.props.events, { 'day': day });
 
+            let masterdataJSON = JSON.parse(this.props.masterdata);
+            let eventShortname;
+
+            for (let event in dayEvents) {
+                eventShortname = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': dayEvents[event]["course"] })["shortname"];
+                dayEvents[event].shortname = eventShortname;
+
+                if (this.props.special_subject !== 'all' && !eventShortname.includes(this.props.special_subject.toUpperCase())) {
+                    dayEvents[event].toRemove = true;
+                }
+            }
+
+            _.remove(dayEvents, 'toRemove');
+
             return dayEvents.map((event) =>
                 <TouchableOpacity
                     key={event.timestamp}
@@ -115,7 +129,7 @@ class WeekView extends Component {
                     ]}
                 >
                     <Text>
-                        {event.editor}
+                        {event.shortname}
                     </Text>
                 </TouchableOpacity>
             );
@@ -229,6 +243,7 @@ const styles = {
     },
     dayView: {
         alignSelf: "center",
+        alignItems: "center",
         position: "absolute",
         height: 100,
         backgroundColor: "white",
