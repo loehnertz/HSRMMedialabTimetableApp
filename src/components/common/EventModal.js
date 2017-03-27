@@ -13,10 +13,6 @@ import i18n from 'react-native-i18n';
 import bundledTranslations from '../../translations';
 
 class EventModal extends Component {
-    state = {
-        containerTargetId: -1
-    };
-
     handleContainerPress(event) {
         let pressedTargetId = event.nativeEvent.target;
 
