@@ -14,7 +14,7 @@ import { fetchWeek, selectDay } from '../actions';
 import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
-import ListItem from './DayViewListItemComponent';
+import ListItem from './ListItemComponent';
 
 class DayView extends Component {
     componentWillMount() {
