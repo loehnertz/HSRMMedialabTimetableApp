@@ -9,15 +9,14 @@ import {
     RefreshControl
 } from 'react-native';
 import { EventModal } from './common';
-import ListItem from './ListItemComponent';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 import { fetchWeek } from '../actions';
+import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
-
-import { SPECIAL_SUBJECTS } from '../actions/defaults';
+import ListItem from './ListItemComponent';
 
 class WeekView extends Component {
     state = {

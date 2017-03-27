@@ -97,10 +97,6 @@ class DayView extends Component {
         }
     }
 
-    findAnnotation() {
-        return JSON.parse(this.props.masterdata)["timetable"]["weeks"]["kw" + this.props.currentWeek]["annotation"];
-    }
-
     render() {
         return (
             <View style={[styles.flex, { paddingBottom: 55 }]}>

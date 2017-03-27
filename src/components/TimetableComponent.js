@@ -473,14 +473,21 @@ class Timetable extends Component {
                         </View>
                     );
                 } else if (this.state.orientation === 'LANDSCAPE') {  // Render: WeekView
-                    let eventsWeek = JSON.parse(this.props.week)["events"];
+                    let eventsList = JSON.parse(this.props.week)["events"];
+                    let eventsWeek = [];
+
+                    for (let event in eventsList) {
+                        eventsWeek.push(eventsList[event]);
+                        eventsWeek[event]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                    }
 
                     return (
                         <ScrollView
                             onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
                             onScroll={this.handleScrollDirection.bind(this)}
-                            ref={(scrollView) => this.scrollWeekView = scrollView }
-                            style={styles.weekView}>
+                            ref={(scrollView) => this.scrollWeekView = scrollView}
+                            style={styles.weekView}
+                        >
                             <WeekView events={eventsWeek} />
                         </ScrollView>
                     );
