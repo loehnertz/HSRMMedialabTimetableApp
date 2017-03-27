@@ -120,32 +120,196 @@ class Timetable extends Component {
                     let eventIndexFri = 0;
 
                     for (let event in eventsList) {
-                        switch (eventsList[event]["day"]) {
-                            case 'mon':
-                                eventsMon.push(eventsList[event]);
-                                eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
-                                eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
-                                break;
-                            case 'tue':
-                                eventsTue.push(eventsList[event]);
-                                eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
-                                eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
-                                break;
-                            case 'wed':
-                                eventsWed.push(eventsList[event]);
-                                eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
-                                eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
-                                break;
-                            case 'thu':
-                                eventsThu.push(eventsList[event]);
-                                eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
-                                eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
-                                break;
-                            case 'fri':
-                                eventsFri.push(eventsList[event]);
-                                eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
-                                eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
-                                break;
+                        if (this.props.hidePastEvents) {
+                            let today = moment().format('ddd');
+                            let currentTime = parseInt(moment().format('HMM'));
+                            let eventEndTime = parseInt(this.props.slots[eventsList[event]["start"]]["end"].replace(/:/, ""));
+
+                            switch (today) {
+                                case 'Mon':
+                                    switch (eventsList[event]["day"]) {
+                                        case 'mon':
+                                            if (currentTime < eventEndTime) {
+                                                eventsMon.push(eventsList[event]);
+                                                eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                                eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            }
+                                            break;
+                                        case 'tue':
+                                            eventsTue.push(eventsList[event]);
+                                            eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'wed':
+                                            eventsWed.push(eventsList[event]);
+                                            eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'thu':
+                                            eventsThu.push(eventsList[event]);
+                                            eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'fri':
+                                            eventsFri.push(eventsList[event]);
+                                            eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                    }
+                                    break;
+                                case 'Tue':
+                                    switch (eventsList[event]["day"]) {
+                                        case 'mon':
+                                            eventsMon.push(eventsList[event]);
+                                            eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'tue':
+                                            if (currentTime < eventEndTime) {
+                                                eventsTue.push(eventsList[event]);
+                                                eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                                eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            }
+                                            break;
+                                        case 'wed':
+                                            eventsWed.push(eventsList[event]);
+                                            eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'thu':
+                                            eventsThu.push(eventsList[event]);
+                                            eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'fri':
+                                            eventsFri.push(eventsList[event]);
+                                            eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                    }
+                                    break;
+                                case 'Wed':
+                                    switch (eventsList[event]["day"]) {
+                                        case 'mon':
+                                            eventsMon.push(eventsList[event]);
+                                            eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'tue':
+                                            eventsTue.push(eventsList[event]);
+                                            eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'wed':
+                                            if (currentTime < eventEndTime) {
+                                                eventsWed.push(eventsList[event]);
+                                                eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                                eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            }
+                                            break;
+                                        case 'thu':
+                                            eventsThu.push(eventsList[event]);
+                                            eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'fri':
+                                            eventsFri.push(eventsList[event]);
+                                            eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                    }
+                                    break;
+                                case 'Thu':
+                                    switch (eventsList[event]["day"]) {
+                                        case 'mon':
+                                            eventsMon.push(eventsList[event]);
+                                            eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'tue':
+                                            eventsTue.push(eventsList[event]);
+                                            eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'wed':
+                                            eventsWed.push(eventsList[event]);
+                                            eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'thu':
+                                            if (currentTime < eventEndTime) {
+                                                eventsThu.push(eventsList[event]);
+                                                eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                                eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            }
+                                            break;
+                                        case 'fri':
+                                            eventsFri.push(eventsList[event]);
+                                            eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                    }
+                                    break;
+                                case 'Fri':
+                                    switch (eventsList[event]["day"]) {
+                                        case 'mon':
+                                            eventsMon.push(eventsList[event]);
+                                            eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'tue':
+                                            eventsTue.push(eventsList[event]);
+                                            eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'wed':
+                                            eventsWed.push(eventsList[event]);
+                                            eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'thu':
+                                            eventsThu.push(eventsList[event]);
+                                            eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                            eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            break;
+                                        case 'fri':
+                                            if (currentTime < eventEndTime) {
+                                                eventsFri.push(eventsList[event]);
+                                                eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                                eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                            }
+                                            break;
+                                    }
+                                    break;
+                            }  // TODO: Make this 'switch-case' DRYer
+                        } else {
+                            switch (eventsList[event]["day"]) {
+                                case 'mon':
+                                    eventsMon.push(eventsList[event]);
+                                    eventsMon[eventIndexMon]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                    eventIndexMon += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                    break;
+                                case 'tue':
+                                    eventsTue.push(eventsList[event]);
+                                    eventsTue[eventIndexTue]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                    eventIndexTue += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                    break;
+                                case 'wed':
+                                    eventsWed.push(eventsList[event]);
+                                    eventsWed[eventIndexWed]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                    eventIndexWed += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                    break;
+                                case 'thu':
+                                    eventsThu.push(eventsList[event]);
+                                    eventsThu[eventIndexThu]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                    eventIndexThu += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                    break;
+                                case 'fri':
+                                    eventsFri.push(eventsList[event]);
+                                    eventsFri[eventIndexFri]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
+                                    eventIndexFri += 1;  // Increase the actual index by one every iteration the if-statement passes
+                                    break;
+                            }
                         }
                     }
 
@@ -204,6 +368,10 @@ class Timetable extends Component {
                 }
             }
         }
+    }
+
+    hidePastEventsToday(today, currentTime, eventEndTime) {
+
     }
 
     findAnnotation() {
@@ -288,7 +456,8 @@ const mapStateToProps = state => {
         currentWeek: state.timetable.currentWeek,
         selectedDay: state.timetable.selectedDay,
         loading: state.timetable.loadingFetch,
-        semester: state.settings.semester
+        semester: state.settings.semester,
+        hidePastEvents: state.settings.hidePastEvents
     }
 };
 
