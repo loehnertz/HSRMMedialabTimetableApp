@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Modal,
     View,
@@ -12,32 +12,51 @@ import { Button } from './Button';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../../translations';
 
-const EventModal = ({ children, visible, onClose }) => {
-    return (
-        <Modal
-            visible={visible}
-            transparent={true}
-            animationType="fade"
-            onRequestClose={() => {}}
-        >
-            <View style={styles.modalContainer}>
-                <Card style={styles.modalCard}>
-                    <CardSection style={styles.modalCardSection}>
-                        <Text style={styles.modalText}>
-                            {children}
-                        </Text>
-                    </CardSection>
+class EventModal extends Component {
+    state = {
+        containerTargetId: -1
+    };
 
-                    <CardSection>
-                        <Button onPress={onClose}>
-                            {i18n.t('close')}
-                        </Button>
-                    </CardSection>
-                </Card>
-            </View>
-        </Modal>
-    );
-};
+    handleContainerPress(event) {
+        let pressedTargetId = event.nativeEvent.target;
+
+        if (pressedTargetId === this.state.containerTargetId) {
+            this.props.onClose();
+        }
+    }
+
+    render() {
+        return (
+            <Modal
+                visible={this.props.visible}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => {}}
+            >
+                <TouchableOpacity
+                    onLayout={(event) => this.setState({ containerTargetId: event.nativeEvent.target })}
+                    onPress={this.handleContainerPress.bind(this)}
+                    activeOpacity={1.0}
+                    style={styles.modalContainer}
+                >
+                    <Card style={styles.modalCard}>
+                        <CardSection style={styles.modalCardSection}>
+                            <Text style={styles.modalText}>
+                                {this.props.children}
+                            </Text>
+                        </CardSection>
+
+                        <CardSection>
+                            <Button onPress={this.props.onClose}>
+                                {i18n.t('close')}
+                            </Button>
+                        </CardSection>
+                    </Card>
+                </TouchableOpacity>
+            </Modal>
+        );
+    }
+}
 
 i18n.locale = 'de';
 i18n.fallbacks = true;
