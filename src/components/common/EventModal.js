@@ -25,9 +25,9 @@ class EventModal extends Component {
         return (
             <Modal
                 visible={this.props.visible}
+                onRequestClose={() => this.props.onClose()}
                 transparent={true}
                 animationType="fade"
-                onRequestClose={() => {}}
             >
                 <TouchableOpacity
                     onLayout={(event) => this.setState({ containerTargetId: event.nativeEvent.target })}
