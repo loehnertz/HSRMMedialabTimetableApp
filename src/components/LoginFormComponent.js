@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
+    ScrollView,
     TouchableOpacity,
     ActivityIndicator,
     Linking,
@@ -10,6 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as Keychain from 'react-native-keychain';
+import Orientation from 'react-native-orientation';
 import {
     userChanged,
     passwordChanged,
@@ -26,6 +28,10 @@ import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
 class LoginForm extends Component {
+    state = {
+        heightScrollView: -1
+    };
+
     componentWillMount() {
         if (this.props.logout) {
             Keychain.resetGenericPassword()
@@ -36,7 +42,24 @@ class LoginForm extends Component {
                     this.props.endLoading();
                 });
         }
+
+        let initialOrientation = Orientation.getInitialOrientation();
+        if (initialOrientation === 'PORTRAIT') {
+            this.setState({ orientation: initialOrientation });
+        } else if (initialOrientation === 'LANDSCAPE') {
+            this.setState({ orientation: initialOrientation });
+        }
+
+        Orientation.addOrientationListener(this._orientationDidChange);
     }
+
+    _orientationDidChange = (changedOrientation) => {
+        if (changedOrientation === 'PORTRAIT') {
+            this.setState({ orientation: changedOrientation });
+        } else if (changedOrientation === 'LANDSCAPE') {
+            this.setState({ orientation: changedOrientation });
+        }
+    };
 
     onUserChange(text) {
         this.props.userChanged(text);
@@ -66,44 +89,57 @@ class LoginForm extends Component {
         );
     }
 
+    setViewHeight() {
+        if (this.state.heightScrollView !== -1) {
+            if (this.state.orientation === 'PORTRAIT') {
+                return ({ height: this.state.heightScrollView - 70 });
+            } else if (this.state.orientation === 'LANDSCAPE') {
+                return ({ height: this.state.heightScrollView + 70 });
+            }
+        }
+    }
+
     render () {
         return (
-            <View style={{ flex: 1 }}>
-                <Card>
-                    <CardSection>
-                        <Text style={styles.noticeText}>
-                            {i18n.t('login_notice')}
-                        </Text>
-                    </CardSection>
-                    <CardSection>
-                        <Input
-                            label={i18n.t('username')}
-                            placeholder=""
-                            onChangeText={this.onUserChange.bind(this)}
-                            value={this.props.user}
-                        />
-                    </CardSection>
+            <ScrollView onLayout={(layout) => this.setState({ heightScrollView: layout.nativeEvent.layout.height })}>
+                <View style={this.setViewHeight()}>
+                    <Card>
+                        <CardSection>
+                            <Text style={styles.noticeText}>
+                                {i18n.t('login_notice')}
+                            </Text>
+                        </CardSection>
 
-                    <CardSection>
-                        <Input
-                            secureTextEntry
-                            label={i18n.t('password')}
-                            placeholder=""
-                            onChangeText={this.onPasswordChange.bind(this)}
-                            value={this.props.password}
-                        />
-                    </CardSection>
+                        <CardSection>
+                            <Input
+                                label={i18n.t('username')}
+                                placeholder=""
+                                onChangeText={this.onUserChange.bind(this)}
+                                value={this.props.user}
+                            />
+                        </CardSection>
 
-                    <CardSection>
-                        <Text style={styles.errorText}>
-                            {this.props.error}
-                        </Text>
-                    </CardSection>
+                        <CardSection>
+                            <Input
+                                secureTextEntry
+                                label={i18n.t('password')}
+                                placeholder=""
+                                onChangeText={this.onPasswordChange.bind(this)}
+                                value={this.props.password}
+                            />
+                        </CardSection>
 
-                    <CardSection>
-                        {this.renderButton()}
-                    </CardSection>
-                </Card>
+                        <CardSection>
+                            <Text style={styles.errorText}>
+                                {this.props.error}
+                            </Text>
+                        </CardSection>
+
+                        <CardSection>
+                            {this.renderButton()}
+                        </CardSection>
+                    </Card>
+                </View>
 
                 <View style={styles.noticeFooter}>
                     <View style={styles.noticeFooterContainer}>
@@ -131,7 +167,7 @@ class LoginForm extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -149,16 +185,16 @@ const styles = {
         fontWeight: "bold"
     },
     noticeFooter: {
-        alignSelf: "center",
-        position: "absolute",
-        bottom: 10,
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        height: 60,
+        marginBottom: 10
     },
     noticeFooterContainer: {
         flexDirection: "row"
     },
     noticeFooterText: {
+        fontSize: 14,
         fontWeight: "bold"
     },
     hyperlinkText: {
