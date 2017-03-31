@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { Card, CardSection } from './common';
 
-class ListItem extends Component {
+class EventItem extends Component {
     onRowPress() {
         console.log("Pressed");
     }
@@ -79,4 +79,4 @@ const styles = {
     }
 };
 
-export default ListItem;
+export default EventItem;
