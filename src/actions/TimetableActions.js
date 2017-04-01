@@ -25,10 +25,6 @@ export const fetchWeek = (user, program, week, target) => {
             .then((response) => response.json())
             .then((responseJson) => {
                 dispatch({
-                    type: WEEK_SET,
-                    payload: parseInt(week)
-                });
-                dispatch({
                     type: WEEK_FETCH_SUCCESS,
                     payload: JSON.stringify(responseJson)
                 });
@@ -45,6 +41,15 @@ export const selectDay = (day) => {
         dispatch({
             type: DAY_SELECTED,
             payload: day.toLowerCase()
+        });
+    };
+};
+
+export const selectWeek = (week) => {
+    return (dispatch) => {
+        dispatch({
+            type: WEEK_SET,
+            payload: parseInt(week)
         });
     };
 };

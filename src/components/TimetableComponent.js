@@ -14,7 +14,8 @@ import {
 import { connect } from 'react-redux';
 import Orientation from 'react-native-orientation';
 import { IconButton } from './common';
-import { fetchWeek, selectDay } from '../actions';
+import { fetchWeek, selectDay, selectWeek } from '../actions';
+import moment from 'moment';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 import DayView from './DayViewComponent';
@@ -28,6 +29,24 @@ class Timetable extends Component {
     };
 
     componentWillMount() {
+        let week = parseInt(moment().format('W'));
+        let today = moment().format('ddd');
+        let hour = moment().format('H');
+
+        if (today === "Sat" || today === "Sun") {  // If it's on a weekend, jump to the next Monday
+            this.props.selectDay('Mon');
+            this.props.selectWeek(week + 1);
+        } else if (hour >= 19 && today === "Fri") {  // If it's after 19:00 and a Friday, jump to the next Monday
+            this.props.selectDay('Mon');
+            this.props.selectWeek(week + 1);
+        } else if (hour >= 19 && today !== "Fri") {  // If it's after 19:00, jump to the following day of the week
+            this.props.selectDay(moment().add(1, 'day').format('ddd'));
+            this.props.selectWeek(week);
+        } else {
+            this.props.selectDay(today);
+            this.props.selectWeek(week);
+        }
+
         setTimeout(() => {
             this.props.fetchWeek(this.props.user, this.props.program, '17', this.props.semester);
         }, 1000);
@@ -271,4 +290,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek, selectDay })(Timetable);
+export default connect(mapStateToProps, { fetchWeek, selectDay, selectWeek })(Timetable);
