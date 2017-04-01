@@ -66,6 +66,13 @@ class Timetable extends Component {
         AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
     }
 
+    componentWillUnmount() {
+        Orientation.removeOrientationListener(this._orientationDidChange);  // Remove the listener from 'componentDidMount()'
+        // So far 'react-native-router-flux' does not trigger 'componentWillUnmount()' when changing the scene
+        // Therefore, at the moment this will never be triggered.
+        // I will leave it in though for a possible future use.
+    }
+
     componentWillUpdate() {
         // Had to disable the animation in virtue of it causing the 'DayView' to freeze during the rendering
         // UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
