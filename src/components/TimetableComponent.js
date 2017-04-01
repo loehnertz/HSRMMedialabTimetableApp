@@ -48,9 +48,8 @@ class Timetable extends Component {
         }
 
         setTimeout(() => {
-            this.props.fetchWeek(this.props.user, this.props.program, '17', this.props.semester);
+            this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
         }, 1000);
-        // Using the 17th week of the year to get results from the API
         // TODO: Try to refactor the line above so one does not need the 'setTimeout()'
 
         let initialOrientation = Orientation.getInitialOrientation();
