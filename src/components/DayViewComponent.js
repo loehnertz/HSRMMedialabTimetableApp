@@ -20,16 +20,18 @@ class DayView extends Component {
     componentWillMount() {
         let today = moment().format('ddd');
         let hour = moment().format('H');
+
         if (today === "Sat" || today === "Sun") {  // If it's on a weekend, jump to the next Monday
             this.props.selectDay('Mon');
         } else if (hour >= 19 && today === "Fri") {  // If it's after 19:00 and a Friday, jump to the next Monday
             this.props.selectDay('Mon');
         } else if (hour >= 19 && today !== "Fri") {  // If it's after 19:00, jump to the following day of the week
-            today = moment().add(1, 'day').format('ddd');
-            this.props.selectDay(today);
+            this.props.selectDay(moment().add(1, 'day').format('ddd'));
         } else {
             this.props.selectDay(today);
         }
+
+        this.setState({ today: today });
     }
 
     _onMomentumScrollEnd(e, state, context) {
@@ -66,12 +68,11 @@ class DayView extends Component {
         let eventIndexFri = 0;
 
         for (let event in eventsList) {
-            if (this.props.hidePastEvents) {
-                let today = moment().format('ddd');
+            if (this.props.hidePastEvents && this.state.today !== 'Sat' && this.state.today !== 'Sun') {
                 let currentTime = parseInt(moment().format('HMM'));
-                let eventEndTime = parseInt(this.props.slots[eventsList[event]["start"]]["end"].replace(/:/, ""));
+                let eventEndTime = parseInt(this.props.slots[eventsList[event]["start"]]["end"].replace(/:/, ''));
 
-                switch (today) {
+                switch (this.state.today) {
                     case 'Mon':
                         switch (eventsList[event]["day"]) {
                             case 'mon':

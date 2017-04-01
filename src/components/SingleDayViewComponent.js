@@ -56,7 +56,7 @@ class SingleDayView extends Component {
 
         if (eventJSON.noEvents) {
             return (
-                <Card>
+                <Card style={styles.flex}>
                     <CardSection style={styles.noEventsCardSection}>
                         <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>
                     </CardSection>
