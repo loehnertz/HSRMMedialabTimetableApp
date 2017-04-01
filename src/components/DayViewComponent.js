@@ -324,32 +324,6 @@ const styles = {
     dayView: {
         flex: 1,
         flexDirection: "column"
-    },
-    weekView: {
-        flex: 1
-    },
-    header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "#F4F4F4",
-        elevation: 5,
-        borderBottomWidth: 1,
-        borderBottomColor: "#CCCCCC",
-        padding: 10
-    },
-    headerText: {
-        fontSize: 20,
-        fontWeight: "bold"
-    },
-    headerView: {
-        flexDirection: "column",
-        alignItems: "center"
-    },
-    spinner: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
     }
 };
 

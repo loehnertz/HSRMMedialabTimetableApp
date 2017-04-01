@@ -124,22 +124,6 @@ i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
 const styles = {
-    header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "#F4F4F4",
-        height: 60,
-        padding: 10
-    },
-    headerText: {
-        fontSize: 20,
-        fontWeight: "bold"
-    },
-    headerView: {
-        flexDirection: "column",
-        alignItems: "center"
-    },
     noEventsCardSection: {
         height: 235,
         flexDirection: "column",
@@ -161,7 +145,6 @@ const mapStateToProps = state => {
         program: state.login.program,
         masterdata: state.timetable.masterdata,
         currentWeek: state.timetable.currentWeek,
-        selectedDay: state.timetable.selectedDay,
         semester: state.settings.semester,
         special_subject: state.settings.special_subject
     }

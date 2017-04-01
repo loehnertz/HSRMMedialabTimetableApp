@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    ScrollView,
     Image,
     RefreshControl,
     ActivityIndicator,
@@ -234,13 +233,6 @@ i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
 const styles = {
-    dayView: {
-        flex: 1,
-        flexDirection: "column"
-    },
-    weekView: {
-        flex: 1
-    },
     header: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -274,11 +266,8 @@ const mapStateToProps = state => {
         slots: state.timetable.timeslots,
         week: state.timetable.fetchedWeek,
         currentWeek: state.timetable.currentWeek,
-        selectedDay: state.timetable.selectedDay,
         loading: state.timetable.loadingFetch,
-        semester: state.settings.semester,
-        scrollToTimeslot: state.settings.scrollToTimeslot,
-        hidePastEvents: state.settings.hidePastEvents
+        semester: state.settings.semester
     }
 };
 
