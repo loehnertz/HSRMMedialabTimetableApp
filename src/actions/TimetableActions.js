@@ -83,3 +83,9 @@ export const dispatchTimeslots = (slots) => {
         });
     };
 };
+
+export const checkForTimetableChanges = () => {
+    return (dispatch) => {
+        console.log("checkForTimetableChanges()");
+    };
+};

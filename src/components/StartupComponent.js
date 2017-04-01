@@ -6,7 +6,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { dispatchMasterdata, dispatchSettings, dispatchTimeslots, isUserLoggedIn } from '../actions';
+import BackgroundJob from 'react-native-background-job';
+import { dispatchMasterdata, dispatchSettings, dispatchTimeslots, isUserLoggedIn, checkForTimetableChanges } from '../actions';
 
 class Startup extends Component {
     state = {
@@ -16,6 +17,13 @@ class Startup extends Component {
 
     componentWillMount() {
         this.props.isUserLoggedIn();
+
+        BackgroundJob.register({
+            jobKey: 'refresh_timetable',
+            job: () => {
+                this.props.checkForTimetableChanges();
+            }
+        });
     }
     
     componentDidMount() {  // Using a 'setInterval()' so the 'LoginForm' component can use this as well
@@ -23,12 +31,12 @@ class Startup extends Component {
             if (this.props.user && this.state.masterdataAndSettingsDispatched === false) {
                 this.props.dispatchMasterdata();
                 this.props.dispatchSettings(this.props.user);
-                this.setState({masterdataAndSettingsDispatched: true});
+                this.setState({ masterdataAndSettingsDispatched: true });
             }
 
             if (this.props.masterdata !== undefined && this.state.timeslotsDispatched === false) {
                 this.renderTimeslots(JSON.parse(this.props.masterdata)["timetable"]["timeslots"]);
-                this.setState({timeslotsDispatched: true});
+                this.setState({ timeslotsDispatched: true });
             }
 
             if (this.props.user && this.props.masterdata && this.props.timeslots) {
@@ -36,6 +44,12 @@ class Startup extends Component {
                 clearInterval(dispatchInterval);
             }
         }, 123);
+
+        BackgroundJob.schedule({
+            jobKey: 'refresh_timetable',
+            period: 15000,  // Just for development
+            timeout: 10000
+        });
     }
 
     renderTimeslots(timeslots) {
@@ -79,4 +93,10 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { dispatchMasterdata, dispatchSettings, dispatchTimeslots, isUserLoggedIn })(Startup);
+export default connect(mapStateToProps, {
+    dispatchMasterdata,
+    dispatchSettings,
+    dispatchTimeslots,
+    isUserLoggedIn,
+    checkForTimetableChanges
+})(Startup);
