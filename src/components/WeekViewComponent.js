@@ -3,6 +3,7 @@ import {
     Text,
     View,
     ListView,
+    ScrollView,
     Button,
     TouchableOpacity,
     Modal,
@@ -12,20 +13,26 @@ import { EventModal } from './common';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
+import moment from 'moment';
 import { fetchWeek } from '../actions';
 import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
-import ListItem from './ListItemComponent';
+import ListItem from './EventItemComponent';
 
 class WeekView extends Component {
     state = {
         columnWidth: -1,
-        showEventModal: false
+        showEventModal: false,
+        doneInitialScrollWeekView: false
     };
 
     componentDidMount() {
         Actions.refresh({key: 'timetable', title: i18n.t('week_view')});
+    }
+
+    _onRefresh() {
+        this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
     }
 
     setEventModal(eventJSON) {
@@ -79,6 +86,51 @@ class WeekView extends Component {
 
     renderEventModal() {
         return this.state.contentEventModal;
+    }
+
+    handleScrollToWeekViewTimeslot() {
+        let currentTime = parseInt(moment().format('HMM'));
+
+        if (this.props.scrollToTimeslot && this.state.doneInitialScrollWeekView === false && currentTime >= 815 && currentTime <= 1915) {
+            let scrollOffsetY;
+
+            if (currentTime > 815 && currentTime < 900) {
+                scrollOffsetY = 50;
+            } else if (currentTime > 900 && currentTime < 945) {
+                scrollOffsetY = 150;
+            } else if (currentTime > 945 && currentTime < 1045) {
+                scrollOffsetY = 250;
+            } else if (currentTime > 1045 && currentTime < 1130) {
+                scrollOffsetY = 350;
+            } else if (currentTime > 1130 && currentTime < 1230) {
+                scrollOffsetY = 450;
+            } else if (currentTime > 1230 && currentTime < 1315) {
+                scrollOffsetY = 550;
+            } else if (currentTime > 1315 && currentTime < 1415) {
+                scrollOffsetY = 650;
+            } else if (currentTime > 1415 && currentTime < 1500) {
+                scrollOffsetY = 750;
+            } else if (currentTime > 1500 && currentTime < 1545) {
+                scrollOffsetY = 850;
+            } else if (currentTime > 1545 && currentTime < 1645) {
+                scrollOffsetY = 950;
+            } else if (currentTime > 1645 && currentTime < 1730) {
+                scrollOffsetY = 1050;
+            } else if (currentTime > 1730 && currentTime < 1830) {
+                scrollOffsetY = 1150;
+            } else if (currentTime > 1830 && currentTime < 1915) {
+                scrollOffsetY = 1250;
+            }
+
+            this.setState({ scrollOffsetY: scrollOffsetY });
+
+            setTimeout(() => {
+                this.scrollWeekView.scrollTo({ y: scrollOffsetY });
+            }, 500);
+            // Using 500 milliseconds delay here because otherwise it looks really confusing to the user why the whole 'View' just jumped downwards
+        }
+
+        this.setState({ doneInitialScrollWeekView: true });
     }
 
     renderTimeslots() {
@@ -153,56 +205,71 @@ class WeekView extends Component {
 
     render() {
         return (
-            <View style={styles.columnContainer}>
-                <View style={styles.slotsColumn}>
-                    <Text style={styles.columnHeader}>{i18n.t('timeslots')}</Text>
-                    {this.renderTimeslots()}
-                </View>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>{i18n.t('Mon')}</Text>
-                    <View style={styles.eventCell}>
-                        {this.renderCells()}
-                        {this.renderDay('mon')}
+            <ScrollView
+                onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
+                onScroll={(scroll) => this.setState({ scrollOffsetY: scroll.nativeEvent.contentOffset.y })}
+                ref={(scrollView) => this.scrollWeekView = scrollView}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={false}
+                        onRefresh={this._onRefresh.bind(this)}
+                        colors={['#E10019']}
+                        tintColor="#E10019"
+                    />
+                }
+                style={styles.weekView}
+            >
+                <View style={styles.columnContainer}>
+                    <View style={styles.slotsColumn}>
+                        <Text style={styles.columnHeader}>{i18n.t('timeslots')}</Text>
+                        {this.renderTimeslots()}
                     </View>
-                </View>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>{i18n.t('Tue')}</Text>
-                    <View style={styles.eventCell}>
-                        {this.renderCells()}
-                        {this.renderDay('tue')}
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>{i18n.t('Mon')}</Text>
+                        <View style={styles.eventCell}>
+                            {this.renderCells()}
+                            {this.renderDay('mon')}
+                        </View>
                     </View>
-                </View>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>{i18n.t('Wed')}</Text>
-                    <View style={styles.eventCell}>
-                        {this.renderCells()}
-                        {this.renderDay('wed')}
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>{i18n.t('Tue')}</Text>
+                        <View style={styles.eventCell}>
+                            {this.renderCells()}
+                            {this.renderDay('tue')}
+                        </View>
                     </View>
-                </View>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>{i18n.t('Thu')}</Text>
-                    <View style={styles.eventCell}>
-                        {this.renderCells()}
-                        {this.renderDay('thu')}
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>{i18n.t('Wed')}</Text>
+                        <View style={styles.eventCell}>
+                            {this.renderCells()}
+                            {this.renderDay('wed')}
+                        </View>
                     </View>
-                </View>
-                <View
-                    style={styles.column}
-                    onLayout={(event) => { this.setState({columnWidth: event.nativeEvent.layout.width}); }}  // Saves the width of a day column used for calculating the width of a slot with multiple events
-                >
-                    <Text style={styles.columnHeader}>{i18n.t('Fri')}</Text>
-                    <View style={styles.eventCell}>
-                        {this.renderCells()}
-                        {this.renderDay('fri')}
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>{i18n.t('Thu')}</Text>
+                        <View style={styles.eventCell}>
+                            {this.renderCells()}
+                            {this.renderDay('thu')}
+                        </View>
                     </View>
+                    <View
+                        style={styles.column}
+                        onLayout={(event) => { this.setState({columnWidth: event.nativeEvent.layout.width}); }}  // Saves the width of a day column used for calculating the width of a slot with multiple events
+                    >
+                        <Text style={styles.columnHeader}>{i18n.t('Fri')}</Text>
+                        <View style={styles.eventCell}>
+                            {this.renderCells()}
+                            {this.renderDay('fri')}
+                        </View>
+                    </View>
+                    <EventModal
+                        visible={this.state.showEventModal}
+                        onClose={this.closeEventModal.bind(this)}
+                    >
+                        {this.renderEventModal()}
+                    </EventModal>
                 </View>
-                <EventModal
-                    visible={this.state.showEventModal}
-                    onClose={this.closeEventModal.bind(this)}
-                >
-                    {this.renderEventModal()}
-                </EventModal>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -278,7 +345,8 @@ const mapStateToProps = state => {
         slots: state.timetable.timeslots,
         currentWeek: state.timetable.currentWeek,
         semester: state.settings.semester,
-        special_subject: state.settings.special_subject
+        special_subject: state.settings.special_subject,
+        scrollToTimeslot: state.settings.scrollToTimeslot
     }
 };
 
