@@ -13,6 +13,10 @@ import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
 class DayView extends Component {
+    state = {
+        swiperHeight: -1
+    };
+
     componentWillMount() {
         let today = moment().format('ddd');
         let hour = moment().format('H');
@@ -280,7 +284,7 @@ class DayView extends Component {
 
         return (
             <View
-                onLayout={(event) => { this.setState({swiperHeight: event.nativeEvent.layout.height}); }}  // Set the height of the 'View' for the 'Swiper'
+                onLayout={(event) => {this.setState({ swiperHeight: event.nativeEvent.layout.height })}}  // Set the height of the 'View' for the 'Swiper'
                 style={styles.dayView}
             >
                 <ScrollView>
@@ -316,10 +320,44 @@ i18n.locale = 'de';
 i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
+const styles = {
+    dayView: {
+        flex: 1,
+        flexDirection: "column"
+    },
+    weekView: {
+        flex: 1
+    },
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        backgroundColor: "#F4F4F4",
+        elevation: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: "#CCCCCC",
+        padding: 10
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: "bold"
+    },
+    headerView: {
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    spinner: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    }
+};
+
 const mapStateToProps = state => {
     return {
         slots: state.timetable.timeslots,
         selectedDay: state.timetable.selectedDay,
+        currentWeek: state.timetable.currentWeek,
         hidePastEvents: state.settings.hidePastEvents
     }
 };
