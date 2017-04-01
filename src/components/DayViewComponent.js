@@ -38,7 +38,10 @@ class DayView extends Component {
     }
 
     renderDayView() {
-        let today = moment().format('ddd');
+        let selectedDay = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('ddd');
+        let selectedDate = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('DD.MM.YYYY');
+        let dayOfTheWeek = moment().format('ddd');
+        let dateOfToday = moment().format('DD.MM.YYYY');
         let eventsList = this.props.events;
         let eventsMon = [];
         let eventIndexMon = 0;
@@ -52,11 +55,11 @@ class DayView extends Component {
         let eventIndexFri = 0;
 
         for (let event in eventsList) {
-            if (this.props.hidePastEvents && today !== 'Sat' && today !== 'Sun') {
+            if (this.props.hidePastEvents && dayOfTheWeek !== 'Sat' && dayOfTheWeek !== 'Sun' && selectedDate == dateOfToday) {
                 let currentTime = parseInt(moment().format('HMM'));
                 let eventEndTime = parseInt(this.props.slots[eventsList[event]["start"]]["end"].replace(/:/, ''));
 
-                switch (today) {
+                switch (dayOfTheWeek) {
                     case 'Mon':
                         switch (eventsList[event]["day"]) {
                             case 'mon':
@@ -264,9 +267,6 @@ class DayView extends Component {
                 break;
         }
 
-        let day = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('ddd');
-        let date = moment().day(this.props.selectedDay).week(this.props.currentWeek).format('DD.MM.YYYY');
-
         return (
             <View
                 onLayout={(event) => {this.setState({ swiperHeight: event.nativeEvent.layout.height })}}  // Set the height of the 'View' for the 'Swiper'
@@ -287,7 +287,7 @@ class DayView extends Component {
                         <SingleDayView events={eventsFri} />
                     </Swiper>
                 </ScrollView>
-                <DaySwitcher day={i18n.t(day) + ', ' + date} />
+                <DaySwitcher day={i18n.t(selectedDay) + ', ' + selectedDate} />
             </View>
         );
     }
