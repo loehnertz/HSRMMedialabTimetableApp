@@ -59,10 +59,11 @@ class Timetable extends Component {
         } else if (initialOrientation === 'LANDSCAPE') {
             this.setState({ orientation: initialOrientation });
         }
+    }
 
-        Orientation.addOrientationListener(this._orientationDidChange);
-
-        AppState.addEventListener('change', this._handleAppStateChange.bind(this));
+    componentDidMount() {
+        Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
+        AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
     }
 
     componentWillUpdate() {
@@ -163,13 +164,14 @@ class Timetable extends Component {
     };
 
     _handleAppStateChange = (appState) => {
-        if (appState === "background") {
-            let newOrientation = Orientation.getInitialOrientation();
-            if (newOrientation === 'PORTRAIT') {
-                this.setState({ orientation: newOrientation });
-            } else if (newOrientation === 'LANDSCAPE') {
-                this.setState({ orientation: newOrientation });
-            }
+        if (appState === "active") {
+            Orientation.getOrientation((error, newOrientation) => {
+                if (newOrientation === 'PORTRAIT') {
+                    this.setState({ orientation: newOrientation });
+                } else if (newOrientation === 'LANDSCAPE') {
+                    this.setState({ orientation: newOrientation });
+                }
+            });
         }
     };
 
