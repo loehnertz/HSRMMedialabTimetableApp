@@ -12,6 +12,7 @@ import {
     AppState
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import Orientation from 'react-native-orientation';
 import { IconButton } from './common';
 import { fetchWeek, selectDay, selectWeek } from '../actions';
@@ -153,8 +154,10 @@ class Timetable extends Component {
 
     _orientationDidChange = (changedOrientation) => {
         if (changedOrientation === 'PORTRAIT') {
+            Actions.pop();
             this.setState({ orientation: changedOrientation });
         } else if (changedOrientation === 'LANDSCAPE') {
+            Actions.pop();
             this.setState({ orientation: changedOrientation });
         }
     };
