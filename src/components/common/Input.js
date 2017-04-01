@@ -24,12 +24,13 @@ const styles = {
         paddingLeft: 5,
         fontSize: 18,
         lineHeight: 23,
-        flex: 2
+        flex: 3
     },
     labelStyle: {
         fontSize: 18,
-        paddingLeft: 20,
-        flex: 1
+        paddingRight: 15,
+        paddingLeft: 5,
+        flex: 2
     },
     containerStyle: {
         height: 40,

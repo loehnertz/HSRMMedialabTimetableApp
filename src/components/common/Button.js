@@ -22,14 +22,14 @@ const styles = {
         backgroundColor: "white",
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: "limegreen",
+        borderColor: "#E10019",
         margin: 10
     },
     centeredButtonText: {
         alignSelf: "center",
         fontSize: 16,
         fontWeight: "bold",
-        color: "limegreen",
+        color: "#E10019",
         paddingTop: 10,
         paddingBottom: 10
     }

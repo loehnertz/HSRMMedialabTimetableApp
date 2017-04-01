@@ -6,8 +6,10 @@ import {
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
-    LOADING_START
+    LOADING_START,
+    LOADING_END
 } from './types';
+import { DEFAULT_SETTINGS } from './defaults';
 
 export const userChanged = (text) => {
     return {
@@ -41,9 +43,9 @@ export const isUserLoggedIn = () => {
                             if (responseJson.message === "login successful") {
                                 dispatch({
                                     type: LOGIN_USER_SUCCESS,
-                                    payload: credentials.username
+                                    username: credentials.username,
+                                    program: credentials.username.slice(0, -1)
                                 });
-                                Actions.main({ type: 'reset' });
                             } else {
                                 dispatch({ type: LOGIN_USER_FAILED });
                                 Actions.auth({ type: 'reset' });
@@ -51,13 +53,16 @@ export const isUserLoggedIn = () => {
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch({ type: LOADING_END });
                             Actions.auth({ type: 'reset' });
                         });
                 } else {
+                    dispatch({ type: LOADING_END });
                     Actions.auth({ type: 'reset' });
                 }
             })
             .catch(() => {
+                dispatch({ type: LOADING_END });
                 Actions.auth({ type: 'reset' });
             });
     };
@@ -90,19 +95,23 @@ export const loginUser = (user, password) => {
                         .then(async (responseJson) => {
                             try {
                                 await AsyncStorage.setItem('masterdata', JSON.stringify(responseJson));
+                                await AsyncStorage.setItem('settings', JSON.stringify(DEFAULT_SETTINGS));
                                 await Keychain.setGenericPassword(user, password);
                                 dispatch({
                                     type: LOGIN_USER_SUCCESS,
-                                    payload: user
+                                    username: user,
+                                    program: user.slice(0, -1)
                                 });
-                                Actions.main({ type: 'reset' });
+                                Actions.startup({ type: 'reset' });
                             } catch (error) {
                                 console.log(error);
                                 dispatch({ type: LOGIN_USER_FAILED });
+                                Actions.auth({ type: 'reset' });
                             }
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch({ type: LOGIN_USER_FAILED });
                             Actions.auth({ type: 'reset' });
                         });
                 } else {
@@ -111,7 +120,12 @@ export const loginUser = (user, password) => {
             })
             .catch((error) => {
                 console.log(error);
+                dispatch({ type: LOGIN_USER_FAILED });
                 Actions.auth({ type: 'reset' });
             });
     };
+};
+
+export const endLoading = () => {
+    return { type: LOADING_END };
 };
