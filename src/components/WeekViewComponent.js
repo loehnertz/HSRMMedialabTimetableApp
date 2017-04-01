@@ -345,7 +345,8 @@ const mapStateToProps = state => {
         slots: state.timetable.timeslots,
         currentWeek: state.timetable.currentWeek,
         semester: state.settings.semester,
-        special_subject: state.settings.special_subject
+        special_subject: state.settings.special_subject,
+        scrollToTimeslot: state.settings.scrollToTimeslot
     }
 };
 
