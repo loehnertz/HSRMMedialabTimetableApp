@@ -9,6 +9,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.oblador.keychain.KeychainPackage;
 import com.github.yamill.orientation.OrientationPackage;
+import com.pilloxa.backgroundjob.BackgroundJobPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new KeychainPackage(),
-          new OrientationPackage()
+          new OrientationPackage(),
+          new BackgroundJobPackage()
       );
     }
   };
