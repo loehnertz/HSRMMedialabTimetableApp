@@ -119,7 +119,6 @@ class SingleDayView extends Component {
     }
 }
 
-i18n.locale = 'de';
 i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
