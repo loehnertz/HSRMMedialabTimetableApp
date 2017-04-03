@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
+    ScrollView,
     Image,
     RefreshControl,
     ActivityIndicator,
     AsyncStorage,
+    Dimensions,
     Animated,
     LayoutAnimation,
     UIManager,
@@ -160,6 +162,10 @@ class Timetable extends Component {
         }
     }
 
+    _onRefresh() {
+        this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
+    }
+
     _orientationDidChange = (changedOrientation) => {
         if (changedOrientation === 'PORTRAIT') {
             Actions.pop();
@@ -182,6 +188,51 @@ class Timetable extends Component {
         }
     };
 
+    handleScrollToWeekViewTimeslot() {
+        let currentTime = parseInt(moment().format('HMM'));
+
+        if (this.props.scrollToTimeslot && this.state.doneInitialScrollWeekView === false && currentTime >= 815 && currentTime <= 1915) {
+            let scrollOffsetY;
+
+            if (currentTime > 815 && currentTime < 900) {
+                scrollOffsetY = 50;
+            } else if (currentTime > 900 && currentTime < 945) {
+                scrollOffsetY = 150;
+            } else if (currentTime > 945 && currentTime < 1045) {
+                scrollOffsetY = 250;
+            } else if (currentTime > 1045 && currentTime < 1130) {
+                scrollOffsetY = 350;
+            } else if (currentTime > 1130 && currentTime < 1230) {
+                scrollOffsetY = 450;
+            } else if (currentTime > 1230 && currentTime < 1315) {
+                scrollOffsetY = 550;
+            } else if (currentTime > 1315 && currentTime < 1415) {
+                scrollOffsetY = 650;
+            } else if (currentTime > 1415 && currentTime < 1500) {
+                scrollOffsetY = 750;
+            } else if (currentTime > 1500 && currentTime < 1545) {
+                scrollOffsetY = 850;
+            } else if (currentTime > 1545 && currentTime < 1645) {
+                scrollOffsetY = 950;
+            } else if (currentTime > 1645 && currentTime < 1730) {
+                scrollOffsetY = 1050;
+            } else if (currentTime > 1730 && currentTime < 1830) {
+                scrollOffsetY = 1150;
+            } else if (currentTime > 1830 && currentTime < 1915) {
+                scrollOffsetY = 1250;
+            }
+
+            this.setState({ scrollOffsetY: scrollOffsetY });
+
+            setTimeout(() => {
+                this.scrollWeekView.scrollTo({ y: scrollOffsetY });
+            }, 500);
+            // Using 500 milliseconds delay here because otherwise it looks really confusing to the user why the whole 'View' just jumped downwards
+        }
+
+        this.setState({ doneInitialScrollWeekView: true });
+    }
+
     renderTimetable() {
         if (this.props.loading) {
             return (
@@ -200,9 +251,28 @@ class Timetable extends Component {
                 }
                 
                 if (this.state.orientation === 'PORTRAIT') {  // Render: DayView
-                    return <DayView events={events} />
+                    return (
+                        <DayView events={events} />
+                    );
                 } else if (this.state.orientation === 'LANDSCAPE') {  // Render: WeekView
-                    return <WeekView events={events} />;
+                    return (
+                        <ScrollView
+                            onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
+                            onScroll={(scroll) => this.setState({ scrollOffsetY: scroll.nativeEvent.contentOffset.y })}
+                            ref={(scrollView) => this.scrollWeekView = scrollView}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={false}
+                                    onRefresh={this._onRefresh.bind(this)}
+                                    colors={['#E10019']}
+                                    tintColor="#E10019"
+                                />
+                            }
+                            style={styles.weekView}
+                        >
+                            <WeekView events={events} />
+                        </ScrollView>
+                    );
                 }
             }
         }
@@ -281,6 +351,9 @@ const styles = {
         flexDirection: "column",
         alignItems: "center"
     },
+    weekView: {
+
+    },
     spinner: {
         flex: 1,
         justifyContent: "center",
@@ -297,7 +370,8 @@ const mapStateToProps = state => {
         week: state.timetable.fetchedWeek,
         currentWeek: state.timetable.currentWeek,
         loading: state.timetable.loadingFetch,
-        semester: state.settings.semester
+        semester: state.settings.semester,
+        scrollToTimeslot: state.settings.scrollToTimeslot
     }
 };
 
