@@ -29,7 +29,8 @@ class Timetable extends Component {
         headerHeight: new Animated.Value(60),
         annotationHeight: new Animated.Value(20),
         iconButtonSize: new Animated.Value(20),
-        iconButtonPadding: new Animated.Value(10)
+        iconButtonPadding: new Animated.Value(10),
+        doneInitialScrollWeekView: false
     };
 
     componentWillMount() {
@@ -284,7 +285,7 @@ class Timetable extends Component {
                                     tintColor="#E10019"
                                 />
                             }
-                            style={styles.weekView}
+                            style={{ flex: 1 }}
                         >
                             <WeekView events={events} />
                         </ScrollView>
@@ -366,9 +367,6 @@ const styles = {
     headerView: {
         flexDirection: "column",
         alignItems: "center"
-    },
-    weekView: {
-
     },
     spinner: {
         flex: 1,

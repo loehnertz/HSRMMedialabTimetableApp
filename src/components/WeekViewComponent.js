@@ -19,8 +19,7 @@ import ListItem from './EventItemComponent';
 class WeekView extends Component {
     state = {
         columnWidth: -1,
-        showEventModal: false,
-        doneInitialScrollWeekView: false
+        showEventModal: false
     };
 
     componentDidMount() {
