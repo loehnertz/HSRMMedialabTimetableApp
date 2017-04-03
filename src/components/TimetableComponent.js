@@ -88,104 +88,12 @@ class Timetable extends Component {
     componentDidUpdate() {
         if (this.state.orientation === 'LANDSCAPE') {
             if (this.state.scrollOffsetY > 90) {
-                Animated.spring(
-                    this.state.headerHeight,
-                    {
-                        toValue: 35,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
-                Animated.timing(
-                    this.state.annotationHeight,
-                    {
-                        toValue: 0,
-                        duration: 0
-                    }
-                ).start();
-                Animated.spring(
-                    this.state.iconButtonSize,
-                    {
-                        toValue: 10,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
-                Animated.spring(
-                    this.state.iconButtonPadding,
-                    {
-                        toValue: 5,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
+                this.shrinkHeader(true);
             } else if (this.state.scrollOffsetY < 60) {
-                Animated.spring(
-                    this.state.headerHeight,
-                    {
-                        toValue: 60,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
-                Animated.spring(
-                    this.state.annotationHeight,
-                    {
-                        toValue: 20,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
-                Animated.spring(
-                    this.state.iconButtonSize,
-                    {
-                        toValue: 20,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
-                Animated.spring(
-                    this.state.iconButtonPadding,
-                    {
-                        toValue: 10,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
+                this.shrinkHeader(false);
             }
-        } else {
-            Animated.spring(
-                this.state.headerHeight,
-                {
-                    toValue: 60,
-                    friction: 10,
-                    tension: 100
-                }
-            ).start();
-            Animated.spring(
-                this.state.annotationHeight,
-                {
-                    toValue: 20,
-                    friction: 10,
-                    tension: 100
-                }
-            ).start();
-            Animated.spring(
-                this.state.iconButtonSize,
-                {
-                    toValue: 20,
-                    friction: 10,
-                    tension: 100
-                }
-            ).start();
-            Animated.spring(
-                this.state.iconButtonPadding,
-                {
-                    toValue: 10,
-                    friction: 10,
-                    tension: 100
-                }
-            ).start();
+        } else if (this.state.orientation === 'PORTRAIT') {
+            this.shrinkHeader(false);
 
             if (this.state.emptyAnnotation) {
                 Animated.timing(
@@ -277,6 +185,75 @@ class Timetable extends Component {
         }
 
         this.setState({ doneInitialScrollWeekView: true });
+    }
+
+    shrinkHeader(shrink) {
+        if (shrink) {
+            Animated.spring(
+                this.state.headerHeight,
+                {
+                    toValue: 35,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.timing(
+                this.state.annotationHeight,
+                {
+                    toValue: 0,
+                    duration: 0
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonSize,
+                {
+                    toValue: 10,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonPadding,
+                {
+                    toValue: 5,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+        } else {
+            Animated.spring(
+                this.state.headerHeight,
+                {
+                    toValue: 60,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.annotationHeight,
+                {
+                    toValue: 20,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonSize,
+                {
+                    toValue: 20,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
+                this.state.iconButtonPadding,
+                {
+                    toValue: 10,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+        }
     }
 
     renderTimetable() {
