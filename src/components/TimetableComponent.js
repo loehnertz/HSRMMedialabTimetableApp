@@ -27,6 +27,7 @@ import WeekView from './WeekViewComponent';
 class Timetable extends Component {
     state = {
         headerHeight: new Animated.Value(60),
+        annotationHeight: new Animated.Value(20),
         iconButtonSize: new Animated.Value(20),
         iconButtonPadding: new Animated.Value(10)
     };
@@ -92,6 +93,13 @@ class Timetable extends Component {
                         tension: 100
                     }
                 ).start();
+                Animated.timing(
+                    this.state.annotationHeight,
+                    {
+                        toValue: 0,
+                        duration: 0
+                    }
+                ).start();
                 Animated.spring(
                     this.state.iconButtonSize,
                     {
@@ -113,6 +121,14 @@ class Timetable extends Component {
                     this.state.headerHeight,
                     {
                         toValue: 60,
+                        friction: 10,
+                        tension: 100
+                    }
+                ).start();
+                Animated.spring(
+                    this.state.annotationHeight,
+                    {
+                        toValue: 20,
                         friction: 10,
                         tension: 100
                     }
@@ -294,7 +310,7 @@ class Timetable extends Component {
                     <Text style={styles.headerText}>
                         {i18n.t('week_of_the_year')} {this.props.currentWeek}
                     </Text>
-                    <Text>
+                    <Text style={{ height: this.state.annotationHeight["_value"] }}>
                         {this.findAnnotation()}
                     </Text>
                 </View>
