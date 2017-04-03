@@ -89,6 +89,7 @@ class Timetable extends Component {
         if (this.state.orientation === 'LANDSCAPE') {
             if (this.state.scrollOffsetY > 90) {
                 this.shrinkHeader(true);
+                this.hideAnnotation(true);
             } else if (this.state.scrollOffsetY < 60) {
                 this.shrinkHeader(false);
             }
@@ -96,22 +97,9 @@ class Timetable extends Component {
             this.shrinkHeader(false);
 
             if (this.state.emptyAnnotation) {
-                Animated.timing(
-                    this.state.annotationHeight,
-                    {
-                        toValue: 0,
-                        duration: 0
-                    }
-                ).start();
+                this.hideAnnotation(true);
             } else {
-                Animated.spring(
-                    this.state.annotationHeight,
-                    {
-                        toValue: 20,
-                        friction: 10,
-                        tension: 100
-                    }
-                ).start();
+                this.hideAnnotation(false);
             }
         }
     }
@@ -249,6 +237,27 @@ class Timetable extends Component {
                 this.state.iconButtonPadding,
                 {
                     toValue: 10,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+        }
+    }
+
+    hideAnnotation(hide) {
+        if (hide) {
+            Animated.timing(
+                this.state.annotationHeight,
+                {
+                    toValue: 0,
+                    duration: 0
+                }
+            ).start();
+        } else {
+            Animated.spring(
+                this.state.annotationHeight,
+                {
+                    toValue: 20,
                     friction: 10,
                     tension: 100
                 }
