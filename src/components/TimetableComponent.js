@@ -89,9 +89,13 @@ class Timetable extends Component {
         if (this.state.orientation === 'LANDSCAPE') {
             if (this.state.scrollOffsetY > 90) {
                 this.shrinkHeader(true);
-                this.hideAnnotation(true);
             } else if (this.state.scrollOffsetY < 60) {
                 this.shrinkHeader(false);
+                if (this.state.emptyAnnotation) {
+                    this.hideAnnotation(true);
+                } else {
+                    this.hideAnnotation(false);
+                }
             }
         } else if (this.state.orientation === 'PORTRAIT') {
             this.shrinkHeader(false);
