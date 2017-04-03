@@ -178,6 +178,16 @@ class Timetable extends Component {
                     tension: 100
                 }
             ).start();
+
+            if (this.state.emptyAnnotation) {
+                Animated.timing(
+                    this.state.annotationHeight,
+                    {
+                        toValue: 0,
+                        duration: 0
+                    }
+                ).start();
+            }
         }
     }
 
@@ -336,13 +346,9 @@ class Timetable extends Component {
             if (weeks["annotation"].length > 0) {
                 return weeks["annotation"];
             } else {
-                Animated.timing(
-                    this.state.annotationHeight,
-                    {
-                        toValue: 0,
-                        duration: 0
-                    }
-                ).start();
+                setTimeout(() => {
+                    this.setState({ emptyAnnotation: true });
+                }, 500);  // Using 500 milliseconds delay here to avoid running into an error with setting two states a time
                 return null;
             }
         }
