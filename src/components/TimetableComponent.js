@@ -331,7 +331,18 @@ class Timetable extends Component {
     findAnnotation() {
         let weeks = JSON.parse(this.props.masterdata)["timetable"]["weeks"]["kw" + this.props.currentWeek];
         if (weeks !== undefined) {
-            return weeks["annotation"];
+            if (weeks["annotation"].length > 0) {
+                return weeks["annotation"];
+            } else {
+                Animated.timing(
+                    this.state.annotationHeight,
+                    {
+                        toValue: 0,
+                        duration: 0
+                    }
+                ).start();
+                return null;
+            }
         }
     }
 
