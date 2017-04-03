@@ -6,8 +6,6 @@ import {
     Image,
     RefreshControl,
     ActivityIndicator,
-    AsyncStorage,
-    Dimensions,
     Animated,
     LayoutAnimation,
     UIManager,
@@ -67,6 +65,7 @@ class Timetable extends Component {
 
     componentDidMount() {
         Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
+
         AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
     }
 

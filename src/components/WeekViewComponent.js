@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    ListView,
-    Button,
-    TouchableOpacity,
-    Modal
+    TouchableOpacity
 } from 'react-native';
 import { EventModal } from './common';
 import { connect } from 'react-redux';

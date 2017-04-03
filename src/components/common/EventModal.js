@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
     Modal,
-    View,
-    TouchableOpacity,
-    Dimensions
+    TouchableOpacity
 } from 'react-native';
 
 class EventModal extends Component {

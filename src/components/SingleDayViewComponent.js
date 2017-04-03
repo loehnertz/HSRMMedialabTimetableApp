@@ -3,7 +3,6 @@ import {
     Text,
     View,
     ListView,
-    Button,
     RefreshControl
 } from 'react-native';
 import { connect } from 'react-redux';
