@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    Text,
     View,
     ScrollView
 } from 'react-native';
@@ -7,7 +8,6 @@ import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
 import moment from 'moment';
 import { selectDay } from '../actions';
-import DaySwitcher from './DaySwitcherComponent';
 import SingleDayView from './SingleDayViewComponent';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -287,7 +287,9 @@ class DayView extends Component {
                         <SingleDayView events={eventsFri} />
                     </Swiper>
                 </ScrollView>
-                <DaySwitcher day={i18n.t(selectedDay) + ', ' + selectedDate} />
+                <View style={styles.bottomBar}>
+                    <Text style={styles.bottomBarText}>{i18n.t(selectedDay) + ', ' + selectedDate}</Text>
+                </View>
             </View>
         );
     }
@@ -308,6 +310,24 @@ const styles = {
     dayView: {
         flex: 1,
         flexDirection: "column"
+    },
+    bottomBar: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        backgroundColor: "#F4F4F4",
+        borderTopWidth: 1,
+        borderTopColor: "#CCCCCC",
+        height: 55,
+        padding: 10
+    },
+    bottomBarText: {
+        fontSize: 20,
+        fontWeight: "bold"
     }
 };
 
