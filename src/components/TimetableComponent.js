@@ -14,13 +14,14 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Orientation from 'react-native-orientation';
-import { IconButton } from './common';
 import { fetchWeek, selectDay, selectWeek } from '../actions';
 import moment from 'moment';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 import DayView from './DayViewComponent';
 import WeekView from './WeekViewComponent';
+import { IconButton } from './common';
+const AnimatedIconButton = Animated.createAnimatedComponent(IconButton);
 
 class Timetable extends Component {
     state = {
@@ -298,33 +299,33 @@ class Timetable extends Component {
 
     renderHeader() {
         return (
-            <Animated.View style={[styles.header, { height: this.state.headerHeight["_value"] }]}>
-                <IconButton
+            <Animated.View style={[styles.header, { height: this.state.headerHeight }]}>
+                <AnimatedIconButton
                     onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
-                    style={{ paddingTop: this.state.iconButtonPadding["_value"], paddingBottom: this.state.iconButtonPadding["_value"] }}
+                    style={{ paddingTop: this.state.iconButtonPadding, paddingBottom: this.state.iconButtonPadding }}
                 >
-                    <Image
+                    <Animated.Image
                         source={require('../assets/images/backwards.png')}
-                        style={{ height: this.state.iconButtonSize["_value"], width: this.state.iconButtonSize["_value"] }}
+                        style={{ height: this.state.iconButtonSize, width: this.state.iconButtonSize }}
                     />
-                </IconButton>
+                </AnimatedIconButton>
                 <View style={styles.headerView}>
                     <Text style={styles.headerText}>
                         {i18n.t('week_of_the_year')} {this.props.currentWeek}
                     </Text>
-                    <Text style={{ height: this.state.annotationHeight["_value"] }}>
+                    <Animated.Text style={{ height: this.state.annotationHeight }}>
                         {this.findAnnotation()}
-                    </Text>
+                    </Animated.Text>
                 </View>
-                <IconButton
+                <AnimatedIconButton
                     onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
-                    style={{ paddingTop: this.state.iconButtonPadding["_value"], paddingBottom: this.state.iconButtonPadding["_value"] }}
+                    style={{ paddingTop: this.state.iconButtonPadding, paddingBottom: this.state.iconButtonPadding }}
                 >
-                    <Image
+                    <Animated.Image
                         source={require('../assets/images/forward.png')}
-                        style={{ height: this.state.iconButtonSize["_value"], width: this.state.iconButtonSize["_value"] }}
+                        style={{ height: this.state.iconButtonSize, width: this.state.iconButtonSize }}
                     />
-                </IconButton>
+                </AnimatedIconButton>
             </Animated.View>
         );
     }

@@ -1,17 +1,19 @@
 // Libraries for component rendering
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Text,
     TouchableOpacity
 } from 'react-native';
 
-const IconButton = ({ onPress, children, style }) => {
-    return (
-        <TouchableOpacity onPress={onPress} style={[styles.transparentBackgroundButton, style]}>
-            { children }
-        </TouchableOpacity>
-    );
-};
+class IconButton extends Component {
+    render() {
+        return (
+            <TouchableOpacity onPress={this.props.onPress} style={[styles.transparentBackgroundButton, this.props.style]}>
+                { this.props.children }
+            </TouchableOpacity>
+        );
+    }
+}
 
 const styles = {
     transparentBackgroundButton: {
