@@ -32,6 +32,13 @@ class Timetable extends Component {
     };
 
     componentWillMount() {
+        let tryToFetchWeek = setInterval(() => {
+            if (this.props.user && this.props.program && this.props.currentWeek && this.props.semester) {
+                this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
+                clearInterval(tryToFetchWeek);
+            }
+        }, 123);
+
         let week = parseInt(moment().format('W'));
         let today = moment().format('ddd');
         let hour = moment().format('H');
@@ -49,11 +56,6 @@ class Timetable extends Component {
             this.props.selectDay(today);
             this.props.selectWeek(week);
         }
-
-        setTimeout(() => {
-            this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
-        }, 1000);
-        // TODO: Try to refactor the line above so one does not need the 'setTimeout()'
 
         let initialOrientation = Orientation.getInitialOrientation();
         if (initialOrientation === 'PORTRAIT') {
