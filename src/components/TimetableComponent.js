@@ -163,6 +163,14 @@ class Timetable extends Component {
                 }
             ).start();
             Animated.spring(
+                this.state.annotationHeight,
+                {
+                    toValue: 20,
+                    friction: 10,
+                    tension: 100
+                }
+            ).start();
+            Animated.spring(
                 this.state.iconButtonSize,
                 {
                     toValue: 20,
@@ -185,6 +193,15 @@ class Timetable extends Component {
                     {
                         toValue: 0,
                         duration: 0
+                    }
+                ).start();
+            } else {
+                Animated.spring(
+                    this.state.annotationHeight,
+                    {
+                        toValue: 20,
+                        friction: 10,
+                        tension: 100
                     }
                 ).start();
             }
@@ -344,11 +361,18 @@ class Timetable extends Component {
         let weeks = JSON.parse(this.props.masterdata)["timetable"]["weeks"]["kw" + this.props.currentWeek];
         if (weeks !== undefined) {
             if (weeks["annotation"].length > 0) {
+                if (this.state.emptyAnnotation === undefined || this.state.emptyAnnotation === true) {
+                    setTimeout(() => {
+                        this.setState({ emptyAnnotation: false });
+                    }, 500);  // Using 500 milliseconds delay here to avoid running into an error with two concurrent setState() a time
+                }
                 return weeks["annotation"];
             } else {
-                setTimeout(() => {
-                    this.setState({ emptyAnnotation: true });
-                }, 500);  // Using 500 milliseconds delay here to avoid running into an error with setting two states a time
+                if (this.state.emptyAnnotation === undefined || this.state.emptyAnnotation === false) {
+                    setTimeout(() => {
+                        this.setState({ emptyAnnotation: true });
+                    }, 500);  // Using 500 milliseconds delay here to avoid running into an error with two concurrent setState() a time
+                }
                 return null;
             }
         }
