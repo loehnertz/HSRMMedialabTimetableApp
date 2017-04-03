@@ -305,7 +305,11 @@ class Timetable extends Component {
         return (
             <Animated.View style={[styles.header, { height: this.state.headerHeight }]}>
                 <AnimatedIconButton
-                    onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester); this.props.selectDay('Mon');}}
+                    onPress={() => {
+                        this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek - 1), this.props.semester);
+                        this.props.selectDay('Mon');
+                        this.setState({ scrollOffsetY: 0 });
+                    }}
                     style={{ paddingTop: this.state.iconButtonPadding, paddingBottom: this.state.iconButtonPadding }}
                 >
                     <Animated.Image
@@ -322,7 +326,11 @@ class Timetable extends Component {
                     </Animated.Text>
                 </View>
                 <AnimatedIconButton
-                    onPress={() => {this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester); this.props.selectDay('Mon');}}
+                    onPress={() => {
+                        this.props.fetchWeek(this.props.user, this.props.program, (this.props.currentWeek + 1), this.props.semester);
+                        this.props.selectDay('Mon');
+                        this.setState({ scrollOffsetY: 0 });
+                    }}
                     style={{ paddingTop: this.state.iconButtonPadding, paddingBottom: this.state.iconButtonPadding }}
                 >
                     <Animated.Image
