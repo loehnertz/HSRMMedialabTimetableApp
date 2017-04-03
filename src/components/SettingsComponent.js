@@ -176,7 +176,8 @@ const styles = {
     settingsText: {
         flex: 1,
         color: "black",
-        fontSize: 16
+        fontSize: 16,
+        marginLeft: 10
     },
     settingsPicker: {
         flex: 2
