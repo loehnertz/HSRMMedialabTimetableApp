@@ -88,6 +88,7 @@ class Settings extends Component {
                     onValueChange={(group) => this.setState({ lecture_group: group })}
                     style={styles.settingsPicker}
                 >
+                    <Picker.Item label="Alle Gruppen" value="all" />
                     <Picker.Item label="Gruppe A" value="A" />
                     <Picker.Item label="Gruppe B" value="B" />
                     <Picker.Item label="Gruppe C" value="C" />
