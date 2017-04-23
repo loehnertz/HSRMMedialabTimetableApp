@@ -7,6 +7,7 @@ import {
 import { EventModal } from './common';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import _ from 'lodash';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -73,6 +74,16 @@ class WeekView extends Component {
             let eventShortname;
             let eventNote;
 
+            let special_subjectProgram = SPECIAL_SUBJECTS[this.props.program];
+            let special_subjectRegEx = '';
+            for (let special_subject in special_subjectProgram) {
+                special_subjectRegEx += `(${special_subjectProgram[special_subject]["shortname"].toUpperCase()})`;
+                if ((parseInt(special_subject) + 1) !== special_subjectProgram.length) {  // Check if it's NOT the last iteration
+                    special_subjectRegEx += '|'
+                }
+            }
+            special_subjectRegEx = new RegExp(special_subjectRegEx);
+
             for (let event in dayEvents) {
                 eventShortname = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': dayEvents[event]["course"] })["shortname"];
                 dayEvents[event].shortname = eventShortname;
@@ -80,9 +91,16 @@ class WeekView extends Component {
 
                 if (
                     this.props.special_subject !== 'all' && !eventShortname.includes(this.props.special_subject.toUpperCase()) ||
-                    this.props.lecture_group !== 'all' && eventNote.includes("Gruppe") && !eventNote.includes(this.props.lecture_group.toUpperCase()) && !eventNote.includes("alle") && !eventNote.includes("Alle")
+                    this.props.lecture_group !== 'all' && eventNote.includes("Gruppe") && !eventNote.includes(this.props.lecture_group.toUpperCase()) && !eventNote.includes("alle") && !eventNote.includes("Alle")  // If they chose a 'lecture_group' and the 'event' is one of the kind
                 ) {
-                    dayEvents[event].toRemove = true;
+                    if (
+                        !special_subjectRegEx.test(eventShortname) ||  // If the 'event' is not a 'special_subject'
+                        this.props.program + this.props.semester !== this.props.user  // If the user changed their default semester
+                    ) {
+                        dayEvents[event].toRemove = false;
+                    } else {
+                        dayEvents[event].toRemove = true;
+                    }
                 }
             }
 
