@@ -8,7 +8,6 @@ import { EventModal } from './common';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
-import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 import ListItem from './EventItemComponent';
@@ -24,49 +23,23 @@ class WeekView extends Component {
     }
 
     setEventModal(eventJSON) {
-        let contentEventModal;
         let masterdataJSON = JSON.parse(this.props.masterdata);
-        let eventName;
-        let eventRoom;
         let eventLecturers = [];
-        let eventNote;
-        let eventSlot;
 
-        eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
-        eventNote = eventJSON["note"];
-
-        let special_subjectProgram = SPECIAL_SUBJECTS[this.props.program];
-        let special_subjectRegEx = '';
-        for (let special_subject in special_subjectProgram) {
-            special_subjectRegEx += `(${special_subjectProgram[special_subject]["shortname"].toUpperCase()})`;
-            if ((parseInt(special_subject) + 1) !== special_subjectProgram.length) {  // Check if it's NOT the last iteration
-                special_subjectRegEx += '|'
-            }
+        let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
+        let eventRoom = eventJSON["rooms"][0];
+        for (let lecturer in eventJSON["lecturers"]) {
+            eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
         }
-        special_subjectRegEx = new RegExp(special_subjectRegEx);
+        eventLecturers = JSON.stringify(eventLecturers);
+        let eventNote = eventJSON["note"];
+        let eventSlot = eventJSON["slot"];
 
-        console.log(this.props.lecture_group !== 'all' && eventNote.includes("Gruppe") && eventNote.includes(this.props.lecture_group.toUpperCase()));
+        let contentEventModal = (
+            <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot}/>
+        );
 
-        if (
-            !special_subjectRegEx.test(eventName) ||  // If the 'event' is not a 'special_subject'
-            this.props.program + this.props.semester !== this.props.user ||  // If the user changed their default semester
-            this.props.special_subject !== 'all' && eventName.includes(this.props.special_subject.toUpperCase()) || // If they chose a 'special_subject' and the 'event' is one of the kind
-            this.props.lecture_group !== 'all' && eventNote.includes("Gruppe") && eventNote.includes(this.props.lecture_group.toUpperCase())  // If they chose a 'lecture_group' and the 'event' is one of the kind
-        ) {
-            eventRoom = eventJSON["rooms"][0];
-            for (let lecturer in eventJSON["lecturers"]) {
-                eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
-            }
-            eventLecturers = JSON.stringify(eventLecturers);
-            eventNote = eventJSON["note"];
-            eventSlot = eventJSON["slot"];
-
-            contentEventModal = (
-                <ListItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot}/>
-            );
-
-            this.setState({ contentEventModal: contentEventModal });
-        }
+        this.setState({ contentEventModal: contentEventModal });
 
         this.setState({ showEventModal: true });
     }
