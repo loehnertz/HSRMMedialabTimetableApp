@@ -53,8 +53,6 @@ class SingleDayView extends Component {
         let eventLecturers = [];
         let eventsCount = this.dataSource["_cachedRowCount"];
 
-        console.log((parseInt(rowID) + 1), eventsCount);
-
         if (eventJSON.noEvents) {
             return (
                 <Card style={styles.flex}>
