@@ -21,6 +21,7 @@ class Settings extends Component {
         this.setState({
             semester: this.props.semester,
             special_subject: this.props.special_subject,
+            lecture_group: this.props.lecture_group,
             scrollToTimeslot: this.props.scrollToTimeslot,
             hidePastEvents: this.props.hidePastEvents
         });
@@ -63,7 +64,7 @@ class Settings extends Component {
                         {this.renderSpecialSubjectText()}
                         <Picker
                             selectedValue={this.state.special_subject}
-                            onValueChange={(subject) => this.setState({special_subject: subject})}
+                            onValueChange={(subject) => this.setState({ special_subject: subject })}
                             style={styles.settingsPicker}
                         >
                             <Picker.Item label="Alle Schwerpunkte" value="all" />
@@ -78,10 +79,37 @@ class Settings extends Component {
         }
     }
 
+    renderGroup() {
+        return (
+            <CardSection style={styles.settingsSection}>
+                {this.renderLectureGroupText()}
+                <Picker
+                    selectedValue={this.state.lecture_group}
+                    onValueChange={(group) => this.setState({ lecture_group: group })}
+                    style={styles.settingsPicker}
+                >
+                    <Picker.Item label="Gruppe A" value="A" />
+                    <Picker.Item label="Gruppe B" value="B" />
+                    <Picker.Item label="Gruppe C" value="C" />
+                    <Picker.Item label="Gruppe D" value="D" />
+                    <Picker.Item label="Gruppe E" value="E" />
+                </Picker>
+            </CardSection>
+        );
+    }
+
     renderSpecialSubjectText() {
         return (
             <Text style={styles.settingsText}>
                 Schwerpunkt:
+            </Text>
+        );
+    }
+
+    renderLectureGroupText() {
+        return (
+            <Text style={styles.settingsText}>
+                Gruppe:
             </Text>
         );
     }
@@ -118,9 +146,12 @@ class Settings extends Component {
 
     onSaveButtonPress() {
         this.props.saveSettings({
-            temp: {semester: this.state.semester},
+            temp: {
+                semester: this.state.semester
+            },
             perm: {
                 special_subject: this.state.special_subject,
+                lecture_group: this.state.lecture_group,
                 scrollToTimeslot: this.state.scrollToTimeslot,
                 hidePastEvents: this.state.hidePastEvents
             }
@@ -136,6 +167,7 @@ class Settings extends Component {
                     </CardSection>
                     {this.renderSemester()}
                     {this.renderSpecialSubject()}
+                    {this.renderGroup()}
 
                     <CardSection style={styles.settingsSection}>
                         <Text style={styles.settingsHeaderText}>{i18n.t('day_view')}</Text>
@@ -146,6 +178,7 @@ class Settings extends Component {
                         <Text style={styles.settingsHeaderText}>{i18n.t('week_view')}</Text>
                     </CardSection>
                     {this.renderScrollToTimeslot()}
+
                     <CardSection>
                         <Button onPress={this.onSaveButtonPress.bind(this)}>
                             Speichern
@@ -195,6 +228,7 @@ const mapStateToProps = state => {
         masterdata: state.timetable.masterdata,
         semester: state.settings.semester,
         special_subject: state.settings.special_subject,
+        lecture_group: state.settings.lecture_group,
         scrollToTimeslot: state.settings.scrollToTimeslot,
         hidePastEvents: state.settings.hidePastEvents
     }

@@ -20,6 +20,7 @@ export const dispatchSettings = (user) => {
             payload: {
                 semester: user.substr(3, 1),
                 special_subject: storageSettings["special_subject"],
+                lecture_group: storageSettings["lecture_group"],
                 scrollToTimeslot: storageSettings["scrollToTimeslot"],
                 hidePastEvents: storageSettings["hidePastEvents"]
             }
@@ -36,6 +37,7 @@ export const saveSettings = (settings) => {
             payload: {
                 semester: settings["temp"]["semester"],
                 special_subject: settings["perm"]["special_subject"],
+                lecture_group: settings["perm"]["lecture_group"],
                 scrollToTimeslot: settings["perm"]["scrollToTimeslot"],
                 hidePastEvents: settings["perm"]["hidePastEvents"]
             }
