@@ -16,6 +16,10 @@ import bundledTranslations from '../translations';
 import EventItem from './EventItemComponent';
 
 class SingleDayView extends Component {
+    state = {
+        anyEventRendered: false
+    };
+
     componentWillMount() {
         this.createDataSource(this.props);
     }
@@ -44,14 +48,12 @@ class SingleDayView extends Component {
         }
     }
 
-    renderRow(eventJSON) {
+    renderRow(eventJSON, sectionID, rowID, highlightRow) {
         let masterdataJSON = JSON.parse(this.props.masterdata);
-        let eventName;
-        let eventShortname;
-        let eventRoom;
         let eventLecturers = [];
-        let eventNote;
-        let eventSlot;
+        let eventsCount = this.dataSource["_cachedRowCount"];
+
+        console.log((parseInt(rowID) + 1), eventsCount);
 
         if (eventJSON.noEvents) {
             return (
@@ -62,8 +64,15 @@ class SingleDayView extends Component {
                 </Card>
             );
         } else {
-            eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["name"];
-            eventShortname = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
+            let eventName = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["name"];
+            let eventShortname = _.find(masterdataJSON["programs"][this.props.program]["courses"], { 'course': eventJSON["course"] })["shortname"];
+            let eventNote = eventJSON["note"];
+            let eventRoom = eventJSON["rooms"][0];
+            for (let lecturer in eventJSON["lecturers"]) {
+                eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
+            }
+            eventLecturers = JSON.stringify(eventLecturers);
+            let eventSlot = eventJSON["slot"];
 
             let special_subjectProgram = SPECIAL_SUBJECTS[this.props.program];
             let special_subjectRegEx = '';
@@ -76,22 +85,29 @@ class SingleDayView extends Component {
             special_subjectRegEx = new RegExp(special_subjectRegEx);
 
             if (
-                !special_subjectRegEx.test(eventShortname) ||  // If the 'event' is not a 'special_subject'
-                this.props.special_subject === 'all' ||  // If a user chose to see all 'special_subjects'
-                this.props.program + this.props.semester !== this.props.user ||  // If the user changed their default semester
-                this.props.special_subject !== 'all' && eventShortname.includes(this.props.special_subject.toUpperCase())  // If they chose a 'special_subject' and the 'event' is one of the kind
+                this.props.special_subject !== 'all' && !eventShortname.includes(this.props.special_subject.toUpperCase()) ||  // If they chose a 'special_subject' and the 'event' is one of the kind
+                this.props.lecture_group !== 'all' && eventNote.includes("Gruppe") && !eventNote.includes(this.props.lecture_group.toUpperCase()) && !eventNote.includes("alle") && !eventNote.includes("Alle")  // If they chose a 'lecture_group' and the 'event' is one of the kind
             ) {
-                eventRoom = eventJSON["rooms"][0];
-                for (let lecturer in eventJSON["lecturers"]) {
-                    eventLecturers.push(_.get(masterdataJSON["persons"], eventJSON["lecturers"][lecturer])["name"]);
+                if (
+                    !special_subjectRegEx.test(eventShortname) ||  // If the 'event' is not a 'special_subject'
+                    this.props.program + this.props.semester !== this.props.user  // If the user changed their default semester
+                ) {
+                    this.state.anyEventRendered = true;
+                    return <EventItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
+                } else if (this.state.anyEventRendered === false && (parseInt(rowID) + 1) === eventsCount) {
+                    return (
+                        <Card style={styles.flex}>
+                            <CardSection style={styles.noEventsCardSection}>
+                                <Text style={styles.noEventsText}>{i18n.t('no_events')}</Text>
+                            </CardSection>
+                        </Card>
+                    );
+                } else {
+                    return null;
                 }
-                eventLecturers = JSON.stringify(eventLecturers);
-                eventNote = eventJSON["note"];
-                eventSlot = eventJSON["slot"];
-
-                return <EventItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
             } else {
-                return null
+                this.state.anyEventRendered = true;
+                return <EventItem eventName={eventName} eventRoom={eventRoom} eventLecturers={eventLecturers} eventNote={eventNote} eventSlot={eventSlot} />;
             }
         }
     }
@@ -144,7 +160,8 @@ const mapStateToProps = state => {
         masterdata: state.timetable.masterdata,
         currentWeek: state.timetable.currentWeek,
         semester: state.settings.semester,
-        special_subject: state.settings.special_subject
+        special_subject: state.settings.special_subject,
+        lecture_group: state.settings.lecture_group
     }
 };
 
