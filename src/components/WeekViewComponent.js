@@ -240,7 +240,14 @@ const styles = {
         borderWidth: 1,
         borderColor: "black",
         padding: 10,
-        elevation: 2.5
+        elevation: 2.5,
+        shadowColor: '#333333',
+        shadowOffset: {
+          width: 0,
+          height: 1
+        },
+        shadowRadius: 1,
+        shadowOpacity: 0.60
     },
     cellView: {
         position: "absolute",
