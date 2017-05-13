@@ -89,10 +89,7 @@ class WeekView extends Component {
                 dayEvents[event].shortname = eventShortname;
                 eventNote = dayEvents[event]["note"];
 
-                if (
-                    this.props.special_subject !== 'all' && !eventShortname.includes(this.props.special_subject.toUpperCase()) ||
-                    this.props.lecture_group !== 'all' && eventNote.includes("Gruppe") && !eventNote.includes(this.props.lecture_group.toUpperCase()) && !eventNote.includes("alle") && !eventNote.includes("Alle")  // If they chose a 'lecture_group' and the 'event' is one of the kind
-                ) {
+                if (this.props.special_subject !== 'all' && !eventShortname.includes(this.props.special_subject.toUpperCase())) {
                     if (
                         !special_subjectRegEx.test(eventShortname) ||  // If the 'event' is not a 'special_subject'
                         this.props.program + this.props.semester !== this.props.user  // If the user changed their default semester
@@ -270,8 +267,7 @@ const mapStateToProps = state => {
         masterdata: state.timetable.masterdata,
         slots: state.timetable.timeslots,
         semester: state.settings.semester,
-        special_subject: state.settings.special_subject,
-        lecture_group: state.settings.lecture_group
+        special_subject: state.settings.special_subject
     }
 };
 
