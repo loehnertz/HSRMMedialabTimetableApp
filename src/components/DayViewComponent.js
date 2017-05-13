@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    ScrollView
+    ScrollView,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
@@ -277,8 +278,8 @@ class DayView extends Component {
                         loop={false}
                         showsPagination={false}
                         index={swiperIndex}
-                        height={this.state.swiperHeight}
                         onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
+                        height={(Platform.OS === 'android') && this.state.swiperHeight}  // on Android this line is needed and on iOS this causes a severe bug
                     >
                         <SingleDayView events={eventsMon} />
                         <SingleDayView events={eventsTue} />

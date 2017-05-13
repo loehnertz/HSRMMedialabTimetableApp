@@ -3,7 +3,8 @@ import {
     Text,
     View,
     ListView,
-    RefreshControl
+    RefreshControl,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -98,7 +99,7 @@ class SingleDayView extends Component {
 
     render() {
         return (
-            <View style={[styles.flex, { paddingBottom: 55 }]}>
+            <View style={[styles.flex, styles.dayView]}>
                 <ListView
                     enableEmptySections
                     dataSource={this.dataSource}
@@ -131,6 +132,10 @@ const styles = {
     noEventsText: {
         fontSize: 28,
         fontWeight: "bold"
+    },
+    dayView: {
+      paddingBottom: 55,
+      marginBottom: (Platform.OS === 'ios') ? (55 * 2.3333) : 0
     },
     flex: {
         flex: 1
