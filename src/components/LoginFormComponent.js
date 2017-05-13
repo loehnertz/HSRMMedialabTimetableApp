@@ -112,7 +112,7 @@ class LoginForm extends Component {
         return (
             <ScrollView onLayout={(layout) => this.setState({ heightScrollView: layout.nativeEvent.layout.height })}>
                 <View style={this.setViewHeight()}>
-                    <Card>
+                    <Card style={styles.mainCard}>
                         <CardSection>
                             <Text style={styles.noticeText}>
                                 {i18n.t('login_notice')}
@@ -183,6 +183,9 @@ const styles = {
     errorText: {
         alignSelf: "center",
         color: "red"
+    },
+    mainCard: {
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
     noticeText: {
         fontWeight: "bold"
