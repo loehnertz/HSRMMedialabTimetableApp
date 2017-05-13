@@ -9,7 +9,8 @@ import {
     Animated,
     LayoutAnimation,
     UIManager,
-    AppState
+    AppState,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -285,7 +286,7 @@ class Timetable extends Component {
                     events.push(eventsList[event]);
                     events[event]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
                 }
-                
+
                 if (this.state.orientation === 'PORTRAIT') {  // Render: DayView
                     return (
                         <DayView events={events} />
@@ -399,7 +400,8 @@ const styles = {
         elevation: 5,
         borderBottomWidth: 1,
         borderBottomColor: "#CCCCCC",
-        padding: 10
+        padding: 10,
+        marginTop: (Platform.OS === 'ios') ? 10 : 0
     },
     headerText: {
         fontSize: 20,
