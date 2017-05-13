@@ -92,9 +92,9 @@ class LoginForm extends Component {
     setViewHeight() {
         if (this.state.heightScrollView !== -1) {
             if (this.state.orientation === 'PORTRAIT') {
-                return ({ height: this.state.heightScrollView - 70 });
+                return ({ height: this.state.heightScrollView - 55 });
             } else if (this.state.orientation === 'LANDSCAPE') {
-                return ({ height: this.state.heightScrollView + 70 });
+                return ({ height: this.state.heightScrollView + 55 });
             }
         }
     }
@@ -144,11 +144,6 @@ class LoginForm extends Component {
                 <View style={styles.noticeFooter}>
                     <View style={styles.noticeFooterContainer}>
                         <Text style={styles.noticeFooterText}>
-                            &copy; Hochschule RheinMain
-                        </Text>
-                    </View>
-                    <View style={styles.noticeFooterContainer}>
-                        <Text style={styles.noticeFooterText}>
                             {i18n.t('developed_by')} Jakob Löhnertz (
                         </Text>
                         <TouchableOpacity onPress={() => Linking.openURL('https://www.jakob.codes/')}>
@@ -186,8 +181,7 @@ const styles = {
     noticeFooter: {
         flexDirection: "column",
         alignItems: "center",
-        height: 60,
-        marginBottom: 10
+        height: 55
     },
     noticeFooterContainer: {
         flexDirection: "row"
