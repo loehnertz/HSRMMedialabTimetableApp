@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform
 } from 'react-native';
 import { EventModal } from './common';
 import { connect } from 'react-redux';
@@ -211,7 +212,7 @@ const styles = {
         paddingRight: 10
     },
     columnHeader: {
-        fontSize: 18,
+        fontSize: (Platform.OS === 'android') ? 18 : 14,
         fontWeight: "bold",
         alignSelf: "center",
         marginBottom: 18
