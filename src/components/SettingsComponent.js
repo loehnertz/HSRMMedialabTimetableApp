@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import {
-    ScrollView,
     Text,
+    View,
+    ScrollView,
+    TouchableOpacity,
     Picker,
-    Switch
+    Switch,
+    Linking
 } from 'react-native';
 import {
     Card,
@@ -151,6 +154,27 @@ class Settings extends Component {
                             Speichern
                         </Button>
                     </CardSection>
+                    <CardSection style={styles.noticeFooter}>
+                        <View style={styles.noticeFooterContainer}>
+                            <Text style={styles.noticeFooterText}>
+                                {i18n.t('developed_by')} Jakob Löhnertz (
+                            </Text>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://www.jakob.codes/')}>
+                                <Text style={[styles.noticeFooterText, styles.hyperlinkText]}>www.jakob.codes</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.noticeFooterText}>
+                                )
+                            </Text>
+                        </View>
+                        <View style={styles.noticeFooterContainer}>
+                            <Text style={styles.noticeFooterText}>
+                                {i18n.t('code_licensed_under')}
+                            </Text>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://github.com/loehnertz/HSRMMedialabTimetableApp/blob/master/LICENSE')}>
+                                <Text style={[styles.noticeFooterText, styles.hyperlinkText]}> MIT License</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </CardSection>
                 </Card>
             </ScrollView>
         );
@@ -185,6 +209,20 @@ const styles = {
     settingsSwitch: {
         marginLeft: 10,
         marginRight: 15
+    },
+    noticeFooter: {
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    noticeFooterContainer: {
+        flexDirection: "row"
+    },
+    noticeFooterText: {
+        fontSize: 14,
+        fontWeight: "bold"
+    },
+    hyperlinkText: {
+        color: "#E10019"
     }
 };
 
