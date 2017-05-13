@@ -1,5 +1,9 @@
 import { Actions } from 'react-native-router-flux';
-import { AsyncStorage } from 'react-native';
+import {
+    AsyncStorage,
+    Platform,
+    NetInfo
+} from 'react-native';
 import * as Keychain from 'react-native-keychain';
 import {
     USER_CHANGED,
@@ -27,6 +31,29 @@ export const passwordChanged = (text) => {
 
 export const isUserLoggedIn = () => {
     return (dispatch) => {
+        NetInfo.fetch().done((reach) => {
+            switch (Platform.OS) {
+                case 'android':
+                    if (reach === 'NONE') {
+                        dispatch({
+                            type: LOGIN_USER_FAILED,
+                            payload: 'no_connection'
+                        });
+                        return null;
+                    }
+                    break;
+                case 'ios':
+                    if (reach === 'none') {
+                        dispatch({
+                            type: LOGIN_USER_FAILED,
+                            payload: 'no_connection'
+                        });
+                        return null;
+                    }
+                    break;
+            }
+        });
+
         Keychain.getGenericPassword()
             .then((credentials) => {
                 if (credentials) {
@@ -47,7 +74,10 @@ export const isUserLoggedIn = () => {
                                     program: credentials.username.slice(0, -1)
                                 });
                             } else {
-                                dispatch({ type: LOGIN_USER_FAILED });
+                                dispatch({
+                                    type: LOGIN_USER_FAILED,
+                                    payload: 'login_failed'
+                                });
                                 Actions.auth({ type: 'reset' });
                             }
                         })
@@ -71,6 +101,29 @@ export const isUserLoggedIn = () => {
 export const loginUser = (user, password) => {
     return (dispatch) => {
         dispatch({ type: LOADING_START });
+
+        NetInfo.fetch().done((reach) => {
+            switch (Platform.OS) {
+                case 'android':
+                    if (reach === 'NONE') {
+                        dispatch({
+                            type: LOGIN_USER_FAILED,
+                            payload: 'no_connection'
+                        });
+                        return null;
+                    }
+                    break;
+                case 'ios':
+                    if (reach === 'none') {
+                        dispatch({
+                            type: LOGIN_USER_FAILED,
+                            payload: 'no_connection'
+                        });
+                        return null;
+                    }
+                    break;
+            }
+        });
 
         fetch('https://hsrm-medialab.de/osp/server/functions.php', {
             method: 'POST',
@@ -105,22 +158,34 @@ export const loginUser = (user, password) => {
                                 Actions.startup({ type: 'reset' });
                             } catch (error) {
                                 console.log(error);
-                                dispatch({ type: LOGIN_USER_FAILED });
+                                dispatch({
+                                    type: LOGIN_USER_FAILED,
+                                    payload: 'login_failed'
+                                });
                                 Actions.auth({ type: 'reset' });
                             }
                         })
                         .catch((error) => {
                             console.log(error);
-                            dispatch({ type: LOGIN_USER_FAILED });
+                            dispatch({
+                                type: LOGIN_USER_FAILED,
+                                payload: 'login_failed'
+                            });
                             Actions.auth({ type: 'reset' });
                         });
                 } else {
-                    dispatch({ type: LOGIN_USER_FAILED });
+                    dispatch({
+                        type: LOGIN_USER_FAILED,
+                        payload: 'login_failed'
+                    });
                 }
             })
             .catch((error) => {
                 console.log(error);
-                dispatch({ type: LOGIN_USER_FAILED });
+                dispatch({
+                    type: LOGIN_USER_FAILED,
+                    payload: 'login_failed'
+                });
                 Actions.auth({ type: 'reset' });
             });
     };
