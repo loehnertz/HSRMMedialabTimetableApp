@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Picker,
     Switch,
-    Linking
+    Linking,
+    Platform
 } from 'react-native';
 import {
     Card,
@@ -130,6 +131,14 @@ class Settings extends Component {
         });
     }
 
+    renderFooterPlatform() {
+      if (Platform.OS === 'android') {
+        return i18n.t('developed_by');
+      } else if (Platform.OS === 'ios') {
+        return i18n.t('by');
+      }
+    }
+
     render() {
         return (
             <ScrollView>
@@ -157,7 +166,7 @@ class Settings extends Component {
                     <CardSection style={styles.noticeFooter}>
                         <View style={styles.noticeFooterContainer}>
                             <Text style={styles.noticeFooterText}>
-                                {i18n.t('developed_by')} Jakob Löhnertz (
+                                {this.renderFooterPlatform()} Jakob Löhnertz (
                             </Text>
                             <TouchableOpacity onPress={() => Linking.openURL('https://www.jakob.codes/')}>
                                 <Text style={[styles.noticeFooterText, styles.hyperlinkText]}>www.jakob.codes</Text>

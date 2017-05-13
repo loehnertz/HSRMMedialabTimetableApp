@@ -3,6 +3,7 @@
   "login": "Login",
   "username": "Username",
   "password": "Password",
+  "by": "By",
   "no_connection": "You need a working internet connection!",
   "login_failed": "Username or password are wrong!",
   "login_notice": "Please note:\nOnline timetable for the summer semester 2017.\nEnrolled students will receive credentials to access in StudIP.",
