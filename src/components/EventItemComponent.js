@@ -8,14 +8,6 @@ import {
 import { Card, CardSection } from './common';
 
 class EventItem extends Component {
-    state = {
-      cardWidth: -1
-    }
-
-    onRowPress() {
-        console.log("Pressed");
-    }
-
     renderLecturers() {
         let lecturersArray = JSON.parse(this.props.eventLecturers);
         let lecturersString = '';
@@ -29,9 +21,8 @@ class EventItem extends Component {
     }
 
     render() {
-        console.log(this.state.cardWidth);
         return (
-            <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
+            <TouchableWithoutFeedback>
                 <Card>
                     <CardSection>
                         <Image source={require('../assets/images/clock.png')} style={styles.imageTitle} />
