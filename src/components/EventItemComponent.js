@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import {
     Text,
     TouchableWithoutFeedback,
-    Image
+    Image,
+    Platform
 } from 'react-native';
 import { Card, CardSection } from './common';
 
 class EventItem extends Component {
+    state = {
+      cardWidth: -1
+    }
+
     onRowPress() {
         console.log("Pressed");
     }
@@ -24,6 +29,7 @@ class EventItem extends Component {
     }
 
     render() {
+        console.log(this.state.cardWidth);
         return (
             <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
                 <Card>
@@ -69,12 +75,14 @@ const styles = {
         flexDirection: "column"
     },
     titleText: {
-        fontSize: 19
+        fontSize: 19,
+        flex: 12
     },
     imageTitle: {
         height: 21,
         width: 21,
-        marginRight: 11
+        marginRight: 11,
+        flex: 1
     }
 };
 
