@@ -105,6 +105,17 @@ class Settings extends Component {
         );
     }
 
+    onSaveButtonPress() {
+        this.props.saveSettings({
+            temp: {semester: this.state.semester},
+            perm: {
+                special_subject: this.state.special_subject,
+                scrollToTimeslot: this.state.scrollToTimeslot,
+                hidePastEvents: this.state.hidePastEvents
+            }
+        });
+    }
+
     renderScrollToTimeslot() {
         return (
             <CardSection style={styles.settingsSection}>
@@ -120,28 +131,31 @@ class Settings extends Component {
         );
     }
 
-    onSaveButtonPress() {
-        this.props.saveSettings({
-            temp: {semester: this.state.semester},
-            perm: {
-                special_subject: this.state.special_subject,
-                scrollToTimeslot: this.state.scrollToTimeslot,
-                hidePastEvents: this.state.hidePastEvents
-            }
-        });
+    renderWeekViewSection() {
+        // TODO: Activate this once milestone 2 is finished (https://github.com/loehnertz/HSRMMedialabTimetableApp/milestone/2)
+        if (Platform.OS === 'android') {
+            return (
+                <View>
+                    <CardSection style={styles.settingsSection}>
+                        <Text style={styles.settingsHeaderText}>{i18n.t('week_view')}</Text>
+                    </CardSection>
+                    {this.renderScrollToTimeslot()}
+                </View>
+            );
+        }
     }
 
     renderFooterPlatform() {
-      if (Platform.OS === 'android') {
-        return i18n.t('developed_by');
-      } else if (Platform.OS === 'ios') {
-        return i18n.t('by');
-      }
+        if (Platform.OS === 'android') {
+            return i18n.t('developed_by');
+        } else if (Platform.OS === 'ios') {
+            return i18n.t('by');
+        }
     }
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={styles.scrollViewContainer}>
                 <Card style={{ flex: 1 }}>
                     <CardSection style={styles.settingsSection}>
                         <Text style={styles.settingsHeaderText}>{i18n.t('general')}</Text>
@@ -154,10 +168,8 @@ class Settings extends Component {
                     </CardSection>
                     {this.renderHidePastEvents()}
 
-                    <CardSection style={styles.settingsSection}>
-                        <Text style={styles.settingsHeaderText}>{i18n.t('week_view')}</Text>
-                    </CardSection>
-                    {this.renderScrollToTimeslot()}
+                    {this.renderWeekViewSection()}
+
                     <CardSection>
                         <Button onPress={this.onSaveButtonPress.bind(this)}>
                             Speichern
@@ -194,6 +206,9 @@ i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
 const styles = {
+    scrollViewContainer: {
+        marginTop: (Platform.OS === 'ios') ? 10 : 0
+    },
     settingsSection: {
         flexDirection: "row",
         alignItems: "center",
