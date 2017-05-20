@@ -1179,7 +1179,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.HSRMMedialabTimetableApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HSRMMedialabTimetableApp;
 				PRODUCT_NAME = HSRMMedialabTimetableApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1200,7 +1200,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.HSRMMedialabTimetableApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HSRMMedialabTimetableApp;
 				PRODUCT_NAME = HSRMMedialabTimetableApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
