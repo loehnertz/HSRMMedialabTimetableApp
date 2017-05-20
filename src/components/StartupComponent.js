@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import {
     View,
-    ActivityIndicator
+    ActivityIndicator,
+    AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -16,14 +17,16 @@ class Startup extends Component {
     };
 
     componentWillMount() {
-        if ((this.props.user === '' && this.props.masterdata === undefined) || (this.props.user && this.props.masterdata === 'null')) {
-            Keychain.resetGenericPassword()
-                .then(() => {
+        AsyncStorage.getItem('alreadyLaunched').then(value => {
+            if (!value || this.props.masterdata === 'null') {
+                Keychain.resetGenericPassword().then(() => {
                     AsyncStorage.removeItem('masterdata');
                     AsyncStorage.removeItem('settings');
                     Actions.auth({ type: 'reset' });
                 });
-        }
+                AsyncStorage.setItem('alreadyLaunched', JSON.stringify(true));
+            }
+        });
         this.props.isUserLoggedIn();
     }
 
