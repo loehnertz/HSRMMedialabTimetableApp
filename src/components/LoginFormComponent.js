@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Linking,
-    AsyncStorage
+    AsyncStorage,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -99,11 +100,33 @@ class LoginForm extends Component {
         }
     }
 
+    renderErrorNotice() {
+        if (this.props.error.length > 0) {
+            return (
+                <CardSection>
+                    <Text style={styles.errorText}>
+                        {this.props.error}
+                    </Text>
+                </CardSection>
+            );
+        } else {
+            return (null);
+        }
+    }
+
+    renderFooterPlatform() {
+        if (Platform.OS === 'android') {
+            return i18n.t('developed_by');
+        } else if (Platform.OS === 'ios') {
+            return i18n.t('by');
+        }
+    }
+
     render () {
         return (
             <ScrollView onLayout={(layout) => this.setState({ heightScrollView: layout.nativeEvent.layout.height })}>
                 <View style={this.setViewHeight()}>
-                    <Card>
+                    <Card style={styles.mainCard}>
                         <CardSection>
                             <Text style={styles.noticeText}>
                                 {i18n.t('login_notice')}
@@ -129,11 +152,7 @@ class LoginForm extends Component {
                             />
                         </CardSection>
 
-                        <CardSection>
-                            <Text style={styles.errorText}>
-                                {this.props.error}
-                            </Text>
-                        </CardSection>
+                        {this.renderErrorNotice()}
 
                         <CardSection>
                             {this.renderButton()}
@@ -144,7 +163,7 @@ class LoginForm extends Component {
                 <View style={styles.noticeFooter}>
                     <View style={styles.noticeFooterContainer}>
                         <Text style={styles.noticeFooterText}>
-                            {i18n.t('developed_by')} Jakob Löhnertz (
+                            {this.renderFooterPlatform()} Jakob Löhnertz (
                         </Text>
                         <TouchableOpacity onPress={() => Linking.openURL('https://www.jakob.codes/')}>
                             <Text style={[styles.noticeFooterText, styles.hyperlinkText]}>www.jakob.codes</Text>
@@ -174,6 +193,9 @@ const styles = {
     errorText: {
         alignSelf: "center",
         color: "red"
+    },
+    mainCard: {
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
     noticeText: {
         fontWeight: "bold"

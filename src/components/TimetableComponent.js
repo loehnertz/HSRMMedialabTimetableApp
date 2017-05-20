@@ -9,12 +9,13 @@ import {
     Animated,
     LayoutAnimation,
     UIManager,
-    AppState
+    AppState,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Orientation from 'react-native-orientation';
-import { fetchWeek, selectDay, selectWeek } from '../actions';
+import { fetchWeek, selectDay, selectWeek, startLoading, stopLoading } from '../actions';
 import moment from 'moment';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -67,9 +68,16 @@ class Timetable extends Component {
     }
 
     componentDidMount() {
-        Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
+        // The orientation on iOS causes several bugs. Therefore, I decided to not ship the (landscape) 'WeekView' before the major bugs are fixed
+        if (Platform.OS === 'ios') {
+            Orientation.lockToPortrait();
+            this.setState({ orientation: 'PORTRAIT' });
+        }
 
-        AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
+        if (Platform.OS !== 'ios') {
+            Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
+            AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
+        }
     }
 
     componentWillUnmount() {
@@ -113,13 +121,21 @@ class Timetable extends Component {
     }
 
     _orientationDidChange = (changedOrientation) => {
+        Actions.pop();
+
+        if (this.state.orientation !== changedOrientation && changedOrientation !== 'UNKNOWN') {
+            this.props.startLoading();
+        }
+
         if (changedOrientation === 'PORTRAIT') {
-            Actions.pop();
             this.setState({ orientation: changedOrientation });
         } else if (changedOrientation === 'LANDSCAPE') {
-            Actions.pop();
             this.setState({ orientation: changedOrientation });
         }
+
+        setTimeout(() => {  // TODO: Make this more responsive
+            this.props.stopLoading();
+        }, 1234);
     };
 
     _handleAppStateChange = (appState) => {
@@ -285,7 +301,7 @@ class Timetable extends Component {
                     events.push(eventsList[event]);
                     events[event]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
                 }
-                
+
                 if (this.state.orientation === 'PORTRAIT') {  // Render: DayView
                     return (
                         <DayView events={events} />
@@ -386,7 +402,9 @@ class Timetable extends Component {
     }
 }
 
-i18n.defaultLocale = "de";
+if (Platform.OS === 'android') {
+    i18n.defaultLocale = "de";
+}
 i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
@@ -399,7 +417,8 @@ const styles = {
         elevation: 5,
         borderBottomWidth: 1,
         borderBottomColor: "#CCCCCC",
-        padding: 10
+        padding: 10,
+        marginTop: (Platform.OS === 'ios') ? 10 : 0
     },
     headerText: {
         fontSize: 20,
@@ -430,4 +449,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek, selectDay, selectWeek })(Timetable);
+export default connect(mapStateToProps, { fetchWeek, selectDay, selectWeek, startLoading, stopLoading })(Timetable);

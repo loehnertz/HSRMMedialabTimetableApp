@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {
     LOADING_START,
+    LOADING_END,
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
@@ -82,4 +83,12 @@ export const dispatchTimeslots = (slots) => {
             payload: slots
         });
     };
+};
+
+export const startLoading = () => {
+    return { type: LOADING_START };
+};
+
+export const stopLoading = () => {
+    return { type: LOADING_END };
 };

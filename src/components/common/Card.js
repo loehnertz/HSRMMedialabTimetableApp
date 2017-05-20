@@ -19,7 +19,15 @@ const styles = {
         borderRadius: 2,
         borderColor: "#DDD",
         borderBottomWidth: 0,
+        backgroundColor: "white",
         elevation: 5,
+        shadowColor: '#333333',
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowRadius: 2,
+        shadowOpacity: 0.60,
         marginLeft: 10,
         marginRight: 10,
         marginTop: 8,

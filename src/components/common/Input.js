@@ -9,6 +9,7 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => 
                 secureTextEntry={secureTextEntry}
                 placeholder={placeholder}
                 autoCorrect={false}
+                autoCapitalize={"none"}
                 style={styles.inputStyle}
                 value={value}
                 onChangeText={onChangeText}
@@ -24,13 +25,13 @@ const styles = {
         paddingLeft: 5,
         fontSize: 18,
         lineHeight: 23,
-        flex: 3
+        flex: 1
     },
     labelStyle: {
         fontSize: 18,
         paddingRight: 15,
         paddingLeft: 5,
-        flex: 2
+        flex: 1
     },
     containerStyle: {
         height: 40,

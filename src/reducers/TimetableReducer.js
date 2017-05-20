@@ -1,5 +1,6 @@
 import {
     LOADING_START,
+    LOADING_END,
     WEEK_SET,
     WEEK_FETCH_SUCCESS,
     WEEK_FETCH_FAILED,
@@ -33,6 +34,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, selectedDay: action.payload };
         case LOADING_START:
             return { ...state, errorFetch: "", loadingFetch: true};
+        case LOADING_END:
+            return { ...state, errorFetch: "", loadingFetch: false};
         default:
             return state;
     }

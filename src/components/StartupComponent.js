@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import * as Keychain from 'react-native-keychain';
 import { dispatchMasterdata, dispatchSettings, dispatchTimeslots, isUserLoggedIn } from '../actions';
 
 class Startup extends Component {
@@ -15,9 +16,17 @@ class Startup extends Component {
     };
 
     componentWillMount() {
+        if ((this.props.user === '' && this.props.masterdata === undefined) || (this.props.user && this.props.masterdata === 'null')) {
+            Keychain.resetGenericPassword()
+                .then(() => {
+                    AsyncStorage.removeItem('masterdata');
+                    AsyncStorage.removeItem('settings');
+                    Actions.auth({ type: 'reset' });
+                });
+        }
         this.props.isUserLoggedIn();
     }
-    
+
     componentDidMount() {  // Using a 'setInterval()' so the 'LoginForm' component can use this as well
         const dispatchInterval = setInterval(() => {
             if (this.props.user && this.state.masterdataAndSettingsDispatched === false) {
@@ -26,7 +35,7 @@ class Startup extends Component {
                 this.setState({masterdataAndSettingsDispatched: true});
             }
 
-            if (this.props.masterdata !== undefined && this.state.timeslotsDispatched === false) {
+            if (this.props.masterdata && this.state.timeslotsDispatched === false) {
                 this.renderTimeslots(JSON.parse(this.props.masterdata)["timetable"]["timeslots"]);
                 this.setState({timeslotsDispatched: true});
             }

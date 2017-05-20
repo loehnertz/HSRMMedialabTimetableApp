@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import {
     Text,
     TouchableWithoutFeedback,
-    Image
+    Image,
+    Platform
 } from 'react-native';
 import { Card, CardSection } from './common';
 
 class EventItem extends Component {
-    onRowPress() {
-        console.log("Pressed");
-    }
-
     renderLecturers() {
         let lecturersArray = JSON.parse(this.props.eventLecturers);
         let lecturersString = '';
@@ -25,7 +22,7 @@ class EventItem extends Component {
 
     render() {
         return (
-            <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
+            <TouchableWithoutFeedback>
                 <Card>
                     <CardSection>
                         <Image source={require('../assets/images/clock.png')} style={styles.imageTitle} />
@@ -69,11 +66,13 @@ const styles = {
         flexDirection: "column"
     },
     titleText: {
-        fontSize: 19
+        fontSize: 19,
+        flex: 12  // needs 'flexGrow' here for the iOS version to display it correctly in the 'WeekView', that breaks the 'DayView' though! sTODO: Fix this
     },
     imageTitle: {
         height: 21,
         width: 21,
+        //flex: 1,
         marginRight: 11
     }
 };
