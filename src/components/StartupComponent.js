@@ -26,7 +26,7 @@ class Startup extends Component {
                 this.setState({masterdataAndSettingsDispatched: true});
             }
 
-            if (this.props.masterdata !== undefined && this.state.timeslotsDispatched === false) {
+            if (this.props.masterdata && this.state.timeslotsDispatched === false) {
                 this.renderTimeslots(JSON.parse(this.props.masterdata)["timetable"]["timeslots"]);
                 this.setState({timeslotsDispatched: true});
             }

@@ -67,13 +67,13 @@ const styles = {
     },
     titleText: {
         fontSize: 19,
-        flex: 12
+        flex: 12  // needs 'flexGrow' here for the iOS version to display it correctly in the 'WeekView', that breaks the 'DayView' though! sTODO: Fix this
     },
     imageTitle: {
         height: 21,
         width: 21,
-        marginRight: 11,
-        flex: 1
+        //flex: 1,
+        marginRight: 11
     }
 };
 
