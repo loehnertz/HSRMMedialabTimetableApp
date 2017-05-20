@@ -402,7 +402,9 @@ class Timetable extends Component {
     }
 }
 
-i18n.defaultLocale = "de";
+if (Platform.OS === 'android') {
+    i18n.defaultLocale = "de";
+}
 i18n.fallbacks = true;
 i18n.translations = bundledTranslations;
 
