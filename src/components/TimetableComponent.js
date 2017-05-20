@@ -68,9 +68,16 @@ class Timetable extends Component {
     }
 
     componentDidMount() {
-        Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
+        // The orientation on iOS causes several bugs. Therefore, I decided to not ship the (landscape) 'WeekView' before the major bugs are fixed
+        if (Platform.OS === 'ios') {
+            Orientation.lockToPortrait();
+            this.setState({ orientation: 'PORTRAIT' });
+        }
 
-        AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
+        if (Platform.OS !== 'ios') {
+            Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
+            AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
+        }
     }
 
     componentWillUnmount() {
