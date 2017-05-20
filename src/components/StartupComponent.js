@@ -16,7 +16,6 @@ class Startup extends Component {
     };
 
     componentWillMount() {
-        console.log("User: " + this.props.user + " Masterdata: " + this.props.masterdata);
         if ((this.props.user === '' && this.props.masterdata === undefined) || (this.props.user && this.props.masterdata === 'null')) {
             Keychain.resetGenericPassword()
                 .then(() => {
