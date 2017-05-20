@@ -50,8 +50,18 @@ class LoginForm extends Component {
         } else if (initialOrientation === 'LANDSCAPE') {
             this.setState({ orientation: initialOrientation });
         }
+    }
 
-        Orientation.addOrientationListener(this._orientationDidChange);
+    componentDidMount() {
+        // The orientation on iOS causes several bugs. Therefore, I decided to not ship the (landscape) 'WeekView' before the major bugs are fixed
+        if (Platform.OS === 'ios') {
+            Orientation.lockToPortrait();
+            this.setState({ orientation: 'PORTRAIT' });
+        }
+
+        if (Platform.OS !== 'ios') {
+            Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
+        }
     }
 
     _orientationDidChange = (changedOrientation) => {
