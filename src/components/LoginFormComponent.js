@@ -100,12 +100,26 @@ class LoginForm extends Component {
         }
     }
 
+    renderErrorNotice() {
+        if (this.props.error.length > 0) {
+            return (
+                <CardSection>
+                    <Text style={styles.errorText}>
+                        {this.props.error}
+                    </Text>
+                </CardSection>
+            );
+        } else {
+            return (null);
+        }
+    }
+
     renderFooterPlatform() {
-      if (Platform.OS === 'android') {
-        return i18n.t('developed_by');
-      } else if (Platform.OS === 'ios') {
-        return i18n.t('by');
-      }
+        if (Platform.OS === 'android') {
+            return i18n.t('developed_by');
+        } else if (Platform.OS === 'ios') {
+            return i18n.t('by');
+        }
     }
 
     render () {
@@ -138,11 +152,7 @@ class LoginForm extends Component {
                             />
                         </CardSection>
 
-                        <CardSection>
-                            <Text style={styles.errorText}>
-                                {this.props.error}
-                            </Text>
-                        </CardSection>
+                        {this.renderErrorNotice()}
 
                         <CardSection>
                             {this.renderButton()}
