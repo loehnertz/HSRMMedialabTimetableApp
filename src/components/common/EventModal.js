@@ -20,6 +20,7 @@ class EventModal extends Component {
                 onRequestClose={() => this.props.onClose()}
                 transparent={true}
                 animationType="fade"
+                supportedOrientations={['landscape', 'landscape-left', 'landscape-right']}
             >
                 <TouchableOpacity
                     onLayout={(event) => this.setState({ containerTargetId: event.nativeEvent.target })}
