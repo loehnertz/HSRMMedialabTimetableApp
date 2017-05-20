@@ -20,7 +20,7 @@ transmits to us or to our web space provider (so called server log files), is co
 We do not store this data on our personal server in any way.
 
 
-## Information/Cancellation/Deletion
+## Information
 On the basis of the Federal Data Protection Act, you may contact us at
 no cost if you have questions relating to the collection, processing or
 use of your information.
