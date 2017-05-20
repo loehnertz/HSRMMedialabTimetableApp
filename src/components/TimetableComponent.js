@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Orientation from 'react-native-orientation';
-import { fetchWeek, selectDay, selectWeek } from '../actions';
+import { fetchWeek, selectDay, selectWeek, startLoading, stopLoading } from '../actions';
 import moment from 'moment';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -114,13 +114,21 @@ class Timetable extends Component {
     }
 
     _orientationDidChange = (changedOrientation) => {
+        Actions.pop();
+
+        if (this.state.orientation !== changedOrientation && changedOrientation !== 'UNKNOWN') {
+            this.props.startLoading();
+        }
+
         if (changedOrientation === 'PORTRAIT') {
-            Actions.pop();
             this.setState({ orientation: changedOrientation });
         } else if (changedOrientation === 'LANDSCAPE') {
-            Actions.pop();
             this.setState({ orientation: changedOrientation });
         }
+
+        setTimeout(() => {  // TODO: Make this more responsive
+            this.props.stopLoading();
+        }, 1234);
     };
 
     _handleAppStateChange = (appState) => {
@@ -432,4 +440,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek, selectDay, selectWeek })(Timetable);
+export default connect(mapStateToProps, { fetchWeek, selectDay, selectWeek, startLoading, stopLoading })(Timetable);
