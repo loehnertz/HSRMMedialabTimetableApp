@@ -3,19 +3,16 @@ import {
     Text,
     View,
     ScrollView,
-    Image,
     RefreshControl,
     ActivityIndicator,
     Animated,
-    LayoutAnimation,
-    UIManager,
     AppState,
     Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Orientation from 'react-native-orientation';
-import { fetchWeek, selectDay, selectWeek, startLoading, stopLoading } from '../actions';
+import { fetchWeek, selectDay, selectWeek, setOrientation, startLoading, stopLoading } from '../actions';
 import moment from 'moment';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
@@ -59,19 +56,14 @@ class Timetable extends Component {
             this.props.selectWeek(week);
         }
 
-        let initialOrientation = Orientation.getInitialOrientation();
-        if (initialOrientation === 'PORTRAIT') {
-            this.setState({ orientation: initialOrientation });
-        } else if (initialOrientation === 'LANDSCAPE') {
-            this.setState({ orientation: initialOrientation });
-        }
+        this.props.setOrientation(Orientation.getInitialOrientation());
     }
 
     componentDidMount() {
         // The orientation on iOS causes several bugs. Therefore, I decided to not ship the (landscape) 'WeekView' before the major bugs are fixed
         if (Platform.OS === 'ios') {
             Orientation.lockToPortrait();
-            this.setState({ orientation: 'PORTRAIT' });
+            this.props.setOrientation('PORTRAIT');
         }
 
         if (Platform.OS !== 'ios') {
@@ -94,7 +86,7 @@ class Timetable extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.orientation === 'LANDSCAPE') {
+        if (this.props.orientation === 'LANDSCAPE') {
             if (this.state.scrollOffsetY > 90) {
                 this.shrinkHeader(true);
             } else if (this.state.scrollOffsetY < 60) {
@@ -105,7 +97,7 @@ class Timetable extends Component {
                     this.hideAnnotation(false);
                 }
             }
-        } else if (this.state.orientation === 'PORTRAIT') {
+        } else if (this.props.orientation === 'PORTRAIT') {
             this.shrinkHeader(false);
 
             if (this.state.emptyAnnotation) {
@@ -123,15 +115,11 @@ class Timetable extends Component {
     _orientationDidChange = (changedOrientation) => {
         Actions.pop();
 
-        if (this.state.orientation !== changedOrientation && changedOrientation !== 'UNKNOWN') {
+        if (this.props.orientation !== changedOrientation && changedOrientation !== 'UNKNOWN') {
             this.props.startLoading();
         }
 
-        if (changedOrientation === 'PORTRAIT') {
-            this.setState({ orientation: changedOrientation });
-        } else if (changedOrientation === 'LANDSCAPE') {
-            this.setState({ orientation: changedOrientation });
-        }
+        this.props.setOrientation(changedOrientation);
 
         setTimeout(() => {  // TODO: Make this more responsive
             this.props.stopLoading();
@@ -141,11 +129,7 @@ class Timetable extends Component {
     _handleAppStateChange = (appState) => {
         if (appState === "active") {
             Orientation.getOrientation((error, newOrientation) => {
-                if (newOrientation === 'PORTRAIT') {
-                    this.setState({ orientation: newOrientation });
-                } else if (newOrientation === 'LANDSCAPE') {
-                    this.setState({ orientation: newOrientation });
-                }
+                this.props.setOrientation(newOrientation);
             });
         }
     };
@@ -302,11 +286,11 @@ class Timetable extends Component {
                     events[event]["slot"] = `${this.props.slots[eventsList[event]["start"]].start} - ${this.props.slots[eventsList[event]["end"]].end}`;
                 }
 
-                if (this.state.orientation === 'PORTRAIT') {  // Render: DayView
+                if (this.props.orientation === 'PORTRAIT') {  // Render: DayView
                     return (
                         <DayView events={events} />
                     );
-                } else if (this.state.orientation === 'LANDSCAPE') {  // Render: WeekView
+                } else if (this.props.orientation === 'LANDSCAPE') {  // Render: WeekView
                     return (
                         <ScrollView
                             onLayout={this.handleScrollToWeekViewTimeslot.bind(this)}
@@ -440,6 +424,7 @@ const mapStateToProps = state => {
         user: state.login.user,
         program: state.login.program,
         masterdata: state.timetable.masterdata,
+        orientation: state.timetable.orientation,
         slots: state.timetable.timeslots,
         week: state.timetable.fetchedWeek,
         currentWeek: state.timetable.currentWeek,
@@ -449,4 +434,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { fetchWeek, selectDay, selectWeek, startLoading, stopLoading })(Timetable);
+export default connect(mapStateToProps, { fetchWeek, selectDay, selectWeek, setOrientation, startLoading, stopLoading })(Timetable);

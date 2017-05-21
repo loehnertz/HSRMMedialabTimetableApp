@@ -11,3 +11,4 @@ export const MASTERDATA_DISPATCHED = 'masterdata_DISPATCHED';
 export const TIMESLOTS_DISPATCHED = 'timeslots_dispatched';
 export const SETTINGS_DISPATCHED = 'settings_DISPATCHED';
 export const DAY_SELECTED = 'day_selected';
+export const ORIENTATION_CHANGED = 'orientation_changed';

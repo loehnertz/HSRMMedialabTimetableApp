@@ -17,6 +17,7 @@ import {
     userChanged,
     passwordChanged,
     loginUser,
+    setOrientation,
     endLoading
 } from '../actions'
 import {
@@ -44,19 +45,14 @@ class LoginForm extends Component {
                 });
         }
 
-        let initialOrientation = Orientation.getInitialOrientation();
-        if (initialOrientation === 'PORTRAIT') {
-            this.setState({ orientation: initialOrientation });
-        } else if (initialOrientation === 'LANDSCAPE') {
-            this.setState({ orientation: initialOrientation });
-        }
+        this.props.setOrientation(Orientation.getInitialOrientation());
     }
 
     componentDidMount() {
         // The orientation on iOS causes several bugs. Therefore, I decided to not ship the (landscape) 'WeekView' before the major bugs are fixed
         if (Platform.OS === 'ios') {
             Orientation.lockToPortrait();
-            this.setState({ orientation: 'PORTRAIT' });
+            this.props.setOrientation('PORTRAIT');
         }
 
         if (Platform.OS !== 'ios') {
@@ -65,11 +61,7 @@ class LoginForm extends Component {
     }
 
     _orientationDidChange = (changedOrientation) => {
-        if (changedOrientation === 'PORTRAIT') {
-            this.setState({ orientation: changedOrientation });
-        } else if (changedOrientation === 'LANDSCAPE') {
-            this.setState({ orientation: changedOrientation });
-        }
+        this.props.setOrientation(changedOrientation);
     };
 
     onUserChange(text) {
@@ -102,9 +94,9 @@ class LoginForm extends Component {
 
     setViewHeight() {
         if (this.state.heightScrollView !== -1) {
-            if (this.state.orientation === 'PORTRAIT') {
+            if (this.props.orientation === 'PORTRAIT') {
                 return ({ height: this.state.heightScrollView - 55 });
-            } else if (this.state.orientation === 'LANDSCAPE') {
+            } else if (this.props.orientation === 'LANDSCAPE') {
                 return ({ height: this.state.heightScrollView + 55 });
             }
         }
@@ -237,7 +229,8 @@ const mapStateToProps = state => {
         user: state.login.userField,
         password: state.login.passwordField,
         error: state.login.error,
-        loading: state.login.loadingLogin
+        loading: state.login.loadingLogin,
+        orientation: state.timetable.orientation
     }
 };
 
@@ -245,5 +238,6 @@ export default connect(mapStateToProps, {
     userChanged,
     passwordChanged,
     loginUser,
+    setOrientation,
     endLoading
 })(LoginForm);

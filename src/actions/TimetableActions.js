@@ -8,7 +8,8 @@ import {
     WEEK_FETCH_FAILED,
     DAY_SELECTED,
     MASTERDATA_DISPATCHED,
-    TIMESLOTS_DISPATCHED
+    TIMESLOTS_DISPATCHED,
+    ORIENTATION_CHANGED
 } from './types';
 
 export const fetchWeek = (user, program, week, target) => {
@@ -81,6 +82,15 @@ export const dispatchTimeslots = (slots) => {
         dispatch({
             type: TIMESLOTS_DISPATCHED,
             payload: slots
+        });
+    };
+};
+
+export const setOrientation = (orientation) => {
+    return (dispatch) => {
+        dispatch({
+            type: ORIENTATION_CHANGED,
+            payload: orientation
         });
     };
 };
