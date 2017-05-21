@@ -1,6 +1,6 @@
 {
   "name": "HSRMMedialabTimetableApp",
-  "version": "1.0",
+  "version": "1.0.0",
   "author": "Jakob Löhnertz (www.jakob.codes)",
   "license": "MIT",
   "description": "A mobile app for checking the timetable for my study program on the go",
