@@ -197,7 +197,7 @@ const styles = {
         color: "red"
     },
     mainCard: {
-        marginTop: (Platform.OS === 'ios') ? 20 : 0,
+        marginTop: (Platform.OS === 'ios') ? 20 : 10,
     },
     noticeText: {
         fontWeight: "bold"
