@@ -8,6 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as Keychain from 'react-native-keychain';
+import OneSignal from 'react-native-onesignal';
 import { dispatchMasterdata, dispatchSettings, dispatchTimeslots, isUserLoggedIn } from '../actions';
 
 class Startup extends Component {
@@ -48,6 +49,14 @@ class Startup extends Component {
                 clearInterval(dispatchInterval);
             }
         }, 123);
+
+        OneSignal.configure({});
+        OneSignal.enableVibrate(true);
+        if (this.props.activatePushNotifications) {
+            OneSignal.setSubscription(true);
+        } else {
+            OneSignal.setSubscription(false);
+        }
     }
 
     renderTimeslots(timeslots) {
@@ -87,7 +96,8 @@ const mapStateToProps = state => {
     return {
         user: state.login.user,
         masterdata: state.timetable.masterdata,
-        timeslots: state.timetable.timeslots
+        timeslots: state.timetable.timeslots,
+        activatePushNotifications: state.settings.activatePushNotifications
     }
 };
 
