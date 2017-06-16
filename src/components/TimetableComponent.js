@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Orientation from 'react-native-orientation';
+import OneSignal from 'react-native-onesignal';
 import { fetchWeek, selectDay, selectWeek, setOrientation, startLoading, stopLoading } from '../actions';
 import moment from 'moment';
 import i18n from 'react-native-i18n';
@@ -70,6 +71,13 @@ class Timetable extends Component {
             Orientation.addOrientationListener(this._orientationDidChange);  // Add a listener for the change of the device orientation
             AppState.addEventListener('change', this._handleAppStateChange.bind(this));  // Add a listener for the 'appState' ('active' or 'background')
         }
+
+        if (this.props.activatePushNotifications) {
+            OneSignal.setSubscription(true);
+        } else {
+            OneSignal.setSubscription(false);
+        }
+        OneSignal.addEventListener('opened', this._onPushNotificationOpened);
     }
 
     componentWillUnmount() {
@@ -106,6 +114,17 @@ class Timetable extends Component {
                 this.hideAnnotation(false);
             }
         }
+    }
+
+    _onPushNotificationOpened(e) {
+        /*
+        let tryToChangeWeek = setInterval(() => {
+            if (this.props) {
+                this.props.fetchWeek(this.props.user, this.props.program, parseInt(e["notification"]["payload"]["additionalData"]["week"]), this.props.semester);
+                clearInterval(tryToChangeWeek);
+            }
+        }, 123);
+        */
     }
 
     _onRefresh() {
@@ -430,7 +449,8 @@ const mapStateToProps = state => {
         currentWeek: state.timetable.currentWeek,
         loading: state.timetable.loadingFetch,
         semester: state.settings.semester,
-        scrollToTimeslot: state.settings.scrollToTimeslot
+        scrollToTimeslot: state.settings.scrollToTimeslot,
+        activatePushNotifications: state.settings.activatePushNotifications
     }
 };
 
