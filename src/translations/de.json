@@ -26,6 +26,7 @@
   "timeslots": "Zeiten",
   "scroll_to_time_slot": "Automatisch zur aktuellen Zeit scrollen",
   "hide_past_events": "Veranstaltungen, die in der Vergangenheit liegen, ausblenden",
+  "activate_push_notifications": "Aktiviere Push Benachrichtigungen",
   "developed_by": "Entwickelt von",
   "code_licensed_under": "Quellcode lizensiert unter",
   "close": "Schließen"
