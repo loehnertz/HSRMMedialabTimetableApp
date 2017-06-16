@@ -13,6 +13,8 @@ import com.github.yamill.orientation.OrientationPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -26,7 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new KeychainPackage(),
-          new OrientationPackage()
+          new OrientationPackage(),
+          new ReactNativeOneSignalPackage()
       );
     }
   };
