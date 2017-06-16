@@ -150,10 +150,17 @@ export const loginUser = (user, password) => {
                                 await AsyncStorage.setItem('masterdata', JSON.stringify(responseJson));
                                 await AsyncStorage.setItem('settings', JSON.stringify(DEFAULT_SETTINGS));
                                 await Keychain.setGenericPassword(user, password);
+
+                                let program = '';
+                                if (user.includes('@')) {
+                                    program = 'bmm';
+                                } else {
+                                    program = user.slice(0, -1);
+                                }
                                 dispatch({
                                     type: LOGIN_USER_SUCCESS,
                                     username: user,
-                                    program: user.slice(0, -1)
+                                    program: program
                                 });
                                 Actions.startup({ type: 'reset' });
                             } catch (error) {

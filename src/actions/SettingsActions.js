@@ -15,10 +15,17 @@ export const dispatchSettings = (user) => {
                 Actions.auth({ type: 'reset' });
             });
 
+        let semester = '';
+        if (user.includes('@')) {
+            semester = '1';
+        } else {
+            semester = user.substr(3, 1);
+        }
+
         dispatch({
             type: SETTINGS_DISPATCHED,
             payload: {
-                semester: user.substr(3, 1),
+                semester: semester,
                 special_subject: storageSettings["special_subject"],
                 scrollToTimeslot: storageSettings["scrollToTimeslot"],
                 hidePastEvents: storageSettings["hidePastEvents"]
