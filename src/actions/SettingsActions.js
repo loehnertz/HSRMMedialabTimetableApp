@@ -28,7 +28,8 @@ export const dispatchSettings = (user) => {
                 semester: semester,
                 special_subject: storageSettings["special_subject"],
                 scrollToTimeslot: storageSettings["scrollToTimeslot"],
-                hidePastEvents: storageSettings["hidePastEvents"]
+                hidePastEvents: storageSettings["hidePastEvents"],
+                activatePushNotifications: storageSettings["activatePushNotifications"]
             }
         });
     };
@@ -44,7 +45,8 @@ export const saveSettings = (settings) => {
                 semester: settings["temp"]["semester"],
                 special_subject: settings["perm"]["special_subject"],
                 scrollToTimeslot: settings["perm"]["scrollToTimeslot"],
-                hidePastEvents: settings["perm"]["hidePastEvents"]
+                hidePastEvents: settings["perm"]["hidePastEvents"],
+                activatePushNotifications: settings["perm"]["activatePushNotifications"]
             }
         });
 
