@@ -36,6 +36,11 @@ class Startup extends Component {
             if (this.props.user && this.state.masterdataAndSettingsDispatched === false) {
                 this.props.dispatchMasterdata();
                 this.props.dispatchSettings(this.props.user);
+
+                OneSignal.configure({});
+                OneSignal.enableVibrate(true);
+                OneSignal.sendTag('user', this.props.user);
+
                 this.setState({masterdataAndSettingsDispatched: true});
             }
 
@@ -49,14 +54,6 @@ class Startup extends Component {
                 clearInterval(dispatchInterval);
             }
         }, 123);
-
-        OneSignal.configure({});
-        OneSignal.enableVibrate(true);
-        if (this.props.activatePushNotifications) {
-            OneSignal.setSubscription(true);
-        } else {
-            OneSignal.setSubscription(false);
-        }
     }
 
     renderTimeslots(timeslots) {
