@@ -93,18 +93,20 @@ class Settings extends Component {
     }
 
     renderPushNotfications() {
-        return (
-            <CardSection style={styles.settingsSection}>
-                <Text style={styles.settingsText}>
-                    {i18n.t('activate_push_notifications')}:
-                </Text>
-                <Switch
-                    onValueChange={(value) => this.setState({activatePushNotifications: value})}
-                    value={this.state.activatePushNotifications}
-                    style={styles.settingsSwitch}
-                />
-            </CardSection>
-        );
+        if (Platform.OS === 'android') {
+            return (
+                <CardSection style={styles.settingsSection}>
+                    <Text style={styles.settingsText}>
+                        {i18n.t('activate_push_notifications')}:
+                    </Text>
+                    <Switch
+                        onValueChange={(value) => this.setState({activatePushNotifications: value})}
+                        value={this.state.activatePushNotifications}
+                        style={styles.settingsSwitch}
+                    />
+                </CardSection>
+            );
+        }
     }
 
     renderHidePastEvents() {
