@@ -77,7 +77,7 @@ class Timetable extends Component {
         } else {
             OneSignal.setSubscription(false);
         }
-        OneSignal.addEventListener('opened', this._onPushNotificationOpened);
+        OneSignal.addEventListener('opened', this._onPushNotificationOpened.bind(this));
     }
 
     componentWillUnmount() {
@@ -117,14 +117,10 @@ class Timetable extends Component {
     }
 
     _onPushNotificationOpened(e) {
-        /*
-        let tryToChangeWeek = setInterval(() => {
-            if (this.props) {
-                this.props.fetchWeek(this.props.user, this.props.program, parseInt(e["notification"]["payload"]["additionalData"]["week"]), this.props.semester);
-                clearInterval(tryToChangeWeek);
-            }
-        }, 123);
-        */
+        let targetWeek = parseInt(e["notification"]["payload"]["additionalData"]["week"]);
+        this.props.fetchWeek(this.props.user, this.props.program, targetWeek, this.props.semester);
+        let targetDay = e["notification"]["payload"]["additionalData"]["day"];
+        this.props.selectDay(targetDay);
     }
 
     _onRefresh() {
