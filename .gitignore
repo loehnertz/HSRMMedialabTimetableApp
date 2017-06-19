@@ -51,3 +51,6 @@ buck-out/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+# node_modules
+!node_modules/react-native-onesignal/android/src/main/java/com/geektime/rnonesignalandroid/RNOneSignal.java
