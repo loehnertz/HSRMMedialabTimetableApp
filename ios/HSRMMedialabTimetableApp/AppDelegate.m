@@ -12,7 +12,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "../../node_modules/react-native-orientation/iOS/RCTOrientation/Orientation.h"
-#import "../../node_modules/react-native-onesignal/ios/RCTOneSignal/RCTOneSignal.h"
 // TODO: Change this to a proper import when possible
 
 @implementation AppDelegate
@@ -44,12 +43,13 @@
   return YES;
 }
 
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-  return [Orientation getOrientation];
-}
-
+  // Required for the notification event.
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification {
   [RCTOneSignal didReceiveRemoteNotification:notification];
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
 }
 
 @end
