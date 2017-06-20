@@ -139,6 +139,11 @@ class Settings extends Component {
         } else {
             OneSignal.setSubscription(false);
         }
+
+        // 'react-native-router-flux' won't unmount a component therefore I have to force refresh the timetable on my own after the user saved the settings
+        setTimeout(() => {
+            this.props.fetchWeek(this.props.user, this.props.program, this.props.currentWeek, this.props.semester);
+        }, 3000);
     }
 
     renderScrollToTimeslot() {
@@ -281,6 +286,7 @@ const mapStateToProps = state => {
         user: state.login.user,
         program: state.login.program,
         masterdata: state.timetable.masterdata,
+        currentWeek: state.timetable.currentWeek,
         semester: state.settings.semester,
         special_subject: state.settings.special_subject,
         scrollToTimeslot: state.settings.scrollToTimeslot,
