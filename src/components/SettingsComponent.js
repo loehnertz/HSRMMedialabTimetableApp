@@ -17,6 +17,7 @@ import {
 import { connect } from 'react-redux';
 import { saveSettings } from '../actions';
 // import { SPECIAL_SUBJECTS } from '../actions/defaults';
+import OneSignal from 'react-native-onesignal';
 import i18n from 'react-native-i18n';
 import bundledTranslations from '../translations';
 
@@ -26,7 +27,8 @@ class Settings extends Component {
             semester: this.props.semester,
             special_subject: this.props.special_subject,
             scrollToTimeslot: this.props.scrollToTimeslot,
-            hidePastEvents: this.props.hidePastEvents
+            hidePastEvents: this.props.hidePastEvents,
+            activatePushNotifications: this.props.activatePushNotifications
         });
     }
 
@@ -90,6 +92,21 @@ class Settings extends Component {
         );
     }
 
+    renderPushNotfications() {
+        return (
+            <CardSection style={styles.settingsSection}>
+                <Text style={styles.settingsText}>
+                    {i18n.t('activate_push_notifications')}:
+                </Text>
+                <Switch
+                    onValueChange={(value) => this.setState({activatePushNotifications: value})}
+                    value={this.state.activatePushNotifications}
+                    style={styles.settingsSwitch}
+                />
+            </CardSection>
+        );
+    }
+
     renderHidePastEvents() {
         return (
             <CardSection style={styles.settingsSection}>
@@ -111,9 +128,17 @@ class Settings extends Component {
             perm: {
                 special_subject: this.state.special_subject,
                 scrollToTimeslot: this.state.scrollToTimeslot,
-                hidePastEvents: this.state.hidePastEvents
+                hidePastEvents: this.state.hidePastEvents,
+                activatePushNotifications: this.state.activatePushNotifications
             }
         });
+
+        if (this.state.activatePushNotifications) {
+            OneSignal.registerForPushNotifications();
+            OneSignal.setSubscription(true);
+        } else {
+            OneSignal.setSubscription(false);
+        }
     }
 
     renderScrollToTimeslot() {
@@ -162,6 +187,7 @@ class Settings extends Component {
                     </CardSection>
                     {this.renderSemester()}
                     {this.renderSpecialSubject()}
+                    {this.renderPushNotfications()}
 
                     <CardSection style={styles.settingsSection}>
                         <Text style={styles.settingsHeaderText}>{i18n.t('day_view')}</Text>
@@ -258,7 +284,8 @@ const mapStateToProps = state => {
         semester: state.settings.semester,
         special_subject: state.settings.special_subject,
         scrollToTimeslot: state.settings.scrollToTimeslot,
-        hidePastEvents: state.settings.hidePastEvents
+        hidePastEvents: state.settings.hidePastEvents,
+        activatePushNotifications: state.settings.activatePushNotifications
     }
 };
 

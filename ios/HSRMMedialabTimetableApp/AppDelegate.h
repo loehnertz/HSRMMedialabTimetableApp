@@ -8,9 +8,11 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "../../node_modules/react-native-onesignal/ios/RCTOneSignal/RCTOneSignal.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
+@property (strong, nonatomic) RCTOneSignal* oneSignal;
 
 @end

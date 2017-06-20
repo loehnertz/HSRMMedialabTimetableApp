@@ -20,6 +20,7 @@
     "react-native": "0.42.2",
     "react-native-i18n": "1.0.0",
     "react-native-keychain": "1.1.0",
+    "react-native-onesignal": "^3.0.4",
     "react-native-orientation": "git+https://git@github.com/yamill/react-native-orientation.git",
     "react-native-router-flux": "3.38.0",
     "react-native-swiper": "1.5.4",

@@ -26,6 +26,7 @@
   "timeslots": "Time slots",
   "scroll_to_time_slot": "Automatically scroll to current time slot",
   "hide_past_events": "Hide events that are in the past",
+  "activate_push_notifications": "Activate Push Notifications",
   "developed_by": "Developed by",
   "code_licensed_under": "Source code licensed under",
   "close": "Close"
