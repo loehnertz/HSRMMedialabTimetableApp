@@ -15,7 +15,7 @@ import {
     Button
 } from './common';
 import { connect } from 'react-redux';
-import { saveSettings } from '../actions';
+import { saveSettings, fetchWeek } from '../actions';
 // import { SPECIAL_SUBJECTS } from '../actions/defaults';
 import OneSignal from 'react-native-onesignal';
 import i18n from 'react-native-i18n';
@@ -295,4 +295,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, { saveSettings })(Settings);
+export default connect(mapStateToProps, { saveSettings, fetchWeek })(Settings);
