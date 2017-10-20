@@ -77,6 +77,22 @@ class Settings extends Component {
                         </Picker>
                     </CardSection>
                 );
+            case 'bmm5':
+                return (
+                    <CardSection style={styles.settingsSection}>
+                        {this.renderSpecialSubjectText()}
+                        <Picker
+                            selectedValue={this.state.special_subject}
+                            onValueChange={(subject) => this.setState({special_subject: subject})}
+                            style={styles.settingsPicker}
+                        >
+                            <Picker.Item label="Alle Schwerpunkte" value="all" />
+                            <Picker.Item label="Interaktive Medien" value="im" />
+                            <Picker.Item label="AV-Medien" value="av" />
+                            {/*{special_subjectPicker}*/}
+                        </Picker>
+                    </CardSection>
+                );
             default:
                 return null;
         }
